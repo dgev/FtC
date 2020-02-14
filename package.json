@@ -1,16 +1,24 @@
 {
-  "name": "material-dashboard-react",
+  "name": "event-net",
   "version": "1.8.0",
   "description": "Material Dashboard React. Coded by Creative Tim",
   "private": false,
   "main": "dist/index.js",
   "dependencies": {
-    "@material-ui/core": "4.3.2",
-    "@material-ui/icons": "4.2.1",
+    "@date-io/date-fns": "^1.3.13",
+    "@material-ui/core": "^4.3.2",
+    "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.39",
+    "@material-ui/pickers": "^3.2.10",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "date-fns": "^2.9.0",
+    "email-validator": "^2.0.4",
     "history": "4.9.0",
+    "markdown-to-jsx": "^6.10.3",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "material-ui-phone-number": "^2.2.5",
+    "password-validator": "^5.0.3",
     "perfect-scrollbar": "1.4.0",
     "prop-types": "15.7.2",
     "react": "16.9.0",
@@ -18,7 +26,7 @@
     "react-dom": "16.9.0",
     "react-google-maps": "9.4.5",
     "react-router-dom": "5.0.1",
-    "react-scripts": "3.1.0",
+    "react-scripts": "^3.3.1",
     "react-swipeable-views": "0.13.3"
   },
   "scripts": {
@@ -34,15 +42,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
+    "url": ""
   },
   "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
+  "author": "LCID",
+  "license": "LCID",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
+    "url": ""
   },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
+  "homepage": "",
   "optionalDependencies": {
     "@types/googlemaps": "3.37.3",
     "@types/markerclustererplus": "2.1.33",

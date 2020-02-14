@@ -1,43 +1,43 @@
-import React from "react";
+import React from 'react';
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import Button from "@material-ui/core/Button";
+import GridItem from 'components/Grid/GridItem.js';
+import GridContainer from 'components/Grid/GridContainer.js';
+import Table from 'components/Table/Table.js';
+import Card from 'components/Card/Card.js';
+import CardHeader from 'components/Card/CardHeader.js';
+import CardBody from 'components/Card/CardBody.js';
+import Button from '@material-ui/core/Button';
 
 const styles = {
   cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
+    '&,& a,& a:hover,& a:focus': {
+      color: 'rgba(255,255,255,.62)',
+      margin: '0',
+      fontSize: '14px',
+      marginTop: '0',
+      marginBottom: '0',
     },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
+    '& a,& a:hover,& a:focus': {
+      color: '#FFFFFF',
+    },
   },
   cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
-  }
+    marginBottom: '3px',
+    textDecoration: 'none',
+    '& small': {
+      color: '#777',
+      fontSize: '65%',
+      fontWeight: '400',
+      lineHeight: '1',
+    },
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -50,18 +50,16 @@ export default function Projects() {
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Table of Projects</h4>
-            <p className={classes.cardCategoryWhite}>
-              Below you can find all projects
-            </p>
+            <p className={classes.cardCategoryWhite}>Below you can find all projects</p>
           </CardHeader>
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Project", "Description", "Price"]}
+              tableHead={['Project', 'Description', 'Price']}
               tableData={[
-                ["Opera", "Classical", "$15"],
-                ["JS Conference", "Technical", "$5"],
-                ["Wine-Fest", "Festival", "$20"]
+                ['Opera', 'Classical', '$15'],
+                ['JS Conference', 'Technical', '$5'],
+                ['Wine-Fest', 'Festival', '$20'],
               ]}
             />
           </CardBody>

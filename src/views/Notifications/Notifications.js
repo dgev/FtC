@@ -1,49 +1,49 @@
 /*eslint-disable*/
-import React from "react";
+import React from 'react';
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 // @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
+import AddAlert from '@material-ui/icons/AddAlert';
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Button from "components/CustomButtons/Button.js";
-import SnackbarContent from "components/Snackbar/SnackbarContent.js";
-import Snackbar from "components/Snackbar/Snackbar.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
+import GridItem from 'components/Grid/GridItem.js';
+import GridContainer from 'components/Grid/GridContainer.js';
+import Button from 'components/CustomButtons/Button.js';
+import SnackbarContent from 'components/Snackbar/SnackbarContent.js';
+import Snackbar from 'components/Snackbar/Snackbar.js';
+import Card from 'components/Card/Card.js';
+import CardHeader from 'components/Card/CardHeader.js';
+import CardBody from 'components/Card/CardBody.js';
 
 const styles = {
   cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
+    '&,& a,& a:hover,& a:focus': {
+      color: 'rgba(255,255,255,.62)',
+      margin: '0',
+      fontSize: '14px',
+      marginTop: '0',
+      marginBottom: '0',
     },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
+    '& a,& a:hover,& a:focus': {
+      color: '#FFFFFF',
+    },
   },
   cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
+    color: '#FFFFFF',
+    marginTop: '0px',
+    minHeight: 'auto',
+    fontWeight: '300',
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
-  }
+    marginBottom: '3px',
+    textDecoration: 'none',
+    '& small': {
+      color: '#777',
+      fontSize: '65%',
+      fontWeight: '400',
+      lineHeight: '1',
+    },
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -68,7 +68,7 @@ export default function Notifications() {
   });
   const showNotification = place => {
     switch (place) {
-      case "tl":
+      case 'tl':
         if (!tl) {
           setTL(true);
           setTimeout(function() {
@@ -76,7 +76,7 @@ export default function Notifications() {
           }, 6000);
         }
         break;
-      case "tc":
+      case 'tc':
         if (!tc) {
           setTC(true);
           setTimeout(function() {
@@ -84,7 +84,7 @@ export default function Notifications() {
           }, 6000);
         }
         break;
-      case "tr":
+      case 'tr':
         if (!tr) {
           setTR(true);
           setTimeout(function() {
@@ -92,7 +92,7 @@ export default function Notifications() {
           }, 6000);
         }
         break;
-      case "bl":
+      case 'bl':
         if (!bl) {
           setBL(true);
           setTimeout(function() {
@@ -100,7 +100,7 @@ export default function Notifications() {
           }, 6000);
         }
         break;
-      case "bc":
+      case 'bc':
         if (!bc) {
           setBC(true);
           setTimeout(function() {
@@ -108,7 +108,7 @@ export default function Notifications() {
           }, 6000);
         }
         break;
-      case "br":
+      case 'br':
         if (!br) {
           setBR(true);
           setTimeout(function() {
@@ -125,21 +125,15 @@ export default function Notifications() {
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Notifications</h4>
         <p className={classes.cardCategoryWhite}>
-          Handcrafted by our friends from{" "}
-          <a
-            target="_blank"
-            href="https://material-ui-next.com/?ref=creativetime"
-          >
+          Handcrafted by our friends from
+          <a target="_blank" href="https://material-ui-next.com/?ref=creativetime">
             Material UI
-          </a>{" "}
-          and styled by{" "}
-          <a
-            target="_blank"
-            href="https://www.creative-tim.com/?ref=mdr-notifications-page"
-          >
+          </a>
+          and styled by
+          <a target="_blank" href="https://www.creative-tim.com/?ref=mdr-notifications-page">
             Creative Tim
           </a>
-          . Please checkout the{" "}
+          . Please checkout the
           <a href="#pablo" target="_blank">
             full documentation
           </a>
@@ -151,13 +145,10 @@ export default function Notifications() {
           <GridItem xs={12} sm={12} md={6}>
             <h5>Notifications Style</h5>
             <br />
-            <SnackbarContent message={"This is a plain notification"} />
+            <SnackbarContent message={'This is a plain notification'} />
+            <SnackbarContent message={'This is a notification with close button.'} close />
             <SnackbarContent
-              message={"This is a notification with close button."}
-              close
-            />
-            <SnackbarContent
-              message={"This is a notification with close button and icon."}
+              message={'This is a notification with close button and icon.'}
               close
               icon={AddAlert}
             />
@@ -173,37 +164,27 @@ export default function Notifications() {
             <h5>Notifications States</h5>
             <br />
             <SnackbarContent
-              message={
-                'INFO - This is a regular notification made with color="info"'
-              }
+              message={'INFO - This is a regular notification made with color="info"'}
               close
               color="info"
             />
             <SnackbarContent
-              message={
-                'SUCCESS - This is a regular notification made with color="success"'
-              }
+              message={'SUCCESS - This is a regular notification made with color="success"'}
               close
               color="success"
             />
             <SnackbarContent
-              message={
-                'WARNING - This is a regular notification made with color="warning"'
-              }
+              message={'WARNING - This is a regular notification made with color="warning"'}
               close
               color="warning"
             />
             <SnackbarContent
-              message={
-                'DANGER - This is a regular notification made with color="danger"'
-              }
+              message={'DANGER - This is a regular notification made with color="danger"'}
               close
               color="danger"
             />
             <SnackbarContent
-              message={
-                'PRIMARY - This is a regular notification made with color="primary"'
-              }
+              message={'PRIMARY - This is a regular notification made with color="primary"'}
               close
               color="primary"
             />
@@ -212,7 +193,7 @@ export default function Notifications() {
         <br />
         <br />
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>
+          <GridItem xs={12} sm={12} md={6} style={{ textAlign: 'center' }}>
             <h5>
               Notifications Places
               <br />
@@ -224,11 +205,7 @@ export default function Notifications() {
           <GridItem xs={12} sm={12} md={10} lg={8}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("tl")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('tl')}>
                   Top Left
                 </Button>
                 <Snackbar
@@ -242,11 +219,7 @@ export default function Notifications() {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("tc")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('tc')}>
                   Top Center
                 </Button>
                 <Snackbar
@@ -260,11 +233,7 @@ export default function Notifications() {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("tr")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('tr')}>
                   Top Right
                 </Button>
                 <Snackbar
@@ -280,15 +249,11 @@ export default function Notifications() {
             </GridContainer>
           </GridItem>
         </GridContainer>
-        <GridContainer justify={"center"}>
+        <GridContainer justify={'center'}>
           <GridItem xs={12} sm={12} md={10} lg={8}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("bl")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('bl')}>
                   Bottom Left
                 </Button>
                 <Snackbar
@@ -302,11 +267,7 @@ export default function Notifications() {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("bc")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('bc')}>
                   Bottom Center
                 </Button>
                 <Snackbar
@@ -320,11 +281,7 @@ export default function Notifications() {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() => showNotification("br")}
-                >
+                <Button fullWidth color="primary" onClick={() => showNotification('br')}>
                   Bottom Right
                 </Button>
                 <Snackbar

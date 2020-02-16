@@ -1,12 +1,9 @@
 import React from 'react';
 // creates a beautiful scrollbar
-import PerfectScrollbar from 'perfect-scrollbar';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-// core components
-import Navbar from 'components/Navbars/Navbar.js';
-import Footer from 'components/Footer/Footer.js';
 import Sidebar from 'components/Sidebar/Sidebar.js';
 
 import { dashboardRoutes } from 'App/components/Routes/User';
@@ -18,7 +15,7 @@ import logo from 'assets/img/reactlogo.png';
 let ps;
 const useStyles = makeStyles(styles);
 
-export default function App({ ...rest }) {
+export default function App() {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -49,30 +46,22 @@ export default function App({ ...rest }) {
     // Specify how to clean up after this effect:
     return function cleanup() {
       if (navigator.platform.indexOf('Win') > -1) {
-        ps.destroy();
+        // ps.destroy();
       }
       window.removeEventListener('resize', resizeFunction);
     };
   }, [mainPanel]);
   return (
-    // <div className={classes.wrapper}>
     <div>
       <Sidebar
         routes={dashboardRoutes}
-        logoText={'Creative Tim'}
+        logoText={'FtC'}
         logo={logo}
         image={bgImage}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={'purple'}
-        {...rest}
       />
-      <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar routes={dashboardRoutes} handleDrawerToggle={handleDrawerToggle} {...rest} />
-        {/* Here should be our routings */}
-      </div>
-      {getRoute() ? <Footer /> : null}
-      {/* </div> */}
     </div>
   );
 }

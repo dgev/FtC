@@ -7,7 +7,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Home from './App/components/Routes/Home';
 import { User } from './App/components/Routes/User';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
-const loggedin = false;
+const loggedin = true;
 
 const hist = createBrowserHistory();
 

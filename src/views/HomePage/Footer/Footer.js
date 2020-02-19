@@ -10,7 +10,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import CopyRight from './CopyRight';
 import Divider from '@material-ui/core/Divider';
 import { useStyles, theme } from './FooterCss';
-import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 export default function Footer(props) {
   const classes = useStyles();
@@ -18,7 +18,7 @@ export default function Footer(props) {
 
   return (
     <footer className={classes.footer}>
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <Container maxWidth="lg">
           <Typography variant="h5" align="center" gutterBottom>
             {title}
@@ -50,7 +50,7 @@ export default function Footer(props) {
             </RouterLink>
           </Typography>
         </Container>
-      </ThemeProvider>
+      </MuiThemeProvider>
     </footer>
   );
 }

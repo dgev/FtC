@@ -19,9 +19,8 @@ import Company from '../Company';
 import EmailPassword from '../EmailPassword';
 import FormFooter from '../FormFooter';
 import { useStyles, theme } from 'views/HomePage/SignUp/style';
-import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { validate as validateEmail } from 'email-validator';
-import { func } from 'prop-types';
 let passwordValidator = require('password-validator');
 
 export default function SignUp() {
@@ -57,7 +56,7 @@ export default function SignUp() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -86,7 +85,7 @@ export default function SignUp() {
         <Box mt={5}>
           <Footer />
         </Box>
-      </ThemeProvider>
+      </MuiThemeProvider>
     </Container>
   );
 }

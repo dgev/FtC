@@ -38,12 +38,10 @@ export default function Region() {
             {...params}
             label="Choose a region"
             variant="outlined"
-            value={region.value}
             onChange={region.onChange}
             fullWidth
             inputProps={{
               ...params.inputProps,
-              autoComplete: 'new-password',
             }}
           />
         )}
@@ -55,7 +53,6 @@ export default function Region() {
 function useRegion() {
   const [region, setRegion] = useState('');
   function handleChange(event) {
-    debugger;
     setRegion(event.target.value);
     console.log(region);
   }

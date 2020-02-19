@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { useStyles } from './SignUpCss';
+import { useStyles } from 'views/HomePage/SignUp/style';
 
 export default function Gender(props) {
   const classes = useStyles();
-  // const gender = useGender();
   return (
     <Grid>
       <FormControl variant="outlined" className={classes.formControl}>
@@ -18,14 +17,3 @@ export default function Gender(props) {
     </Grid>
   );
 }
-
-// function useGender() {
-//   const [gender, setGender] = useState("");
-//   function handleChange(event) {
-//     setGender(event.target.value);
-//   }
-//   return {
-//     gender: gender,
-//     onChange: handleChange
-//   };
-// }

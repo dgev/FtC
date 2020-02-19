@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from 'redux/actions';
 import Avatar from '@material-ui/core/Avatar';
@@ -8,19 +8,20 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import Region from './Region';
+import Region from '../Region';
 import 'date-fns';
-import Footer from '../Footer/Footer';
-import Name from './Name';
-import Gender from './Gender';
-import Birthdate from './Birthdate';
-import Phone from './Phone';
-import Company from './Company';
-import EmailPassword from './EmailPassword';
-import FormFooter from './FormFooter';
-import { useStyles, theme } from './SignUpCss';
+import Footer from 'views/HomePage/Footer/Footer';
+import Name from '../Name';
+import Gender from '../Gender';
+import Birthdate from '../Birthdate';
+import Phone from '../Phone';
+import Company from '../Company';
+import EmailPassword from '../EmailPassword';
+import FormFooter from '../FormFooter';
+import { useStyles, theme } from 'views/HomePage/SignUp/style';
 import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { validate as validateEmail } from 'email-validator';
+import { func } from 'prop-types';
 let passwordValidator = require('password-validator');
 
 export default function SignUp() {
@@ -36,6 +37,7 @@ export default function SignUp() {
   const companyName = useCompany();
   const date = useDate();
   const phone = usePhone();
+  const checked = useChecked();
 
   const dispatch = useDispatch();
   function handleSubmit() {
@@ -74,7 +76,11 @@ export default function SignUp() {
               <Company companyName={companyName} isCompany={isCompany} />
               <EmailPassword email={email} password={password} repeatPassword={repeatPassword} />
             </Grid>
-            <FormFooter handleSubmit={handleSubmit} />
+            <FormFooter
+              handleSubmit={handleSubmit}
+              onChange={checked.onChange}
+              isChecked={!checked.isChecked}
+            />
           </form>
         </div>
         <Box mt={5}>
@@ -279,6 +285,17 @@ function usePhone() {
   }
   return {
     value: phone,
+    onChange: handleChange,
+  };
+}
+
+function useChecked() {
+  const [checked, setChecked] = useState(false);
+  function handleChange(event) {
+    setChecked(event.target.checked);
+  }
+  return {
+    isChecked: checked,
     onChange: handleChange,
   };
 }

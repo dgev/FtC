@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Typography, FormControlLabel, TextField } from '@material-ui/core';
-import { CustomSwitch } from './SignUpCss';
+import { CustomSwitch } from 'views/HomePage/SignUp/style';
 
 export default function Company(props) {
-  // const isCompany = useSwitch();
-  // const companyName = useCompany();
   return (
     <React.Fragment>
       <Grid item xs={12}>
@@ -36,37 +34,3 @@ export default function Company(props) {
     </React.Fragment>
   );
 }
-
-// function useCompany() {
-//   const [company, setCompany] = useState('');
-//   const [isValidName, setValidName] = useState(true);
-//   const [error, setError] = useState('');
-
-//   function handleChange(event) {
-//     let company = event.target.value;
-//     if (company.trim() === '') {
-//       setError('This field should not be empty!');
-//       setValidName(false);
-//     } else {
-//       setCompany(company);
-//       setValidName(true);
-//     }
-//   }
-//   return {
-//     value: company,
-//     onChange: handleChange,
-//     isValid: isValidName,
-//     error: error,
-//   };
-// }
-
-// function useSwitch() {
-//   const [checked, setChecked] = useState(false);
-//   function handleChange(event) {
-//     setChecked(event.target.checked);
-//   }
-//   return {
-//     checked: checked,
-//     onChange: handleChange,
-//   };
-// }

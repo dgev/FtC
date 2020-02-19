@@ -1,5 +1,5 @@
 import HomePage from 'views/HomePage/Home';
-import SignUp from 'views/HomePage/SignUp/SignUp';
+import SignUp from 'views/HomePage/SignUp/components/SignUp';
 import SignIn from 'views/HomePage/Signin/Signin';
 import Reset from 'views/HomePage/Reset/Reset';
 

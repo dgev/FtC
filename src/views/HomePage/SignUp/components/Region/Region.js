@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useStyles } from './SignUpCss';
+import { useStyles } from 'views/HomePage/SignUp/style';
 import { Grid } from '@material-ui/core';
 
 export default function Region() {

@@ -1,26 +1,20 @@
 import React from 'react';
 import { Grid, Typography, FormControlLabel, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
-import { useStyles, CustomCheckbox } from './SignUpCss';
-import { useSelector } from 'react-redux';
+// import { createBrowserHistory } from 'history';
+import { useStyles, CustomCheckbox } from 'views/HomePage/SignUp/style';
 
 export default function FormFooter(props) {
-  // const state = useSelector(state => state);
   const classes = useStyles();
-  const history = createBrowserHistory();
-  function handleRedirect() {
-    history.push('/');
-  }
-  // function handleSubmit() {
-  //   console.log(state);
+  // const history = createBrowserHistory();
+  // function handleRedirect() {
+  //   history.push('/');
   // }
-
   return (
     <React.Fragment>
       <Grid item xs={12}>
-        <Typography inline align="center">
-          <FormControlLabel control={<CustomCheckbox />} />
+        <Typography align="center">
+          <FormControlLabel onChange={props.onChange} control={<CustomCheckbox />} />
           Check here to indicate that you have read and agreed to the
           <Link to={`/`} className={classes.color}>
             {' '}
@@ -32,6 +26,7 @@ export default function FormFooter(props) {
         fullWidth
         variant="contained"
         color="primary"
+        disabled={props.isChecked}
         className={classes.submit}
         onClick={props.handleSubmit}
       >

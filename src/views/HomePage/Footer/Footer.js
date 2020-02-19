@@ -38,7 +38,7 @@ export default function Footer(props) {
             </RouterLink>
           </Typography>
           <CopyRight />
-          <Typography gutterBottom>
+          <Typography component={'span'} gutterBottom>
             <Divider />
           </Typography>
           <Typography>

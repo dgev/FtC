@@ -14,6 +14,7 @@ import { useStyles, CustomCheckbox, theme } from './SigninCss';
 import { createBrowserHistory } from 'history';
 import { Link } from 'react-router-dom';
 import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { makePost } from 'API/App';
 
 export default function Signin() {
   const classes = useStyles();
@@ -22,6 +23,10 @@ export default function Signin() {
   const history = createBrowserHistory();
   function handleRedirect() {
     history.push('/');
+  }
+
+  async function makeCall() {
+    await makePost('localhost:3000/users/a', {}, { email: email, password: password });
   }
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
@@ -71,7 +76,7 @@ export default function Signin() {
               color="primary"
               className={classes.submit}
               disabled={!(email.isValid && password.isValid)}
-              onClick={handleRedirect}
+              onClick={makeCall}
             >
               Sign In
             </Button>

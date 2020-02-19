@@ -7,6 +7,7 @@ import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
 import Button from '@material-ui/core/Button';
+import Table from './Table/Table';
 
 const styles = {
   typo: {
@@ -59,6 +60,7 @@ export default function TypographyPage() {
           <div className={classes.note}>Comany Name</div>
           <h1>Products</h1>
         </div>
+        <Table />
         <Button variant="contained" color="primary">
           Apply
         </Button>

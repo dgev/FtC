@@ -3,37 +3,37 @@ import { Grid, Typography, FormControlLabel, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useStyles, CustomCheckbox } from './SignUpCss';
+import { useSelector } from 'react-redux';
 
-// function handleSubmit() {}
-
-export default function FormFooter() {
+export default function FormFooter(props) {
+  // const state = useSelector(state => state);
   const classes = useStyles();
   const history = createBrowserHistory();
   function handleRedirect() {
     history.push('/');
   }
+  // function handleSubmit() {
+  //   console.log(state);
+  // }
 
   return (
     <React.Fragment>
       <Grid item xs={12}>
         <Typography inline align="center">
           <FormControlLabel control={<CustomCheckbox />} />
-          {/* <a className={classes.color}> */}
           Check here to indicate that you have read and agreed to the
           <Link to={`/`} className={classes.color}>
             {' '}
             FtC Terms and Conditions
           </Link>
-          {/* </a> */}
         </Typography>
       </Grid>
       <Button
-        type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={handleRedirect}
+        onClick={props.handleSubmit}
       >
         Sign Up
       </Button>

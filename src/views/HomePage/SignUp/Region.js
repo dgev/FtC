@@ -1,23 +1,25 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { useStyles } from "./SignUpCss";
-import { Grid } from "@material-ui/core";
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useStyles } from './SignUpCss';
+import { Grid } from '@material-ui/core';
 
 export default function Region() {
   const classes = useStyles();
+  const region = useRegion();
+
   const regions = [
-    "Aragatsotn",
-    "Ararat",
-    "Armavir",
-    "Gegharquniq",
-    "Lory",
-    "Kotayq",
-    "Shirak",
-    "Syunik",
-    "Vayots Dzor",
-    "Tavush",
-    "Yerevan"
+    'Aragatsotn',
+    'Ararat',
+    'Armavir',
+    'Gegharquniq',
+    'Lory',
+    'Kotayq',
+    'Shirak',
+    'Syunik',
+    'Vayots Dzor',
+    'Tavush',
+    'Yerevan',
   ];
 
   return (
@@ -26,7 +28,7 @@ export default function Region() {
         style={{ width: 300 }}
         options={regions}
         classes={{
-          option: classes.option
+          option: classes.option,
         }}
         autoHighlight
         getOptionLabel={option => option}
@@ -36,14 +38,29 @@ export default function Region() {
             {...params}
             label="Choose a region"
             variant="outlined"
+            value={region.value}
+            onChange={region.onChange}
             fullWidth
             inputProps={{
               ...params.inputProps,
-              autoComplete: "new-password"
+              autoComplete: 'new-password',
             }}
           />
         )}
       />
     </Grid>
   );
+}
+
+function useRegion() {
+  const [region, setRegion] = useState('');
+  function handleChange(event) {
+    debugger;
+    setRegion(event.target.value);
+    console.log(region);
+  }
+  return {
+    value: region,
+    onChange: handleChange,
+  };
 }

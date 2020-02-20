@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from 'components/Card/Card.js';
 import CardHeader from 'components/Card/CardHeader.js';
 import CardBody from 'components/Card/CardBody.js';
-import Button from '@material-ui/core/Button';
 import Table from './Table/Table';
 
 const styles = {
@@ -53,17 +52,10 @@ export default function TypographyPage() {
   return (
     <Card>
       <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Company List</h4>
+        <h4 className={classes.cardTitleWhite}>Products List</h4>
       </CardHeader>
       <CardBody>
-        <div className={classes.typo}>
-          <div className={classes.note}>Comany Name</div>
-          <h1>Products</h1>
-        </div>
         <Table />
-        <Button variant="contained" color="primary">
-          Apply
-        </Button>
       </CardBody>
     </Card>
   );

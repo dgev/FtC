@@ -52,34 +52,35 @@ export default function SignUp() {
         date.value,
         gender.value,
         'Yerevan',
-        companyName.value,
-      ),
-    )
-    const user ={email: email.value,
-      phone:phone.value,
-      name:name.value,
-      surname:surname.value,
-      date:date.value,
-      gender:gender.value,
-      region:'Yerevan',
-      company:companyName.value,}
-      makePost('/api/v1/signup', {},  user).then(r  => console.log(r))
+        companyName.value
+      )
+    );
+    const user = {
+      email: email.value,
+      phone: phone.value,
+      name: name.value,
+      surname: surname.value,
+      date: date.value,
+      gender: gender.value,
+      region: 'Yerevan',
+      company: companyName.value,
+    };
+    makePost('/api/v1/signup', {}, user).then(r => console.log(r));
   }
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline/>
+        <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon/>
+            <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
-<<<<<<< HEAD
               <Name name={name} surname={surname} />
               <Gender gender={gender} />
               <Birthdate onChange={date.onChange} value={date.value} />
@@ -87,15 +88,6 @@ export default function SignUp() {
               <Phone phone={phone} />
               <Company companyName={companyName} isCompany={isCompany} />
               <EmailPassword email={email} password={password} repeatPassword={repeatPassword} />
-=======
-              <Name name={name} surname={surname}/>
-              <Gender gender={gender}/>
-              <Birthdate date={date}/>
-              <Region/>
-              <Phone phone={phone}/>
-              <Company companyName={companyName} isCompany={isCompany}/>
-              <EmailPassword email={email} password={password} repeatPassword={repeatPassword}/>
->>>>>>> 33e1a31681ade126a815ec137c91d06ac8306da1
             </Grid>
             <FormFooter
               handleSubmit={handleSubmit}
@@ -105,7 +97,7 @@ export default function SignUp() {
           </form>
         </div>
         <Box mt={5}>
-          <Footer/>
+          <Footer />
         </Box>
       </MuiThemeProvider>
     </Container>
@@ -124,7 +116,7 @@ function useName() {
     } else {
       setValidName(false);
       setError(
-        event.target.value.trim() === '' ? 'This field should not be empty' : 'Invalid Surname',
+        event.target.value.trim() === '' ? 'This field should not be empty' : 'Invalid Surname'
       );
     }
   }

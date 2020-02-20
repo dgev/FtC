@@ -11,7 +11,7 @@ export const registerUser = (
   company
 ) => {
   return {
-    type: userConstants.GER_USER,
+    type: userConstants.GET_USER,
     email,
     phoneNumber,
     firstName,

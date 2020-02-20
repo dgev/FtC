@@ -35,6 +35,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function MyProfile() {
+  const date = useDate();
   const classes = useStyles();
   return (
     <div>
@@ -46,29 +47,6 @@ export default function MyProfile() {
               <p className={classes.cardCategoryWhite}>Complete your profile</p>
             </CardHeader>
             <CardBody>
-              {/* <GridContainer> */}
-              {/* <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: true
-                    }}
-                  />
-                </GridItem> */}
-              {/* <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem> */}
-              {/* </GridContainer> */}
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
@@ -111,13 +89,6 @@ export default function MyProfile() {
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
-                  {/* <CustomInput
-                    labelText="Region"
-                    id="region"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  /> */}
                   <Region />
                 </GridItem>
               </GridContainer>
@@ -137,4 +108,20 @@ export default function MyProfile() {
       </GridContainer>
     </div>
   );
+}
+
+function useDate() {
+  const [date, setDate] = useState(new Date());
+  function handleChange(date) {
+    if (
+      new Date().getFullYear() - date.getFullYear() >= 18 &&
+      new Date().getFullYear() - date.getFullYear() <= 110
+    ) {
+      setDate(date);
+    }
+  }
+  return {
+    value: date,
+    onChange: handleChange,
+  };
 }

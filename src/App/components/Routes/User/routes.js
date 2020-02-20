@@ -12,28 +12,18 @@ const dashboardRoutes = [
     name: 'My Profile',
     icon: Person,
     component: MyProfile,
-    // layout: '/company',
-  },
-  {
-    path: '/user',
-    name: 'My Profile',
-    icon: Person,
-    component: MyProfile,
-    // layout: '/company',
   },
   {
     path: '/projects',
     name: 'Projects',
     icon: 'content_paste',
     component: Projects,
-    // layout: '/company',
   },
   {
     path: '/company',
     name: 'Companies',
     icon: LibraryBooks,
     component: Companies,
-    // layout: '/company',
   },
 ];
 

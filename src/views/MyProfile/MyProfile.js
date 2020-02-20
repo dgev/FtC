@@ -1,8 +1,4 @@
-import React from 'react';
-// @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles';
-// import InputLabel from "@material-ui/core/InputLabel";
-// core components
+import React, { useState } from 'react';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import CustomInput from 'components/CustomInput/CustomInput.js';
@@ -16,16 +12,16 @@ import Birthdate from 'views/HomePage/SignUp/components/Birthdate';
 
 import avatar from 'assets/img/faces/marc.jpg';
 import Region from '../../components/Region';
-import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { useStyles, theme } from './MyProfileCss';
-import { Grid } from '@material-ui/core';
 
 export default function MyProfile() {
   const classes = useStyles();
+  const date = useDate();
   return (
     <div>
-      <GridContainer>
-        <ThemeProvider theme={theme}>
+      <GridContainer justify="flex-end">
+        <MuiThemeProvider theme={theme}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="primary">
@@ -64,7 +60,7 @@ export default function MyProfile() {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
-                    <Birthdate />
+                    <Birthdate onChange={date.onChange} value={date.value} />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -90,8 +86,23 @@ export default function MyProfile() {
               </CardBody>
             </Card>
           </GridItem>
-        </ThemeProvider>
+        </MuiThemeProvider>
       </GridContainer>
     </div>
   );
+}
+function useDate() {
+  const [date, setDate] = useState(new Date());
+  function handleChange(date) {
+    if (
+      new Date().getFullYear() - date.getFullYear() >= 18 &&
+      new Date().getFullYear() - date.getFullYear() <= 110
+    ) {
+      setDate(date);
+    }
+  }
+  return {
+    value: date,
+    onChange: handleChange,
+  };
 }

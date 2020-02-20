@@ -13,8 +13,8 @@ export default function Birthdate(props) {
           format="MM/dd/yyyy"
           margin="normal"
           label="Pick your Birthdate"
-          value={props.date.value}
-          onChange={props.date.onChange}
+          value={props.value}
+          onChange={props.onChange}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}

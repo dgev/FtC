@@ -69,7 +69,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Name name={name} surname={surname} />
               <Gender gender={gender} />
-              <Birthdate date={date} />
+              <Birthdate onChange={date.onChange} value={date.value} />
               <Region />
               <Phone phone={phone} />
               <Company companyName={companyName} isCompany={isCompany} />

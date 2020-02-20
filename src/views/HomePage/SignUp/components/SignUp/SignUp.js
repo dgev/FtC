@@ -21,6 +21,8 @@ import FormFooter from '../FormFooter';
 import { useStyles, theme } from 'views/HomePage/SignUp/style';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { validate as validateEmail } from 'email-validator';
+import { makePost } from '../../../../../API/App.js';
+
 let passwordValidator = require('password-validator');
 
 export default function SignUp() {
@@ -39,6 +41,7 @@ export default function SignUp() {
   const checked = useChecked();
 
   const dispatch = useDispatch();
+
   function handleSubmit() {
     dispatch(
       registerUser(
@@ -49,24 +52,34 @@ export default function SignUp() {
         date.value,
         gender.value,
         'Yerevan',
-        companyName.value
-      )
-    );
+        companyName.value,
+      ),
+    )
+    const user ={email: email.value,
+      phone:phone.value,
+      name:name.value,
+      surname:surname.value,
+      date:date.value,
+      gender:gender.value,
+      region:'Yerevan',
+      company:companyName.value,}
+      makePost('/api/v1/signup', {},  user).then(r  => console.log(r))
   }
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <MuiThemeProvider theme={theme}>
-        <CssBaseline />
+        <CssBaseline/>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
+<<<<<<< HEAD
               <Name name={name} surname={surname} />
               <Gender gender={gender} />
               <Birthdate onChange={date.onChange} value={date.value} />
@@ -74,6 +87,15 @@ export default function SignUp() {
               <Phone phone={phone} />
               <Company companyName={companyName} isCompany={isCompany} />
               <EmailPassword email={email} password={password} repeatPassword={repeatPassword} />
+=======
+              <Name name={name} surname={surname}/>
+              <Gender gender={gender}/>
+              <Birthdate date={date}/>
+              <Region/>
+              <Phone phone={phone}/>
+              <Company companyName={companyName} isCompany={isCompany}/>
+              <EmailPassword email={email} password={password} repeatPassword={repeatPassword}/>
+>>>>>>> 33e1a31681ade126a815ec137c91d06ac8306da1
             </Grid>
             <FormFooter
               handleSubmit={handleSubmit}
@@ -83,7 +105,7 @@ export default function SignUp() {
           </form>
         </div>
         <Box mt={5}>
-          <Footer />
+          <Footer/>
         </Box>
       </MuiThemeProvider>
     </Container>
@@ -94,6 +116,7 @@ function useName() {
   const [name, setName] = useState('');
   const [isValid, setValidName] = useState(true);
   const [error, setError] = useState('');
+
   function handleChange(event) {
     if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
       setName(event.target.value);
@@ -101,10 +124,11 @@ function useName() {
     } else {
       setValidName(false);
       setError(
-        event.target.value.trim() === '' ? 'This field should not be empty' : 'Invalid Surname'
+        event.target.value.trim() === '' ? 'This field should not be empty' : 'Invalid Surname',
       );
     }
   }
+
   return {
     value: name,
     onChange: handleChange,
@@ -131,6 +155,7 @@ function useEmail() {
       setValidEmail(true);
     }
   }
+
   return {
     value: email,
     onChange: handleEmailChange,
@@ -193,6 +218,7 @@ function usePassword() {
       setValidPassword(false);
     }
   }
+
   return {
     value: password,
     onChange: handlePasswordChange,
@@ -203,6 +229,7 @@ function usePassword() {
 
 function useRepeatedPassword(password) {
   const [isValid, setValidPassword] = useState(true);
+
   function handleChange(event) {
     if (event.target.value === password.value) {
       setValidPassword(true);
@@ -210,6 +237,7 @@ function useRepeatedPassword(password) {
       setValidPassword(false);
     }
   }
+
   return {
     isValid: isValid,
     onChange: handleChange,
@@ -218,9 +246,11 @@ function useRepeatedPassword(password) {
 
 function useGender() {
   const [gender, setGender] = useState('');
+
   function handleChange(event) {
     setGender(event.target.value);
   }
+
   return {
     value: gender,
     onChange: handleChange,
@@ -242,6 +272,7 @@ function useCompany() {
       setValidName(true);
     }
   }
+
   return {
     value: company,
     onChange: handleChange,
@@ -252,9 +283,11 @@ function useCompany() {
 
 function useSwitch() {
   const [checked, setChecked] = useState(false);
+
   function handleChange(event) {
     setChecked(event.target.checked);
   }
+
   return {
     checked: checked,
     onChange: handleChange,
@@ -263,6 +296,7 @@ function useSwitch() {
 
 function useDate() {
   const [date, setDate] = useState(new Date());
+
   function handleChange(date) {
     if (
       new Date().getFullYear() - date.getFullYear() >= 18 &&
@@ -271,6 +305,7 @@ function useDate() {
       setDate(date);
     }
   }
+
   return {
     value: date,
     onChange: handleChange,
@@ -279,9 +314,11 @@ function useDate() {
 
 function usePhone() {
   const [phone, setPhone] = useState('');
+
   function handleChange(value) {
     setPhone(value);
   }
+
   return {
     value: phone,
     onChange: handleChange,
@@ -290,9 +327,11 @@ function usePhone() {
 
 function useChecked() {
   const [checked, setChecked] = useState(false);
+
   function handleChange(event) {
     setChecked(event.target.checked);
   }
+
   return {
     isChecked: checked,
     onChange: handleChange,

@@ -50,7 +50,8 @@ export default function SignUp() {
       phoneNumber: phone.value,
       name: name.value,
       surname: surname.value,
-      date: `${date.value.getUTCFullYear()}-${date.value.getUTCMonth()}-${date.value.getDate()}`,
+      date: `${date.value.getUTCFullYear()}-${date.value.getUTCMonth() +
+        1}-${date.value.getDate()}`,
       gender: gender.value,
       region: region.value,
       company: isCompany.checked,

@@ -1,40 +1,34 @@
-import { userConstants } from '../constants';
+import { userConstants } from "../constants";
 
 const initialState = {
-  userName: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  age: '',
-  gender: '',
-  region: '',
+  email: "",
+  phoneNumber: "",
+  firstName: "",
+  lastName: "",
+  // accessToken: action.user.accessToken,
+  birthDate: "",
+  gender: "",
+  region: "",
+  company: "",
+  password: "",
+  companyName: "",
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_USER_DATA:
-      // return {
-      //   userName: action.user.username,
-      //   email: action.user.attributes.email,
-      //   phoneNumber: action.user.attributes.phone_number,
-      //   firstName: action.user.attributes['custom:firstname'],
-      //   lastName: action.user.attributes['custom:lastname'],
-      //   accessToken: action.user.accessToken,
-      //   age: action.user.age,
-      //   gender: action.user.gender,
-      //   region: action.user.region,
-      // };
       return {
-        email: action.email,
-        phoneNumber: action.phone_number,
-        firstName: action.firstName,
-        lastName: action.lastName,
+        email: action.user.email,
+        phoneNumber: action.user.phoneNumber,
+        firstName: action.user.firstName,
+        lastName: action.user.lastName,
         // accessToken: action.user.accessToken,
-        birthDate: action.birthDate,
-        gender: action.gender,
-        region: action.region,
-        company: action.company,
+        birthDate: action.user.birthDate,
+        gender: action.user.gender,
+        region: action.user.region,
+        company: action.user.isCompany,
+        password: action.user.password,
+        companyName: action.user.companyName,
       };
     case userConstants.UPDATE_USER_DATA:
       return {

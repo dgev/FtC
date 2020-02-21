@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, TextField } from '@material-ui/core';
+import React from "react";
+import { Grid, TextField } from "@material-ui/core";
 
 export default function EmailPassword(props) {
   return (
@@ -23,6 +23,7 @@ export default function EmailPassword(props) {
           error={!props.password.isValid}
           name="password"
           label="Password"
+          type="password"
           helperText={props.password.isValid ? null : props.password.error}
           onChange={props.password.onChange}
         />
@@ -34,8 +35,9 @@ export default function EmailPassword(props) {
           fullWidth
           error={!props.repeatPassword.isValid}
           label="Repeat the Password"
-          helperText={props.repeatPassword.isValid ? null : 'Passwords do not match'}
+          helperText={props.repeatPassword.isValid ? null : "Passwords do not match"}
           onChange={props.repeatPassword.onChange}
+          type="password"
         />
       </Grid>
     </React.Fragment>

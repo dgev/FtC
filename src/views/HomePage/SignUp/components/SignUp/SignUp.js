@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { registerUser } from 'redux/actions';
-import Avatar from '@material-ui/core/Avatar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Region from '../Region';
-import 'date-fns';
-import Footer from 'views/HomePage/Footer/Footer';
-import Name from '../Name';
-import Gender from '../Gender';
-import Birthdate from '../Birthdate';
-import Phone from '../Phone';
-import Company from '../Company';
-import EmailPassword from '../EmailPassword';
-import FormFooter from '../FormFooter';
-import { useStyles, theme } from 'views/HomePage/SignUp/style';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { validate as validateEmail } from 'email-validator';
-import { makePost } from '../../../../../API/App.js';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser } from "redux/actions";
+import Avatar from "@material-ui/core/Avatar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Region from "../Region";
+import "date-fns";
+import Footer from "views/HomePage/Footer/Footer";
+import Name from "../Name";
+import Gender from "../Gender";
+import Birthdate from "../Birthdate";
+import Phone from "../Phone";
+import Company from "../Company";
+import EmailPassword from "../EmailPassword";
+import FormFooter from "../FormFooter";
+import { useStyles, theme } from "views/HomePage/SignUp/style";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { validate as validateEmail } from "email-validator";
+import { makePost } from "../../../../../API/App.js";
+import jsSha512 from "js-sha512";
 
-let passwordValidator = require('password-validator');
+let passwordValidator = require("password-validator");
 
 export default function SignUp() {
   const classes = useStyles();
@@ -39,33 +40,25 @@ export default function SignUp() {
   const date = useDate();
   const phone = usePhone();
   const checked = useChecked();
+  const region = useRegion();
 
   const dispatch = useDispatch();
 
   function handleSubmit() {
-    dispatch(
-      registerUser(
-        email.value,
-        phone.value,
-        name.value,
-        surname.value,
-        date.value,
-        gender.value,
-        'Yerevan',
-        companyName.value
-      )
-    );
     const user = {
       email: email.value,
-      phone: phone.value,
+      phoneNumber: phone.value,
       name: name.value,
       surname: surname.value,
-      date: date.value,
+      date: `${date.value.getUTCFullYear()}-${date.value.getUTCMonth()}-${date.value.getDate()}`,
       gender: gender.value,
-      region: 'Yerevan',
-      company: companyName.value,
+      region: region.value,
+      company: isCompany.checked,
+      companyName: companyName.value,
+      password: jsSha512.hmac("testkey", password.value),
     };
-    makePost('/api/v1/signup', {}, user).then(r => console.log(r));
+    dispatch(registerUser(user));
+    makePost("/api/v1/signup", {}, user).then(r => console.log(r));
   }
 
   return (
@@ -83,8 +76,8 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Name name={name} surname={surname} />
               <Gender gender={gender} />
-              <Birthdate onChange={date.onChange} value={date.value} />
-              <Region />
+              <Birthdate {...date} />
+              <Region onChange={region.onChange} onClick={region.onChange} />
               <Phone phone={phone} />
               <Company companyName={companyName} isCompany={isCompany} />
               <EmailPassword email={email} password={password} repeatPassword={repeatPassword} />
@@ -105,9 +98,9 @@ export default function SignUp() {
 }
 
 function useName() {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [isValid, setValidName] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   function handleChange(event) {
     if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
@@ -116,7 +109,7 @@ function useName() {
     } else {
       setValidName(false);
       setError(
-        event.target.value.trim() === '' ? 'This field should not be empty' : 'Invalid Surname'
+        event.target.value.trim() === "" ? "This field should not be empty" : "Invalid Surname"
       );
     }
   }
@@ -130,17 +123,17 @@ function useName() {
 }
 
 function useEmail() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isValidEmail, setValidEmail] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   function handleEmailChange(event) {
     let user = event.target.value;
-    if (user === '') {
-      setError('Please enter your email!\n');
+    if (user === "") {
+      setError("Please enter your email!\n");
       setValidEmail(false);
     } else if (!validateEmail(user)) {
-      setError('Invalid email!');
+      setError("Invalid email!");
       setValidEmail(false);
     } else {
       setEmail(user);
@@ -157,9 +150,9 @@ function useEmail() {
 }
 
 function usePassword() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [isValidPassword, setValidPassword] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   function handlePasswordChange(event) {
     let schema = new passwordValidator();
@@ -179,33 +172,33 @@ function usePassword() {
       .spaces()
       .is()
       .not()
-      .oneOf(['Passw0rd', 'Password123']);
+      .oneOf(["Passw0rd", "Password123"]);
 
     if (schema.validate(event.target.value)) {
       setPassword(event.target.value);
       setValidPassword(true);
     } else {
       switch (schema.validate(event.target.value, { list: true })[0]) {
-        case 'min':
-          setError('Password must contain at least 8 characters!');
+        case "min":
+          setError("Password must contain at least 8 characters!");
           break;
-        case 'max':
-          setError('Password must contain at most 150 characters!');
+        case "max":
+          setError("Password must contain at most 150 characters!");
           break;
-        case 'spaces':
-          setError('Password cannot contain spaces!');
+        case "spaces":
+          setError("Password cannot contain spaces!");
           break;
-        case 'digits':
-          setError('Password must contain at least one number!');
+        case "digits":
+          setError("Password must contain at least one number!");
           break;
-        case 'lowercase':
-          setError('Password must contain at least one lowercase letter!');
+        case "lowercase":
+          setError("Password must contain at least one lowercase letter!");
           break;
-        case 'uppercase':
-          setError('Password must contain at least one uppercase letter!');
+        case "uppercase":
+          setError("Password must contain at least one uppercase letter!");
           break;
         default:
-          setError('Please enter a valid password');
+          setError("Please enter a valid password");
       }
       setValidPassword(false);
     }
@@ -237,7 +230,7 @@ function useRepeatedPassword(password) {
 }
 
 function useGender() {
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState("");
 
   function handleChange(event) {
     setGender(event.target.value);
@@ -250,14 +243,14 @@ function useGender() {
 }
 
 function useCompany() {
-  const [company, setCompany] = useState('');
+  const [company, setCompany] = useState("");
   const [isValidName, setValidName] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   function handleChange(event) {
     let company = event.target.value;
-    if (company.trim() === '') {
-      setError('This field should not be empty!');
+    if (company.trim() === "") {
+      setError("This field should not be empty!");
       setValidName(false);
     } else {
       setCompany(company);
@@ -288,24 +281,34 @@ function useSwitch() {
 
 function useDate() {
   const [date, setDate] = useState(new Date());
+  const [isValid, setValidAge] = useState(true);
+  const [error, setError] = useState("");
 
   function handleChange(date) {
-    if (
-      new Date().getFullYear() - date.getFullYear() >= 18 &&
-      new Date().getFullYear() - date.getFullYear() <= 110
-    ) {
-      setDate(date);
+    let current_age = Math.abs(new Date(new Date() - date).getUTCFullYear() - 1970);
+    if (current_age < 18) {
+      setError("You must be 18 or higher to sign up");
+      setValidAge(false);
+    } else if (current_age > 150) {
+      setError("Input a valid birthdate");
+      setValidAge(false);
+    } else {
+      setError("");
+      setValidAge(true);
     }
+    setDate(date);
   }
 
   return {
     value: date,
     onChange: handleChange,
+    error,
+    isValid,
   };
 }
 
 function usePhone() {
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
 
   function handleChange(value) {
     setPhone(value);
@@ -326,6 +329,17 @@ function useChecked() {
 
   return {
     isChecked: checked,
+    onChange: handleChange,
+  };
+}
+
+function useRegion() {
+  const [region, setRegion] = useState("");
+  function handleChange(event, value) {
+    setRegion(value);
+  }
+  return {
+    value: region,
     onChange: handleChange,
   };
 }

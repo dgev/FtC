@@ -1,9 +1,9 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { dashboardRoutes } from './routes';
-import App from 'App/App';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import { dashboardRoutes } from "./routes";
+import App from "App/App";
 
-function User() {
+export function User() {
   const routes = (
     <Switch>
       {dashboardRoutes.map((prop, key) => {
@@ -17,5 +17,3 @@ function User() {
     </div>
   );
 }
-
-export { User, dashboardRoutes };

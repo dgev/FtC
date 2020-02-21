@@ -1,24 +1,8 @@
-import { userConstants } from '../constants';
+import { userConstants } from "../constants";
 
-export const registerUser = (
-  email,
-  phoneNumber,
-  firstName,
-  lastName,
-  birthDate,
-  gender,
-  region,
-  company
-) => {
+export const registerUser = user => {
   return {
     type: userConstants.GET_USER,
-    email,
-    phoneNumber,
-    firstName,
-    lastName,
-    birthDate,
-    gender,
-    region,
-    company,
+    user,
   };
 };

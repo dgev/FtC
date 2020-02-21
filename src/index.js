@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import Home from './App/components/Routes/Home';
 import { User } from './App/components/Routes/User';
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
-const loggedin = true;
+const loggedin = false;
 
 const hist = createBrowserHistory();
 
@@ -24,20 +24,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-// import React from 'react';
-// import { render } from 'react-dom';
-// import { Provider } from 'react-redux';
-
-// import { store } from 'redux/store/index';
-// import { App } from 'App/App';
-
-// // setup fake backend
-// // import { configureFakeBackend } from 'redux/_helpers';
-// // configureFakeBackend();
-
-// render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   document.getElementById('app')
-// );

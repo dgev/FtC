@@ -24,8 +24,8 @@ export default function Sidebar(props) {
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
-  const { color, logo, image, logoText, routes } = props;
-  var links = (
+  const { color, image, logoText, routes } = props;
+  const links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
         var activePro = ' ';
@@ -75,15 +75,11 @@ export default function Sidebar(props) {
   var brand = (
     <div className={classes.logo}>
       <a
-        // href="https://www.creative-tim.com?ref=mdr-sidebar"
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive,
         })}
         target="_blank"
       >
-        {/* <div className={classes.logoImage}>
-          <img src={logo} alt="logo" className={classes.img} />
-        </div> */}
         {logoText}
       </a>
     </div>
@@ -93,13 +89,8 @@ export default function Sidebar(props) {
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
-          anchor={props.rtlActive ? 'left' : 'right'}
+          anchor={'right'}
           open={props.open}
-          classes={{
-            paper: classNames(classes.drawerPaper, {
-              [classes.drawerPaperRTL]: props.rtlActive,
-            }),
-          }}
           onClose={props.handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
@@ -107,7 +98,7 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>
-            {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
+            <AdminNavbarLinks />
             {links}
           </div>
           {image !== undefined ? (
@@ -116,16 +107,7 @@ export default function Sidebar(props) {
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
-        <Drawer
-          anchor={props.rtlActive ? 'right' : 'left'}
-          variant="permanent"
-          open
-          classes={{
-            paper: classNames(classes.drawerPaper, {
-              [classes.drawerPaperRTL]: props.rtlActive,
-            }),
-          }}
-        >
+        <Drawer anchor={'left'} variant="permanent" open>
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
           {image !== undefined ? (
@@ -138,9 +120,7 @@ export default function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  rtlActive: PropTypes.bool,
   handleDrawerToggle: PropTypes.func,
-  // bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
   logo: PropTypes.string,
   image: PropTypes.string,
   logoText: PropTypes.string,

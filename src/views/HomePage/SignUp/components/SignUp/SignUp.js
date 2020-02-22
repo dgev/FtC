@@ -21,12 +21,13 @@ import FormFooter from "../FormFooter";
 import { useStyles, theme } from "views/HomePage/SignUp/style";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { validate as validateEmail } from "email-validator";
-import { makePost } from "../../../../../API/App.js";
+// import { makePost } from "../../../../../API/App.js";
 
 let passwordValidator = require("password-validator");
 
 export default function SignUp() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const name = useName();
   const surname = useName();
@@ -40,24 +41,41 @@ export default function SignUp() {
   const phone = usePhone();
   const checked = useChecked();
   const region = useRegion();
+  const [register, setRegister] = useState(true);
 
-  const dispatch = useDispatch();
+  const user = {
+    username: email.value,
+    phoneNumber: phone.value,
+    firstName: name.value,
+    lastName: surname.value,
+    birthDate: date.formatDate,
+    gender: gender.value,
+    region: region.value,
+    isCompany: isCompany.value,
+    password: password.value,
+    companyName: companyName.value,
+  };
 
   function handleSubmit() {
-    const user = {
-      username: email.value,
-      phoneNumber: phone.value,
-      firstName: name.value,
-      lastName: surname.value,
-      birthDate: date.formatDate,
-      gender: gender.value,
-      region: region.value,
-      isCompany: isCompany.value,
-      password: password.value,
-      companyName: companyName.value,
-    };
-    dispatch(registerUser(user));
-    makePost("/api/v1/signup", {}, user).then(r => console.log(r));
+    if (validate()) {
+      dispatch(registerUser(user));
+      // makePost("/api/v1/signup", {}, user).then(r => console.log(r));
+      // registerUser(user);
+    } else {
+      setRegister(false);
+    }
+  }
+
+  function validate() {
+    return (
+      name.isValid &&
+      surname.isValid &&
+      email.isValidEmail &&
+      repeatPassword.passwordMatches &&
+      password.isValidPassword &&
+      date.isValid &&
+      (isCompany.value ? companyName.isValid : true)
+    );
   }
 
   return (
@@ -73,17 +91,18 @@ export default function SignUp() {
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
-              <Name name={name} surname={surname} />
+              <Name name={name} surname={surname} canRegister={register} />
               <Gender {...gender} />
-              <Birthdate {...date} />
+              <Birthdate {...date} canRegister={register} />
               <Region onChange={region.onChange} />
-              <Phone {...phone} />
+              <Phone {...phone} canRegister={register} />
               <Company
                 companyName={companyName}
                 isCompany={isCompany.value}
                 onChange={isCompany.onChange}
+                canRegister={register}
               />
-              <EmailPassword {...email} {...password} {...repeatPassword} />
+              <EmailPassword {...email} {...password} {...repeatPassword} canRegister={register} />
             </Grid>
             <FormFooter handleSubmit={handleSubmit} {...checked} />
           </form>
@@ -98,8 +117,8 @@ export default function SignUp() {
 
 function useName() {
   const [value, setValue] = useState("");
-  const [isValid, setValidName] = useState(true);
-  const [error, setError] = useState("");
+  const [isValid, setValidName] = useState(false);
+  const [error, setError] = useState("Field is required");
 
   function handleChange(event) {
     if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
@@ -107,9 +126,7 @@ function useName() {
       setValidName(true);
     } else {
       setValidName(false);
-      setError(
-        event.target.value.trim() === "" ? "This field should not be empty" : "Invalid Surname"
-      );
+      setError(event.target.value.trim() === "" ? "Field is required" : "Invalid Input");
     }
   }
 
@@ -123,8 +140,8 @@ function useName() {
 
 function useEmail() {
   const [value, setValue] = useState("");
-  const [isValidEmail, setValidEmail] = useState(true);
-  const [emailError, setError] = useState("");
+  const [isValidEmail, setValidEmail] = useState(false);
+  const [emailError, setError] = useState("Field is required");
 
   function handleEmailChange(event) {
     let user = event.target.value;
@@ -150,8 +167,8 @@ function useEmail() {
 
 function usePassword() {
   const [value, setValue] = useState("");
-  const [isValidPassword, setValidPassword] = useState(true);
-  const [passwordError, setError] = useState("");
+  const [isValidPassword, setValidPassword] = useState(false);
+  const [passwordError, setError] = useState("Field is required");
 
   function handlePasswordChange(event) {
     let schema = new passwordValidator();
@@ -174,7 +191,6 @@ function usePassword() {
       .oneOf(["Passw0rd", "Password123"]);
 
     if (schema.validate(event.target.value)) {
-      setValue(event.target.value);
       setValidPassword(true);
     } else {
       switch (schema.validate(event.target.value, { list: true })[0]) {
@@ -201,6 +217,7 @@ function usePassword() {
       }
       setValidPassword(false);
     }
+    setValue(event.target.value);
   }
 
   return {
@@ -212,19 +229,22 @@ function usePassword() {
 }
 
 function useRepeatedPassword(password) {
-  const [passwordMatches, setMatchedPassword] = useState(true);
+  const [passwordMatches, setMatchedPassword] = useState(false);
+  const [error, setError] = useState("Field is required");
 
   function handleRepeatedPassword(event) {
     if (event.target.value === password.value) {
       setMatchedPassword(true);
     } else {
       setMatchedPassword(false);
+      setError("Passwords do not match");
     }
   }
 
   return {
     passwordMatches,
     handleRepeatedPassword,
+    error,
   };
 }
 
@@ -243,8 +263,8 @@ function useGender() {
 
 function useCompany() {
   const [value, setValue] = useState("");
-  const [isValid, setValidName] = useState(true);
-  const [error, setError] = useState("");
+  const [isValid, setValidName] = useState(false);
+  const [error, setError] = useState("Field is required");
 
   function handleChange(event) {
     let company = event.target.value;
@@ -280,8 +300,8 @@ function useSwitch() {
 
 function useDate() {
   const [value, setValue] = useState(new Date());
-  const [isValid, setValidAge] = useState(true);
-  const [error, setError] = useState("");
+  const [isValid, setValidAge] = useState(false);
+  const [error, setError] = useState("Field is required");
   const [formatDate, setFormatDate] = useState("");
 
   function handleChange(date) {
@@ -293,14 +313,27 @@ function useDate() {
       } else if (current_age > 110) {
         setError("Input a valid birthdate");
         setValidAge(false);
+      } else if (
+        !(
+          date.getDate() >= 0 &&
+          date.getDate() <= validDays(date.getMonth() + 1, date.getFullYear()) &&
+          date.getMonth() >= 0 &&
+          date.getMonth() < 12
+        )
+      ) {
+        setError("Input a valid birthdate");
+        setValidAge(false);
       } else {
         setError("");
         setValidAge(true);
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
         setFormatDate(`${date.getFullYear()}-${month}-${day}`);
+        setValue(date);
       }
-      setValue(date);
+    } else {
+      setError("Field is required");
+      setValidAge(false);
     }
   }
 
@@ -313,16 +346,40 @@ function useDate() {
   };
 }
 
+function validDays(month, year) {
+  switch (month) {
+    case 1:
+      return (year % 4 == 0 && year % 100) || year % 400 == 0 ? 29 : 28;
+    case 8:
+    case 3:
+    case 5:
+    case 10:
+      return 30;
+    default:
+      return 31;
+  }
+}
+
 function usePhone() {
   const [value, setValue] = useState("");
+  const [error, setError] = useState("Field is required");
+  const [isValid, setValidPhone] = useState(false);
 
   function handleChange(value) {
-    setValue(value);
+    if (value.length === 12) {
+      setValue(value);
+      setValidPhone(true);
+    } else {
+      setError(value.length === 0 ? "Field is required" : "Invalid phone number");
+      setValidPhone(false);
+    }
   }
 
   return {
     value,
     onChange: handleChange,
+    isValid,
+    error,
   };
 }
 

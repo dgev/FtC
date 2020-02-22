@@ -15,6 +15,7 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import { useSelector } from "react-redux";
 
 let ps;
 const useStyles = makeStyles(styles);
@@ -22,6 +23,7 @@ const useStyles = makeStyles(styles);
 export default function App(props) {
   // styles
   const classes = useStyles();
+  const user = useSelector(state => state.userData);
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -59,7 +61,7 @@ export default function App(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Creative Tim"}
+        logoText={user.username}
         logo={logo}
         image={bgImage}
         handleDrawerToggle={handleDrawerToggle}

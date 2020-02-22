@@ -1,16 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   fixed: {
-    backgroundColor: '#8BC34A',
+    backgroundColor: "#8BC34A",
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
@@ -20,19 +19,19 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
   },
   toolbarSecondary: {
-    justifyContent: 'start',
-    overflowX: 'auto',
+    justifyContent: "start",
+    overflowX: "auto",
   },
   toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0,
+    textDecoration: "none",
+    color: "#FAFAFA",
   },
   buttonColor: {
-    backgroundColor: '#FFEB3B',
-    color: '#388E3C',
-    fontWeight: '500',
-    '&:hover': {
-      backgroundColor: '#FFF59D',
+    backgroundColor: "#FFEB3B",
+    color: "#388E3C",
+    fontWeight: "500",
+    "&:hover": {
+      backgroundColor: "#FFF59D",
     },
   },
 }));
@@ -55,7 +54,7 @@ export default function Header(props) {
           {title}
         </Typography>
         <Toolbar>
-          <RouterLink to="/signup" style={{ textDecoration: 'none' }}>
+          <Link to="/signup" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               size="small"
@@ -64,10 +63,10 @@ export default function Header(props) {
             >
               <span>Sign up</span>
             </Button>
-          </RouterLink>
+          </Link>
         </Toolbar>
         <Toolbar>
-          <RouterLink to="/signin" style={{ textDecoration: 'none' }}>
+          <Link to="/signin" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               size="small"
@@ -76,25 +75,13 @@ export default function Header(props) {
             >
               <span>Sign in</span>
             </Button>
-          </RouterLink>
+          </Link>
         </Toolbar>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-        {sections.map(section => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            className={classes.toolbarLink}
-          >
-            <RouterLink
-              to={`/${section.title.toLowerCase()}`}
-              style={{ textDecoration: 'none', color: '#FAFAFA' }}
-            >
-              {section.title}
-            </RouterLink>
+        {sections.map((section, id) => (
+          <Link key={id} to={`/${section.title.toLowerCase()}`} className={classes.toolbarLink}>
+            {section.title}
           </Link>
         ))}
       </Toolbar>

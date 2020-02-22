@@ -1,20 +1,20 @@
 /*eslint-disable*/
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 // @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Icon from '@material-ui/core/Icon';
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Icon from "@material-ui/core/Icon";
 // core components
-import AdminNavbarLinks from 'components/Navbars/AdminNavbarLinks.js';
+import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 
-import styles from 'assets/jss/material-dashboard-react/components/sidebarStyle.js';
+import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -28,13 +28,13 @@ export default function Sidebar(props) {
   const links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
-        var activePro = ' ';
+        var activePro = " ";
         var listItemClasses;
         listItemClasses = classNames({
-          [' ' + classes[color]]: activeRoute(prop.path),
+          [" " + classes[color]]: activeRoute(prop.path),
         });
         const whiteFontClasses = classNames({
-          [' ' + classes.whiteFont]: activeRoute(prop.path),
+          [" " + classes.whiteFont]: activeRoute(prop.path),
         });
         return (
           <NavLink
@@ -44,7 +44,7 @@ export default function Sidebar(props) {
             key={key}
           >
             <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === 'string' ? (
+              {typeof prop.icon === "string" ? (
                 <Icon
                   className={classNames(classes.itemIcon, whiteFontClasses, {
                     [classes.itemIconRTL]: props.rtlActive,
@@ -74,12 +74,7 @@ export default function Sidebar(props) {
   );
   var brand = (
     <div className={classes.logo}>
-      <a
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: props.rtlActive,
-        })}
-        target="_blank"
-      >
+      <a className={classNames(classes.logoLink)} target="_blank">
         {logoText}
       </a>
     </div>
@@ -89,7 +84,7 @@ export default function Sidebar(props) {
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
-          anchor={'right'}
+          anchor={"right"}
           open={props.open}
           onClose={props.handleDrawerToggle}
           ModalProps={{
@@ -102,16 +97,16 @@ export default function Sidebar(props) {
             {links}
           </div>
           {image !== undefined ? (
-            <div className={classes.background} style={{ backgroundImage: 'url(' + image + ')' }} />
+            <div className={classes.background} style={{ backgroundImage: "url(" + image + ")" }} />
           ) : null}
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
-        <Drawer anchor={'left'} variant="permanent" open>
+        <Drawer anchor={"left"} variant="permanent" open>
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
           {image !== undefined ? (
-            <div className={classes.background} style={{ backgroundImage: 'url(' + image + ')' }} />
+            <div className={classes.background} style={{ backgroundImage: "url(" + image + ")" }} />
           ) : null}
         </Drawer>
       </Hidden>

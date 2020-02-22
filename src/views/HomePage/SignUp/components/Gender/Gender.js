@@ -9,7 +9,7 @@ export default function Gender(props) {
       <Grid>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel shrink={false}>
-            <div>{props.value !== "" || "Gender *"}</div>
+            <div>{props.value !== "" || "Gender"}</div>
           </InputLabel>
           <Select value={props.value} onChange={props.handleChange} required>
             <MenuItem value={"Male"}>Male</MenuItem>

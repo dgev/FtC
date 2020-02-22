@@ -12,10 +12,10 @@ export default function Birthdate(props) {
           variant="inline"
           format="MM/dd/yyyy"
           margin="normal"
-          label="Pick your Birthdate"
+          label="Pick your Birthdate *"
           value={props.value}
-          // helperText={props.error}
-          error={!props.isValid}
+          helperText={!props.isValid && !props.canRegister ? props.error : null}
+          error={!props.isValid && !props.canRegister}
           maxDate={new Date()}
           onChange={date => props.onChange(date)}
           KeyboardButtonProps={{

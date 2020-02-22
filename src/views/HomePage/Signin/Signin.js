@@ -1,33 +1,43 @@
-import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Footer from '../Footer/Footer';
-import { useStyles, CustomCheckbox, theme } from './SigninCss';
-import { createBrowserHistory } from 'history';
-import { Link } from 'react-router-dom';
-import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { makePost } from 'API/App';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Footer from "../Footer/Footer";
+import { useStyles, theme } from "./SigninCss";
+import { Link } from "react-router-dom";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { login } from "redux/actions";
+import { useDispatch } from "react-redux";
 
 export default function Signin() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [loginIsValid, setLoginIsValid] = useState(true);
+
   const email = useEmail();
   const password = usePassword();
-  const history = createBrowserHistory();
-  function handleRedirect() {
-    history.push('/');
-  }
 
-  async function makeCall() {
-    await makePost('localhost:3000/users/a', {}, { email: email, password: password });
+  function handleLogin() {
+    if (email.isValidEmail && password.isValidPassword) {
+      dispatch(login({ username: email.value, password: password.value }));
+    } else {
+      setLoginIsValid(false);
+    }
   }
+  // async function makeCall() {
+  //   await makePost(
+  //     "localhost:3000/users/a",
+  //     {},
+  //     { username: email.value, password: password.value }
+  //   );
+  // }
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <CssBaseline />
@@ -35,7 +45,7 @@ export default function Signin() {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -45,13 +55,12 @@ export default function Signin() {
               margin="normal"
               required
               fullWidth
-              error={!email.isValid}
+              error={!email.isValidEmail && !loginIsValid}
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
-              helperText={email.isValid ? null : email.error}
               onChange={email.onChange}
             />
             <TextField
@@ -59,31 +68,28 @@ export default function Signin() {
               margin="normal"
               required
               fullWidth
-              error={!password.isValid}
+              error={!password.isValidPassword && !loginIsValid}
               name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
-              helperText={password.isValid ? null : password.error}
               onChange={password.onChange}
             />
-            <FormControlLabel control={<CustomCheckbox value="remember" />} label="Remember me" />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              disabled={!(email.isValid && password.isValid)}
-              onClick={makeCall}
+              disabled={!(email.isValidEmail && password.isValidPassword)}
+              onClick={handleLogin}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link to={`/reset`} className={classes.routerLink}>
-                  {'Forgot password?'}
+                  {"Forgot password?"}
                 </Link>
               </Grid>
               <Grid item>
@@ -93,7 +99,7 @@ export default function Signin() {
               </Grid>
             </Grid>
           </form>
-        </ThemeProvider>
+        </MuiThemeProvider>
       </div>
       <Box mt={8}>
         <Footer />
@@ -102,26 +108,36 @@ export default function Signin() {
   );
 }
 function usePassword() {
-  const [password, setPassword] = useState('');
-  const [isValidPassword, setValidPassword] = useState(true);
-  const [error, setError] = useState('');
-  function handlePasswordChange(event) {}
+  const [password, setPassword] = useState("");
+  const [isValidPassword, setValidPassword] = useState(false);
+  function handlePasswordChange(event) {
+    if (event.target.value !== null && event.target.value.length) {
+      setPassword(event.target.value);
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
+  }
   return {
     value: password,
     onChange: handlePasswordChange,
-    isValid: isValidPassword,
-    error: error,
+    isValidPassword,
   };
 }
 function useEmail() {
-  const [email, setEmail] = useState('');
-  const [isValidEmail, setValidEmail] = useState(true);
-  const [error, setError] = useState('');
-  function handleEmailChange(event) {}
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setValidEmail] = useState(false);
+  function handleEmailChange(event) {
+    if (event.target.value !== null && event.target.value.length) {
+      setEmail(event.target.value);
+      setValidEmail(true);
+    } else {
+      setValidEmail(false);
+    }
+  }
   return {
     value: email,
     onChange: handleEmailChange,
-    isValid: isValidEmail,
-    error: error,
+    isValidEmail,
   };
 }

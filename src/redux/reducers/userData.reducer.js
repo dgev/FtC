@@ -1,39 +1,56 @@
 import { userConstants } from "../constants";
 
+// const initialState = {
+//   id: "",
+//   username: "",
+//   phoneNumber: "",
+//   firstName: "",
+//   lastName: "",
+//   accessToken: "",
+//   birthDate: "",
+//   gender: "",
+//   region: "",
+//   isCompany: "",
+//   password: "",
+//   companyName: "",
+// };
+
 const initialState = {
-  username: "",
-  phoneNumber: "",
-  firstName: "",
-  lastName: "",
-  // accessToken: action.user.accessToken,
-  birthDate: "",
+  id: "0",
+  username: "email@gmail.com",
+  phoneNumber: "+374555555",
+  firstName: "hey",
+  lastName: "hi",
+  accessToken: "",
+  birthDate: "2012-12-01",
   gender: "",
   region: "",
-  isCompany: "",
+  hasCompany: true,
   password: "",
-  companyName: "",
+  companyName: "Something",
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_USER_DATA:
       return {
+        id: action.user.id,
         username: action.user.email,
         phoneNumber: action.user.phoneNumber,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
-        // accessToken: action.user.accessToken,
+        accessToken: action.user.accessToken,
         birthDate: action.user.birthDate,
         gender: action.user.gender,
         region: action.user.region,
-        isCompany: action.user.isCompany,
+        hasCompany: action.user.isCompany,
         password: action.user.password,
         companyName: action.user.companyName,
       };
     case userConstants.UPDATE_USER_DATA:
       return {
         ...state,
-        ...action.user,
+        ...action.updatedUser,
       };
 
     default:

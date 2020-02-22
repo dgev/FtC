@@ -1,23 +1,47 @@
-import React, { useState } from 'react';
-import GridItem from 'components/Grid/GridItem.js';
-import GridContainer from 'components/Grid/GridContainer.js';
-import CustomInput from 'components/CustomInput/CustomInput.js';
-import Button from 'components/CustomButtons/Button.js';
-import Card from 'components/Card/Card.js';
-import CardHeader from 'components/Card/CardHeader.js';
-import CardAvatar from 'components/Card/CardAvatar.js';
-import CardBody from 'components/Card/CardBody.js';
-import CardFooter from 'components/Card/CardFooter.js';
-import Birthdate from 'views/HomePage/SignUp/components/Birthdate';
+import React, { useState, useEffect } from "react";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
+import Button from "components/CustomButtons/Button.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardAvatar from "components/Card/CardAvatar.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+import Birthdate from "views/HomePage/SignUp/components/Birthdate";
 
-import avatar from 'assets/img/faces/marc.jpg';
-import Region from '../../components/Region';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { useStyles, theme } from './MyProfileCss';
+import farmerAvatar from "./Images/farmers.jpg";
+import companyAvatar from "./Images/company.png";
+import Region from "../../components/Region";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { useStyles, theme } from "./MyProfileCss";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "redux/actions";
 
 export default function MyProfile() {
   const classes = useStyles();
+  const user = useSelector(state => state.userData);
+  useEffect(() => {
+    console.log(user.firstName);
+  }, [user]);
+  const dispatch = useDispatch();
+
+  const firstName = useName();
+  const lastName = useName();
   const date = useDate();
+
+  const updatedUser = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+  };
+
+  function handleChange() {
+    // if(valid)
+    console.log(updatedUser);
+
+    dispatch(updateUser(updatedUser));
+  }
+
   return (
     <div>
       <GridContainer justify="flex-end">
@@ -34,6 +58,7 @@ export default function MyProfile() {
                     <CustomInput
                       labelText="First Name"
                       id="first-name"
+                      onInputChange={firstName.handleChange}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -43,6 +68,7 @@ export default function MyProfile() {
                     <CustomInput
                       labelText="Last Name"
                       id="last-name"
+                      onChange={lastName.handleChange}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -70,7 +96,9 @@ export default function MyProfile() {
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="primary">Update Profile</Button>
+                <Button color="primary" onClick={handleChange}>
+                  Update Profile
+                </Button>
               </CardFooter>
             </Card>
           </GridItem>
@@ -78,11 +106,13 @@ export default function MyProfile() {
             <Card profile>
               <CardAvatar profile>
                 <a href="#pablo" onClick={e => e.preventDefault()}>
-                  <img src={avatar} alt="..." />
+                  <img src={user.hasCompany ? companyAvatar : farmerAvatar} alt="..." />
                 </a>
               </CardAvatar>
               <CardBody profile>
-                <h4 className={classes.cardTitle}>Alec Thompson</h4>
+                <h4>{`Name:  ${user.firstName} ${user.lastName}`}</h4>
+                <h5>{"Born in:  " + user.birthDate}</h5>
+                {user.hasCompany ? <h5>{`Company Name:  ${user.companyName}`}</h5> : null}
               </CardBody>
             </Card>
           </GridItem>
@@ -90,6 +120,19 @@ export default function MyProfile() {
       </GridContainer>
     </div>
   );
+}
+
+function useName() {
+  const [value, setValue] = useState("");
+  function handleChange(value) {
+    console.log(value);
+
+    setValue(value);
+  }
+  return {
+    value,
+    handleChange,
+  };
 }
 function useDate() {
   const [date, setDate] = useState(new Date());

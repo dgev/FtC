@@ -16,27 +16,19 @@ const useStyles = makeStyles(styles);
 
 export default function CustomInput(props) {
   const classes = useStyles();
-  const {
-    formControlProps,
-    labelText,
-    id,
-    labelProps,
-    inputProps,
-    error,
-    success
-  } = props;
+  const { formControlProps, labelText, id, labelProps, inputProps, error, success } = props;
 
   const labelClasses = classNames({
     [" " + classes.labelRootError]: error,
-    [" " + classes.labelRootSuccess]: success && !error
+    [" " + classes.labelRootSuccess]: success && !error,
   });
   const underlineClasses = classNames({
     [classes.underlineError]: error,
     [classes.underlineSuccess]: success && !error,
-    [classes.underline]: true
+    [classes.underline]: true,
   });
   const marginTop = classNames({
-    [classes.marginTop]: labelText === undefined
+    [classes.marginTop]: labelText === undefined,
   });
   return (
     <FormControl
@@ -44,22 +36,17 @@ export default function CustomInput(props) {
       className={formControlProps.className + " " + classes.formControl}
     >
       {labelText !== undefined ? (
-        <InputLabel
-          className={classes.labelRoot + labelClasses}
-          htmlFor={id}
-          {...labelProps}
-        >
+        <InputLabel className={classes.labelRoot + labelClasses} htmlFor={id} {...labelProps}>
           {labelText}
         </InputLabel>
       ) : null}
       <Input
         classes={{
           root: marginTop,
-          disabled: classes.disabled,
-          underline: underlineClasses
+          // disabled: classes.disabled,
+          underline: underlineClasses,
         }}
         id={id}
-        {...inputProps}
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />
@@ -77,5 +64,5 @@ CustomInput.propTypes = {
   inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
-  success: PropTypes.bool
+  success: PropTypes.bool,
 };

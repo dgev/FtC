@@ -23,10 +23,15 @@ export default function Company(props) {
         <TextField
           variant="outlined"
           required
+          autoFocus
           fullWidth
-          error={!props.companyName.isValid && props.isCompany}
+          error={!props.companyName.isValid && props.isCompany && !props.canRegister}
           label="Company Name"
-          helperText={props.companyName.isValid ? null : props.companyName.error}
+          helperText={
+            !props.companyName.isValid && props.isCompany && !props.canRegister
+              ? props.companyName.error
+              : null
+          }
           onChange={props.companyName.onChange}
           disabled={!props.isCompany}
         />

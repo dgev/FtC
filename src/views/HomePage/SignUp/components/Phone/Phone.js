@@ -12,6 +12,8 @@ export default function Phone(props) {
         </IconButton>
         Phone
         <MuiPhoneInput
+          helperText={!props.isValid && !props.canRegister ? props.error : null}
+          error={!props.isValid && !props.canRegister}
           onChange={props.onChange}
           defaultCountry="am"
           regions={"asia"}

@@ -1,7 +1,7 @@
 import { userConstants } from "../constants";
 
 const initialState = {
-  email: "",
+  username: "",
   phoneNumber: "",
   firstName: "",
   lastName: "",
@@ -9,7 +9,7 @@ const initialState = {
   birthDate: "",
   gender: "",
   region: "",
-  company: "",
+  isCompany: "",
   password: "",
   companyName: "",
 };
@@ -18,7 +18,7 @@ function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_USER_DATA:
       return {
-        email: action.user.email,
+        username: action.user.email,
         phoneNumber: action.user.phoneNumber,
         firstName: action.user.firstName,
         lastName: action.user.lastName,

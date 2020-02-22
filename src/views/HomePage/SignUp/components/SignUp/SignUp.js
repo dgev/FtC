@@ -45,16 +45,16 @@ export default function SignUp() {
 
   function handleSubmit() {
     const user = {
-      email: email.value,
+      username: email.value,
       phoneNumber: phone.value,
-      name: name.value,
-      surname: surname.value,
-      date: date.formatDate,
+      firstName: name.value,
+      lastName: surname.value,
+      birthDate: date.formatDate,
       gender: gender.value,
       region: region.value,
       isCompany: isCompany.value,
-      companyName: companyName.value,
       password: password.value,
+      companyName: companyName.value,
     };
     dispatch(registerUser(user));
     makePost("/api/v1/signup", {}, user).then(r => console.log(r));

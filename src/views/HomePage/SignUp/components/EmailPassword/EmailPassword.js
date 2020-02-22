@@ -9,10 +9,10 @@ export default function EmailPassword(props) {
           variant="outlined"
           required
           fullWidth
-          error={!props.email.isValid}
+          error={!props.isValidEmail}
           label="Email Address"
-          helperText={props.email.isValid ? null : props.email.error}
-          onChange={props.email.onChange}
+          helperText={props.isValidEmail ? null : props.emailError}
+          onChange={props.handleEmailChange}
         />
       </Grid>
       <Grid item xs={12}>
@@ -20,12 +20,12 @@ export default function EmailPassword(props) {
           variant="outlined"
           required
           fullWidth
-          error={!props.password.isValid}
+          error={!props.isValidPassword}
           name="password"
           label="Password"
           type="password"
-          helperText={props.password.isValid ? null : props.password.error}
-          onChange={props.password.onChange}
+          helperText={props.isValidPassword ? null : props.passwordError}
+          onChange={props.handlePasswordChange}
         />
       </Grid>
       <Grid item xs={12}>
@@ -33,10 +33,10 @@ export default function EmailPassword(props) {
           variant="outlined"
           required
           fullWidth
-          error={!props.repeatPassword.isValid}
+          error={!props.passwordMatches}
           label="Repeat the Password"
-          helperText={props.repeatPassword.isValid ? null : "Passwords do not match"}
-          onChange={props.repeatPassword.onChange}
+          helperText={props.passwordMatches ? null : "Passwords do not match"}
+          onChange={props.handleRepeatedPassword}
           type="password"
         />
       </Grid>

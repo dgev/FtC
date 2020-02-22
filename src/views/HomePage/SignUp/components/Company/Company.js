@@ -1,6 +1,6 @@
-import React from 'react';
-import { Grid, Typography, FormControlLabel, TextField } from '@material-ui/core';
-import { CustomSwitch } from 'views/HomePage/SignUp/style';
+import React from "react";
+import { Grid, Typography, FormControlLabel, TextField } from "@material-ui/core";
+import { CustomSwitch } from "views/HomePage/SignUp/style";
 
 export default function Company(props) {
   return (
@@ -10,9 +10,9 @@ export default function Company(props) {
           <FormControlLabel
             control={
               <CustomSwitch
-                value={props.isCompany.checked}
-                checked={props.isCompany.checked}
-                onChange={props.isCompany.onChange}
+                value={props.isCompany}
+                checked={props.isCompany}
+                onChange={props.onChange}
               />
             }
             label="Register as a Company"
@@ -24,11 +24,11 @@ export default function Company(props) {
           variant="outlined"
           required
           fullWidth
-          error={!props.companyName.isValid && props.isCompany.checked}
+          error={!props.companyName.isValid && props.isCompany}
           label="Company Name"
           helperText={props.companyName.isValid ? null : props.companyName.error}
           onChange={props.companyName.onChange}
-          disabled={!props.isCompany.checked}
+          disabled={!props.isCompany}
         />
       </Grid>
     </React.Fragment>

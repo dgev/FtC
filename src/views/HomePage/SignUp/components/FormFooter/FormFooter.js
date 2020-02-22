@@ -1,8 +1,8 @@
-import React from 'react';
-import { Grid, Typography, FormControlLabel, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Grid, Typography, FormControlLabel, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 // import { createBrowserHistory } from 'history';
-import { useStyles, CustomCheckbox } from 'views/HomePage/SignUp/style';
+import { useStyles, CustomCheckbox } from "views/HomePage/SignUp/style";
 
 export default function FormFooter(props) {
   const classes = useStyles();
@@ -17,7 +17,7 @@ export default function FormFooter(props) {
           <FormControlLabel onChange={props.onChange} control={<CustomCheckbox />} />
           Check here to indicate that you have read and agreed to the
           <Link to={`/`} className={classes.color}>
-            {' '}
+            {" "}
             FtC Terms and Conditions
           </Link>
         </Typography>
@@ -26,7 +26,7 @@ export default function FormFooter(props) {
         fullWidth
         variant="contained"
         color="primary"
-        disabled={props.isChecked}
+        disabled={!props.isChecked}
         className={classes.submit}
         onClick={props.handleSubmit}
       >

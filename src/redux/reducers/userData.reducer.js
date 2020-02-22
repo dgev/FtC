@@ -26,7 +26,7 @@ function userData(state = initialState, action) {
         birthDate: action.user.birthDate,
         gender: action.user.gender,
         region: action.user.region,
-        company: action.user.isCompany,
+        isCompany: action.user.isCompany,
         password: action.user.password,
         companyName: action.user.companyName,
       };

@@ -14,7 +14,7 @@ export default function Birthdate(props) {
           margin="normal"
           label="Pick your Birthdate"
           value={props.value}
-          helperText={props.error}
+          // helperText={props.error}
           error={!props.isValid}
           maxDate={new Date()}
           onChange={date => props.onChange(date)}

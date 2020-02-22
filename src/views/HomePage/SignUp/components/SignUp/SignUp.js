@@ -22,7 +22,6 @@ import { useStyles, theme } from "views/HomePage/SignUp/style";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { validate as validateEmail } from "email-validator";
 import { makePost } from "../../../../../API/App.js";
-import jsSha512 from "js-sha512";
 
 let passwordValidator = require("password-validator");
 
@@ -50,13 +49,12 @@ export default function SignUp() {
       phoneNumber: phone.value,
       name: name.value,
       surname: surname.value,
-      date: `${date.value.getUTCFullYear()}-${date.value.getUTCMonth() +
-        1}-${date.value.getDate()}`,
+      date: date.formatDate,
       gender: gender.value,
       region: region.value,
-      company: isCompany.checked,
+      isCompany: isCompany.value,
       companyName: companyName.value,
-      password: jsSha512.hmac("testkey", password.value),
+      password: password.value,
     };
     dispatch(registerUser(user));
     makePost("/api/v1/signup", {}, user).then(r => console.log(r));
@@ -76,18 +74,18 @@ export default function SignUp() {
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Name name={name} surname={surname} />
-              <Gender gender={gender} />
+              <Gender {...gender} />
               <Birthdate {...date} />
-              <Region onChange={region.onChange} onClick={region.onChange} />
-              <Phone phone={phone} />
-              <Company companyName={companyName} isCompany={isCompany} />
-              <EmailPassword email={email} password={password} repeatPassword={repeatPassword} />
+              <Region onChange={region.onChange} />
+              <Phone {...phone} />
+              <Company
+                companyName={companyName}
+                isCompany={isCompany.value}
+                onChange={isCompany.onChange}
+              />
+              <EmailPassword {...email} {...password} {...repeatPassword} />
             </Grid>
-            <FormFooter
-              handleSubmit={handleSubmit}
-              onChange={checked.onChange}
-              isChecked={!checked.isChecked}
-            />
+            <FormFooter handleSubmit={handleSubmit} {...checked} />
           </form>
         </div>
         <Box mt={5}>
@@ -99,13 +97,13 @@ export default function SignUp() {
 }
 
 function useName() {
-  const [name, setName] = useState("");
+  const [value, setValue] = useState("");
   const [isValid, setValidName] = useState(true);
   const [error, setError] = useState("");
 
   function handleChange(event) {
     if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
-      setName(event.target.value);
+      setValue(event.target.value);
       setValidName(true);
     } else {
       setValidName(false);
@@ -116,17 +114,17 @@ function useName() {
   }
 
   return {
-    value: name,
+    value,
     onChange: handleChange,
-    isValid: isValid,
-    error: error,
+    isValid,
+    error,
   };
 }
 
 function useEmail() {
-  const [email, setEmail] = useState("");
+  const [value, setValue] = useState("");
   const [isValidEmail, setValidEmail] = useState(true);
-  const [error, setError] = useState("");
+  const [emailError, setError] = useState("");
 
   function handleEmailChange(event) {
     let user = event.target.value;
@@ -137,23 +135,23 @@ function useEmail() {
       setError("Invalid email!");
       setValidEmail(false);
     } else {
-      setEmail(user);
+      setValue(user);
       setValidEmail(true);
     }
   }
 
   return {
-    value: email,
-    onChange: handleEmailChange,
-    isValid: isValidEmail,
-    error: error,
+    value,
+    handleEmailChange,
+    isValidEmail,
+    emailError,
   };
 }
 
 function usePassword() {
-  const [password, setPassword] = useState("");
+  const [value, setValue] = useState("");
   const [isValidPassword, setValidPassword] = useState(true);
-  const [error, setError] = useState("");
+  const [passwordError, setError] = useState("");
 
   function handlePasswordChange(event) {
     let schema = new passwordValidator();
@@ -176,7 +174,7 @@ function usePassword() {
       .oneOf(["Passw0rd", "Password123"]);
 
     if (schema.validate(event.target.value)) {
-      setPassword(event.target.value);
+      setValue(event.target.value);
       setValidPassword(true);
     } else {
       switch (schema.validate(event.target.value, { list: true })[0]) {
@@ -206,46 +204,46 @@ function usePassword() {
   }
 
   return {
-    value: password,
-    onChange: handlePasswordChange,
-    isValid: isValidPassword,
-    error: error,
+    value,
+    handlePasswordChange,
+    isValidPassword,
+    passwordError,
   };
 }
 
 function useRepeatedPassword(password) {
-  const [isValid, setValidPassword] = useState(true);
+  const [passwordMatches, setMatchedPassword] = useState(true);
 
-  function handleChange(event) {
+  function handleRepeatedPassword(event) {
     if (event.target.value === password.value) {
-      setValidPassword(true);
+      setMatchedPassword(true);
     } else {
-      setValidPassword(false);
+      setMatchedPassword(false);
     }
   }
 
   return {
-    isValid: isValid,
-    onChange: handleChange,
+    passwordMatches,
+    handleRepeatedPassword,
   };
 }
 
 function useGender() {
-  const [gender, setGender] = useState("");
+  const [value, setValue] = useState("");
 
   function handleChange(event) {
-    setGender(event.target.value);
+    setValue(event.target.value);
   }
 
   return {
-    value: gender,
-    onChange: handleChange,
+    value,
+    handleChange,
   };
 }
 
 function useCompany() {
-  const [company, setCompany] = useState("");
-  const [isValidName, setValidName] = useState(true);
+  const [value, setValue] = useState("");
+  const [isValid, setValidName] = useState(true);
   const [error, setError] = useState("");
 
   function handleChange(event) {
@@ -254,93 +252,100 @@ function useCompany() {
       setError("This field should not be empty!");
       setValidName(false);
     } else {
-      setCompany(company);
+      setValue(company);
       setValidName(true);
     }
   }
 
   return {
-    value: company,
+    value,
     onChange: handleChange,
-    isValid: isValidName,
-    error: error,
+    isValid,
+    error,
   };
 }
 
 function useSwitch() {
-  const [checked, setChecked] = useState(false);
+  const [value, setValue] = useState(false);
 
   function handleChange(event) {
-    setChecked(event.target.checked);
+    setValue(event.target.checked);
   }
 
   return {
-    checked: checked,
+    value,
     onChange: handleChange,
   };
 }
 
 function useDate() {
-  const [date, setDate] = useState(new Date());
+  const [value, setValue] = useState(new Date());
   const [isValid, setValidAge] = useState(true);
   const [error, setError] = useState("");
+  const [formatDate, setFormatDate] = useState("");
 
   function handleChange(date) {
-    let current_age = Math.abs(new Date(new Date() - date).getUTCFullYear() - 1970);
-    if (current_age < 18) {
-      setError("You must be 18 or higher to sign up");
-      setValidAge(false);
-    } else if (current_age > 150) {
-      setError("Input a valid birthdate");
-      setValidAge(false);
-    } else {
-      setError("");
-      setValidAge(true);
+    if (date !== null && date !== undefined) {
+      let current_age = Math.abs(new Date(new Date() - date).getUTCFullYear() - 1970);
+      if (current_age < 18) {
+        setError("You must be 18 or higher to sign up");
+        setValidAge(false);
+      } else if (current_age > 110) {
+        setError("Input a valid birthdate");
+        setValidAge(false);
+      } else {
+        setError("");
+        setValidAge(true);
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        setFormatDate(`${date.getFullYear()}-${month}-${day}`);
+      }
+      setValue(date);
     }
-    setDate(date);
   }
 
   return {
-    value: date,
+    value,
     onChange: handleChange,
     error,
     isValid,
+    formatDate,
   };
 }
 
 function usePhone() {
-  const [phone, setPhone] = useState("");
+  const [value, setValue] = useState("");
 
   function handleChange(value) {
-    setPhone(value);
+    setValue(value);
   }
 
   return {
-    value: phone,
+    value,
     onChange: handleChange,
   };
 }
 
 function useChecked() {
-  const [checked, setChecked] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   function handleChange(event) {
     setChecked(event.target.checked);
   }
 
   return {
-    isChecked: checked,
+    isChecked,
     onChange: handleChange,
   };
 }
 
 function useRegion() {
-  const [region, setRegion] = useState("");
+  const [value, setValue] = useState("");
   function handleChange(event, value) {
-    setRegion(value);
+    setValue(value);
   }
   return {
-    value: region,
+    value,
     onChange: handleChange,
   };
 }

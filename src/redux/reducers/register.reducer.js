@@ -8,7 +8,7 @@ function registration(state = initialState, action) {
     case userConstants.REGISTER_SUCCESS:
       return {
         ...state,
-        ...action.user.payload,
+        ...action.payload,
       };
     case userConstants.REGISTER_FAILURE:
       return {};

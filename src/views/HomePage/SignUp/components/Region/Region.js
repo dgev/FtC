@@ -12,7 +12,7 @@ export default function Region(props) {
     "Ararat",
     "Armavir",
     "Gegharquniq",
-    "Lory",
+    "Lori",
     "Kotayq",
     "Shirak",
     "Syunik",

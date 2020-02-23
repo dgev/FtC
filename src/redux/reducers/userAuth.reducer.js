@@ -4,10 +4,17 @@ const initialState = { logginin: false };
 
 function userAuth(state = initialState, action) {
   switch (action.type) {
-    case userConstants.REGISTER_USER:
-      return {};
     case userConstants.LOGIN_USER:
-      return { loggingin: true };
+      return { loggingin: true, user: action.user };
+    case userConstants.LOGIN_SUCCESS:
+      return {
+        loggedIn: true,
+        user: action.user,
+      };
+    case userConstants.LOGIN_FAILURE:
+      return {};
+    case userConstants.LOGOUT:
+      return {};
     default:
       return state;
   }

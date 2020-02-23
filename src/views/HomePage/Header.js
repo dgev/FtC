@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
     overflowX: "auto",
   },
   toolbarLink: {
+    marginRight: theme.spacing(3),
     textDecoration: "none",
     color: "#FAFAFA",
   },

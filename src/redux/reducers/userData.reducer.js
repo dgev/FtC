@@ -25,14 +25,14 @@ const initialState = {
   birthDate: "2012-12-01",
   gender: "",
   region: "",
-  hasCompany: true,
+  hasCompany: false,
   password: "",
   companyName: "Something",
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
-    case userConstants.GET_USER_DATA:
+    case userConstants.GET_REQUEST:
       return {
         id: action.user.id,
         username: action.user.email,
@@ -46,17 +46,14 @@ function userData(state = initialState, action) {
         password: action.user.password,
         companyName: action.user.companyName,
       };
-    case userConstants.UPDATE_USER_DATA:
-      console.log("here");
-
-      return {
-        firstName: action.updatedUser.firstName,
-      };
-    default:
-      console.log("here");
+    case userConstants.UPDATE_REQUEST:
       return {
         ...state,
-        currentUser: action.updatedUser,
+        ...action.payload,
+      };
+    default:
+      return {
+        ...state,
       };
   }
 }

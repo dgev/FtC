@@ -25,7 +25,7 @@ export default function MyProfile() {
   const user = useSelector(state => state.userData);
   const [canUpdate, setUpdate] = useState(true);
 
-  useEffect(() => {}, [firstName, lastName]);
+  useEffect(() => {}, [user]);
   const dispatch = useDispatch();
 
   const firstName = useName();
@@ -40,9 +40,7 @@ export default function MyProfile() {
   };
 
   function handleChange() {
-    // if(valid)
     dispatch(updateUser(updatedUser));
-    console.log(user.firstName);
   }
 
   return (

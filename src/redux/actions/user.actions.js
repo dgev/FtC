@@ -1,29 +1,43 @@
 import { userConstants } from "../constants";
 import { makeGet, makePost } from "API/App";
+import { history } from "../helpers";
 
 const registerUser = user => dispatch => {
   dispatch({
     type: userConstants.REGISTER_REQUEST,
+    // user,
   });
   makePost("/api/v1/signup", {}, user)
     .then(data => {
-      dispatch({ type: userConstants.LOGIN_REQUEST, user: data.user });
+      dispatch({ type: userConstants.REGISTER_SUCCESS, user: data.user });
     })
-    .catch(e => console.error(e));
+    .catch(e => dispatch({ type: userConstants.REGISTER_FAILURE, e }));
 };
 
 const login = userCredentials => dispatch => {
   dispatch({ type: userConstants.LOGIN_REQUEST, userCredentials });
   makePost("/api/v1/login", {}, userCredentials)
     .then(data => {
-      dispatch({ type: userConstants.GET_REQUEST, user: data.user });
+      dispatch({ type: userConstants.LOGIN_SUCCESS, user: data.user });
+      history.push("/");
     })
 
-    .catch(e => console.error(e));
+    .catch(e => dispatch({ type: userConstants.LOGIN_FAILURE, e }));
+};
+
+const getUser = () => dispatch => {
+  dispatch({
+    type: userConstants.GET_REQUEST,
+  });
+  makeGet("/api/v1/signup")
+    .then(data => {
+      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
+    })
+    .catch(e => dispatch({ type: userConstants.GET_FAILURE, e }));
 };
 
 const updateUser = updatedUser => {
-  return { type: userConstants.UPDATE_REQUEST, updatedUser };
+  return { type: userConstants.UPDATE_REQUEST, payload: updatedUser };
 };
 
 // const updateUser = updatedUser => dispatch => {
@@ -34,4 +48,4 @@ const updateUser = updatedUser => {
 //   //   .catch(e => console.error(e));
 // };
 
-export { login, registerUser, updateUser };
+export { login, registerUser, updateUser, getUser };

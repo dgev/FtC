@@ -11,6 +11,13 @@ const homeRoutes = [
     component: HomePage,
     // layout: '/home',
   },
+  {
+    path: "/home",
+    name: "HomePage",
+    // icon: Dashboard,
+    component: HomePage,
+    // layout: '/home',
+  },
   // {
   //   path: '/about',
   //   name: 'About Us',

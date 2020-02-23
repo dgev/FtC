@@ -6,9 +6,8 @@ const registerUser = user => dispatch => {
     type: userConstants.REGISTER_REQUEST,
   });
   makePost("/api/v1/signup", {}, user)
-    .then(user => {
-      localStorage.setItem("token", user.token),
-        dispatch({ type: userConstants.LOGIN_REQUEST, user });
+    .then(data => {
+      dispatch({ type: userConstants.LOGIN_REQUEST, user: data.user });
     })
     .catch(e => console.error(e));
 };
@@ -16,9 +15,8 @@ const registerUser = user => dispatch => {
 const login = userCredentials => dispatch => {
   dispatch({ type: userConstants.LOGIN_REQUEST, userCredentials });
   makePost("/api/v1/login", {}, userCredentials)
-    .then(user => {
-      localStorage.setItem("token", user.token),
-        dispatch({ type: userConstants.GET_REQUEST, user });
+    .then(data => {
+      dispatch({ type: userConstants.GET_REQUEST, user: data.user });
     })
 
     .catch(e => console.error(e));

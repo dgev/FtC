@@ -7,6 +7,10 @@ function getAuthToken() {
   return localStorage.getItem("token");
 }
 
+function setAuthToken(token) {
+  localStorage.setItem("token", token);
+}
+
 const baseUrl = "http://localhost:8080";
 
 function getHeaders() {
@@ -36,6 +40,7 @@ async function request(url, headers = {}, method, body = {}) {
     throw new Error("401");
   }
   const data = response.json();
+  setAuthToken(data.token);
   return data;
 }
 

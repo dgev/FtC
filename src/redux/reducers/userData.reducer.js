@@ -39,7 +39,6 @@ function userData(state = initialState, action) {
         phoneNumber: action.user.phoneNumber,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
-        accessToken: action.user.accessToken,
         birthDate: action.user.birthDate,
         gender: action.user.gender,
         region: action.user.region,
@@ -57,7 +56,7 @@ function userData(state = initialState, action) {
       console.log("here");
       return {
         ...state,
-        ...action.updatedUser,
+        currentUser: action.updatedUser,
       };
   }
 }

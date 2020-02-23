@@ -1,4 +1,4 @@
-function deleteAuthToken() {
+function logout() {
   localStorage.removeItem("token");
   window.location.reload();
 }
@@ -56,3 +56,5 @@ async function request(url, headers = {}, method, body = {}) {
 
 export const makeGet = async (url, headers, body) => request(url, headers, "GET", body);
 export const makePost = async (url, headers, body) => request(url, headers, "POST", body);
+export const makeDelete = async (url, headers, body) => request(url, headers, "DELETE", body);
+export { logout };

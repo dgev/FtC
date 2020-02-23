@@ -51,6 +51,21 @@ function userData(state = initialState, action) {
         ...state,
         ...action.payload,
       };
+    case userConstants.DELETE_REQUEST:
+      return {
+        ...state,
+        deleting: true,
+      };
+    case userConstants.DELETE_SUCCESS:
+      return {
+        deleted: true,
+      };
+    case userConstants.DELETE_FAILURE:
+      // remove 'deleting:true' property and add 'deleteError:[error]' property to user
+      return {
+        ...state,
+        deleteError: action.error,
+      };
     default:
       return {
         ...state,

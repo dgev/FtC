@@ -1,5 +1,5 @@
 import { userConstants } from "../constants";
-import { makeGet, makePost } from "API/App";
+import { makeGet, makePost, makeDelete, logout } from "API/App";
 import { history } from "../helpers";
 
 const registerUser = user => dispatch => {
@@ -21,10 +21,10 @@ const login = userCredentials => dispatch => {
   dispatch({ type: userConstants.LOGIN_REQUEST, userCredentials });
   makePost("/api/v1/login", {}, userCredentials)
     .then(data => {
-      dispatch({ type: userConstants.LOGIN_SUCCESS, user: data.user });
+      dispatch({ type: userConstants.LOGIN_SUCCESS });
+      dispatch({ type: userConstants.GET_REQUEST, user: data.user });
       history.push("/");
     })
-
     .catch(e => dispatch({ type: userConstants.LOGIN_FAILURE, e }));
 };
 
@@ -43,12 +43,22 @@ const updateUser = updatedUser => {
   return { type: userConstants.UPDATE_REQUEST, payload: updatedUser };
 };
 
-// const updateUser = updatedUser => dispatch => {
-//   dispatch({ type: userConstants.UPDATE_REQUEST, updatedUser });
-//   // makePost("/api/v1/login", {}, updateUser)
-//   //   .then(user => dispatch({ type: userConstants.GET_REQUEST, user }))
+const logoutUser = () => dispatch => {
+  logout();
+  dispatch({
+    type: userConstants.LOGOUT_REQUEST,
+  });
+};
 
-//   //   .catch(e => console.error(e));
-// };
+const deleteUser = user => dispatch => {
+  dispatch({ type: userConstants.DELETE_REQUEST, user });
+  makeDelete("/api/v1/delete", {}, user)
+    .then(data => {
+      dispatch({ type: userConstants.DELETE_SUCCESS, data });
+      logoutUser();
+      history.push("/");
+    })
+    .catch(e => dispatch({ type: userConstants.DELETE_FAILURE, user, e }));
+};
 
-export { login, registerUser, updateUser, getUser };
+export { login, registerUser, updateUser, getUser, logoutUser, deleteUser };

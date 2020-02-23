@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "redux/actions";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +22,7 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -43,6 +46,9 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  function handleLogout() {
+    dispatch(logoutUser());
+  }
   return (
     <div>
       <div className={classes.manager}>
@@ -138,7 +144,7 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
-                    <MenuItem onClick={handleCloseProfile} className={classes.dropdownItem}>
+                    <MenuItem onClick={handleLogout} className={classes.dropdownItem}>
                       Logout
                     </MenuItem>
                   </MenuList>

@@ -1,6 +1,5 @@
 import { userConstants } from "../constants";
-
-const initialState = {};
+const initialState = localStorage.getItem("token") ? { loggedIn: true } : {};
 
 function userAuth(state = initialState, action) {
   switch (action.type) {

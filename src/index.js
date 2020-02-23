@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import Home from "./App/components/Routes/Home";
 import { User } from "./App/components/Routes/User";
 import "assets/css/material-dashboard-react.css?v=1.8.0";
-const loggedin = true;
+const loggedin = false;
 
 const hist = createBrowserHistory();
 

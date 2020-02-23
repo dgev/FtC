@@ -49,8 +49,8 @@ export default function SignUp() {
     firstName: name.value,
     lastName: surname.value,
     birthDate: date.formatDate,
-    gender: gender.value,
-    region: region.value,
+    gender: gender.value.toUpperCase(),
+    region: region.value.replace(" ", "").toUpperCase(),
     isCompany: isCompany.value,
     password: password.value,
     companyName: companyName.value,
@@ -329,8 +329,8 @@ function useDate() {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
         setFormatDate(`${date.getFullYear()}-${month}-${day}`);
-        setValue(date);
       }
+      setValue(date);
     } else {
       setError("Field is required");
       setValidAge(false);

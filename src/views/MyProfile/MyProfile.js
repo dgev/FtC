@@ -9,6 +9,7 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Birthdate from "views/HomePage/SignUp/components/Birthdate";
+import Gender from "views/HomePage/SignUp/components/Gender";
 
 import farmerAvatar from "./Images/farmers.jpg";
 import companyAvatar from "./Images/company.png";
@@ -17,29 +18,31 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "./MyProfileCss";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "redux/actions";
+import { TextField } from "@material-ui/core";
 
 export default function MyProfile() {
   const classes = useStyles();
   const user = useSelector(state => state.userData);
-  useEffect(() => {
-    console.log(user.firstName);
-  }, [user]);
+  const [canUpdate, setUpdate] = useState(true);
+
+  useEffect(() => {}, [firstName, lastName]);
   const dispatch = useDispatch();
 
   const firstName = useName();
   const lastName = useName();
   const date = useDate();
+  const gender = useGender();
 
   const updatedUser = {
     firstName: firstName.value,
     lastName: lastName.value,
+    gender: gender.value,
   };
 
   function handleChange() {
     // if(valid)
-    console.log(updatedUser);
-
     dispatch(updateUser(updatedUser));
+    console.log(user.firstName);
   }
 
   return (
@@ -55,43 +58,37 @@ export default function MyProfile() {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="First Name"
-                      id="first-name"
-                      onInputChange={firstName.handleChange}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
+                    <TextField
+                      id="standard-textarea"
+                      label="Fisrt Name "
+                      multiline
+                      fullWidth
+                      onChange={firstName.handleChange}
+                      style={{ marginBottom: theme.spacing(3) }}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Last Name"
-                      id="last-name"
+                    <TextField
+                      id="standard-textarea"
+                      label="Last Name"
+                      // placeholder="Last Name"
                       onChange={lastName.handleChange}
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
+                      multiline
+                      fullWidth
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Gender"
-                      id="postal-code"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                    />
+                  <GridItem xs={12} sm={12} md={6}>
+                    <Region />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <Birthdate onChange={date.onChange} value={date.value} />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <Region />
+                  <GridItem xs={12} sm={12} md={4}>
+                    <Gender {...gender} />
                   </GridItem>
                 </GridContainer>
               </CardBody>
@@ -124,13 +121,15 @@ export default function MyProfile() {
 
 function useName() {
   const [value, setValue] = useState("");
-  function handleChange(value) {
-    console.log(value);
-
-    setValue(value);
+  const [error, setError] = useState("");
+  const [isValid, setValidName] = useState(true);
+  function handleChange(event) {
+    setValue(event.target.value);
   }
   return {
     value,
+    isValid,
+    error,
     handleChange,
   };
 }
@@ -147,5 +146,18 @@ function useDate() {
   return {
     value: date,
     onChange: handleChange,
+  };
+}
+
+function useGender() {
+  const [value, setValue] = useState("");
+
+  function handleChange(event) {
+    setValue(event.target.value);
+  }
+
+  return {
+    value,
+    handleChange,
   };
 }

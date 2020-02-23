@@ -7,7 +7,7 @@ function userAuth(state = initialState, action) {
     case userConstants.REGISTER_USER:
       return {};
     case userConstants.LOGIN_USER:
-      return { logginin: true };
+      return { loggingin: true };
     default:
       return state;
   }

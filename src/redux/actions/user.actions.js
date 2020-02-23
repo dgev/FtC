@@ -18,12 +18,16 @@ const login = userCredentials => dispatch => {
     .catch(e => console.error(e));
 };
 
-const updateUser = updateUser => dispatch => {
-  dispatch({ type: userConstants.UPDATE_REQUEST, updateUser });
-  // makePost("/api/v1/login", {}, userCredentials)
-  // .then(user => dispatch({ type: userConstants.GET_REQUEST, user }))
-
-  // .catch(e => console.error(e));
+const updateUser = updatedUser => {
+  return { type: userConstants.UPDATE_REQUEST, updatedUser };
 };
+
+// const updateUser = updatedUser => dispatch => {
+//   dispatch({ type: userConstants.UPDATE_REQUEST, updatedUser });
+//   // makePost("/api/v1/login", {}, updateUser)
+//   //   .then(user => dispatch({ type: userConstants.GET_REQUEST, user }))
+
+//   //   .catch(e => console.error(e));
+// };
 
 export { login, registerUser, updateUser };

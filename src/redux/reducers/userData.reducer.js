@@ -48,13 +48,17 @@ function userData(state = initialState, action) {
         companyName: action.user.companyName,
       };
     case userConstants.UPDATE_USER_DATA:
+      console.log("here");
+
+      return {
+        firstName: action.updatedUser.firstName,
+      };
+    default:
+      console.log("here");
       return {
         ...state,
         ...action.updatedUser,
       };
-
-    default:
-      return state;
   }
 }
 

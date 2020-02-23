@@ -10,6 +10,7 @@ import Home from "./App/components/Routes/Home";
 import { User } from "./App/components/Routes/User";
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 const loggedin = true;
+// const loggedin = useSelector(state=>state.isLoggedIn);
 
 const hist = createBrowserHistory();
 

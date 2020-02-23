@@ -7,8 +7,7 @@ function userRegistration(state = initialState, action) {
       return { registering: true };
     case userConstants.REGISTER_SUCCESS:
       return {
-        ...state,
-        ...action.payload,
+        registered: true,
       };
     case userConstants.REGISTER_FAILURE:
       return {};

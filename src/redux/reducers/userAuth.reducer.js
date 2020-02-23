@@ -1,6 +1,6 @@
 import { userConstants } from "../constants";
 
-const initialState = { logginin: false };
+const initialState = {};
 
 function userAuth(state = initialState, action) {
   switch (action.type) {

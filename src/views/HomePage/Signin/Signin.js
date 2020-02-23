@@ -31,13 +31,7 @@ export default function Signin() {
       setLoginIsValid(false);
     }
   }
-  // async function makeCall() {
-  //   await makePost(
-  //     "localhost:3000/users/a",
-  //     {},
-  //     { username: email.value, password: password.value }
-  //   );
-  // }
+
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <CssBaseline />

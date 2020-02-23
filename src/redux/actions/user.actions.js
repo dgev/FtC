@@ -10,6 +10,8 @@ const registerUser = user => dispatch => {
   makePost("/api/v1/signup", {}, user)
     .then(data => {
       dispatch({ type: userConstants.REGISTER_SUCCESS, payload: data.user });
+      dispatch({ type: userConstants.LOGIN_SUCCESS, user: data.user });
+      history.push("/");
     })
     .catch(e => dispatch({ type: userConstants.REGISTER_FAILURE, e }));
 };

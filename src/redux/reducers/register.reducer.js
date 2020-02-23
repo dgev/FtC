@@ -1,7 +1,7 @@
-import { userConstants } from "../_constants";
+import { userConstants } from "../constants";
 const initialState = {};
 
-function registration(state = initialState, action) {
+function userRegistration(state = initialState, action) {
   switch (action.type) {
     case userConstants.REGISTER_REQUEST:
       return { registering: true };
@@ -17,4 +17,4 @@ function registration(state = initialState, action) {
   }
 }
 
-export default registration;
+export default userRegistration;

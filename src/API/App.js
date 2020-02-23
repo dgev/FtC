@@ -2,42 +2,36 @@ function deleteAuthToken() {
   localStorage.removeItem("token");
   window.location.reload();
 }
-
 function getAuthToken() {
   return localStorage.getItem("token");
 }
-
 function setAuthToken(token) {
   localStorage.setItem("token", token);
 }
-
 const baseUrl = "http://localhost:8080";
-
 function getHeaders() {
-  const auth = JSON.parse(getAuthToken());
-  // const auth = getAuthToken();
-  if (auth && auth.token) {
+  // const auth = JSON.parse(getAuthToken());
+  const auth = getAuthToken();
+  // console.log(auth);
+  if (auth) {
     return {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${auth}`,
+      // Authorization: `Bearer ${auth}`,
     };
   }
   return {
     "Content-Type": "application/json",
   };
 }
-
 // export function authHeader() {
 //   // return authorization header with jwt token
 //   let user = JSON.parse(localStorage.getItem('user'));
-
 //   if (user && user.token) {
 //       return { 'Authorization': 'Bearer ' + user.token };
 //   } else {
 //       return {};
 //   }
 // }
-
 async function request(url, headers = {}, method, body = {}) {
   const options = {
     method,
@@ -52,7 +46,11 @@ async function request(url, headers = {}, method, body = {}) {
     throw new Error("401");
   }
   const data = response.json();
-  setAuthToken(data.token);
+  data
+    .then(json => {
+      setAuthToken(json.token);
+    })
+    .catch(e => console.log(e));
   return data;
 }
 

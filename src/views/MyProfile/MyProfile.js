@@ -13,7 +13,7 @@ import Gender from "views/HomePage/SignUp/components/Gender";
 
 import farmerAvatar from "./Images/farmers.jpg";
 import companyAvatar from "./Images/company.png";
-import Region from "../../components/Region";
+import Region from "views/HomePage/SignUp/components/Region";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "./MyProfileCss";
 import { useSelector, useDispatch } from "react-redux";
@@ -45,11 +45,14 @@ export default function MyProfile() {
   const date = useDate();
   const gender = useGender();
   const password = usePassword();
+  const region = useRegion();
 
   const updatedUser = {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    gender: gender.value,
+    firstName: firstName.isValid ? firstName.value : user.firstName,
+    lastName: lastName.isValid ? lastName.value : user.lastName,
+    gender: gender.isValid ? gender.value : user.gender,
+    region: region.isValid ? region.value : user.region,
+    birthDate: date.isValid ? date.formatDate : user.birthDate,
   };
 
   function handleChange() {
@@ -85,10 +88,10 @@ export default function MyProfile() {
                   <GridItem xs={12} sm={12} md={6}>
                     <TextField
                       id="standard-textarea"
-                      label="Fisrt Name "
+                      label="First Name "
                       multiline
                       fullWidth
-                      onChange={firstName.handleChange}
+                      onChange={firstName.onChange}
                       style={{ marginBottom: theme.spacing(3) }}
                     />
                   </GridItem>
@@ -96,7 +99,7 @@ export default function MyProfile() {
                     <TextField
                       id="standard-textarea"
                       label="Last Name"
-                      onChange={lastName.handleChange}
+                      onChange={lastName.onChange}
                       multiline
                       fullWidth
                     />
@@ -104,10 +107,20 @@ export default function MyProfile() {
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <Region />
+                    <Region
+                      onChange={region.onChange}
+                      isValid={true}
+                      error={null}
+                      canRegister={canUpdate}
+                    />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
-                    <Birthdate onChange={date.onChange} value={date.value} />
+                    <Birthdate
+                      onChange={date.onChange}
+                      isValid={true}
+                      error={null}
+                      canRegister={canUpdate}
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -152,11 +165,7 @@ export default function MyProfile() {
               <Button onClick={handleClose} color="primary">
                 Cancel
               </Button>
-              <Button
-                onClick={handleConfirm}
-                color="primary"
-                // disabled={password.isValidPassword || password.value.length}
-              >
+              <Button onClick={handleConfirm} color="primary">
                 Confirm
               </Button>
             </DialogActions>
@@ -171,6 +180,8 @@ export default function MyProfile() {
               <CardBody profile>
                 <h4>{`Name:  ${user.firstName} ${user.lastName}`}</h4>
                 <h5>{"Born in:  " + user.birthDate}</h5>
+                <h5>{"Region:  " + user.region}</h5>
+                <h5>{"Gender:  " + user.gender}</h5>
                 {user.hasCompany ? <h5>{`Company Name:  ${user.companyName}`}</h5> : null}
               </CardBody>
             </Card>
@@ -183,44 +194,107 @@ export default function MyProfile() {
 
 function useName() {
   const [value, setValue] = useState("");
+  const [isValid, setValidName] = useState(false);
   const [error, setError] = useState("");
-  const [isValid, setValidName] = useState(true);
+
   function handleChange(event) {
-    setValue(event.target.value);
+    if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
+      console.log(event.target.value);
+
+      setValue(event.target.value);
+      setValidName(true);
+    } else {
+      setValidName(false);
+      setError("Invalid Input");
+    }
   }
+
   return {
     value,
+    onChange: handleChange,
     isValid,
     error,
-    handleChange,
   };
 }
 function useDate() {
-  const [date, setDate] = useState(new Date());
+  const [value, setValue] = useState(new Date());
+  const [isValid, setValidAge] = useState(false);
+  const [error, setError] = useState("Field is required");
+  const [formatDate, setFormatDate] = useState("");
+
   function handleChange(date) {
-    if (
-      new Date().getFullYear() - date.getFullYear() >= 18 &&
-      new Date().getFullYear() - date.getFullYear() <= 110
-    ) {
-      setDate(date);
+    if (date !== null && date !== undefined) {
+      let current_age = Math.abs(new Date(new Date() - date).getUTCFullYear() - 1970);
+      if (current_age < 18) {
+        setError("You must be 18 or higher to sign up");
+        setValidAge(false);
+      } else if (current_age > 110) {
+        setError("Input a valid birthdate");
+        setValidAge(false);
+      } else if (
+        !(
+          date.getDate() >= 0 &&
+          date.getDate() <= validDays(date.getMonth() + 1, date.getFullYear()) &&
+          date.getMonth() >= 0 &&
+          date.getMonth() < 12
+        )
+      ) {
+        setError("Input a valid birthdate");
+        setValidAge(false);
+      } else {
+        setError("");
+        setValidAge(true);
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        setFormatDate(`${date.getFullYear()}-${month}-${day}`);
+      }
+      setValue(date);
+    } else {
+      setError("Field is required");
+      setValidAge(false);
     }
   }
+
   return {
-    value: date,
+    value,
     onChange: handleChange,
+    error,
+    isValid,
+    formatDate,
   };
+}
+
+function validDays(month, year) {
+  switch (month) {
+    case 1:
+      return (year % 4 == 0 && year % 100) || year % 400 == 0 ? 29 : 28;
+    case 8:
+    case 3:
+    case 5:
+    case 10:
+      return 30;
+    default:
+      return 31;
+  }
 }
 
 function useGender() {
   const [value, setValue] = useState("");
+  const [isValid, setValidGender] = useState(false);
 
   function handleChange(event) {
-    setValue(event.target.value);
+    if (event.target.value.length !== 0) {
+      setValue(event.target.value);
+      setValidGender(true);
+    } else {
+      setValidGender(false);
+    }
   }
 
   return {
     value,
     handleChange,
+    isValid,
   };
 }
 
@@ -241,5 +315,24 @@ function usePassword() {
     onChange: handlePasswordChange,
     isValidPassword,
     error,
+  };
+}
+
+function useRegion() {
+  const [value, setValue] = useState("");
+  const [isValid, setValid] = useState(false);
+
+  function handleChange(event, value) {
+    if (value.length === 0) {
+      setValid(false);
+    } else {
+      setValue(value);
+      setValid(true);
+    }
+  }
+  return {
+    value,
+    onChange: handleChange,
+    isValid,
   };
 }

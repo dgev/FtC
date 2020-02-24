@@ -24,7 +24,6 @@ export default function Region(props) {
   return (
     <Grid item xs={12}>
       <Autocomplete
-        style={{ width: 300 }}
         options={regions}
         classes={{
           option: classes.option,
@@ -39,6 +38,8 @@ export default function Region(props) {
             label="Choose a region"
             variant="outlined"
             fullWidth
+            helperText={!props.isValid && !props.canRegister ? props.error : null}
+            error={!props.isValid && !props.canRegister}
             inputProps={{
               ...params.inputProps,
             }}

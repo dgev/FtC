@@ -74,7 +74,9 @@ export default function SignUp() {
       repeatPassword.passwordMatches &&
       password.isValidPassword &&
       date.isValid &&
-      (isCompany.value ? companyName.isValid : true)
+      (isCompany.value ? companyName.isValid : true) &&
+      region.isValid &&
+      gender.isValid
     );
   }
 
@@ -94,7 +96,7 @@ export default function SignUp() {
               <Name name={name} surname={surname} canRegister={register} />
               <Gender {...gender} />
               <Birthdate {...date} canRegister={register} />
-              <Region onChange={region.onChange} />
+              <Region {...region} canRegister={register} />
               <Phone {...phone} canRegister={register} />
               <Company
                 companyName={companyName}
@@ -250,14 +252,21 @@ function useRepeatedPassword(password) {
 
 function useGender() {
   const [value, setValue] = useState("");
+  const [isValid, setValidGender] = useState(false);
 
   function handleChange(event) {
-    setValue(event.target.value);
+    if (event.target.value.length !== 0) {
+      setValue(event.target.value);
+      setValidGender(true);
+    } else {
+      setValidGender(false);
+    }
   }
 
   return {
     value,
     handleChange,
+    isValid,
   };
 }
 
@@ -398,11 +407,23 @@ function useChecked() {
 
 function useRegion() {
   const [value, setValue] = useState("");
+  const [error, setError] = useState("Field is required");
+  const [isValid, setValid] = useState(false);
+
   function handleChange(event, value) {
-    setValue(value);
+    if (value.length === 0) {
+      setError("Field is required");
+      setValid(false);
+    } else {
+      setValue(value);
+      setValid(true);
+      setError("");
+    }
   }
   return {
     value,
     onChange: handleChange,
+    error,
+    isValid,
   };
 }

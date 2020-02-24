@@ -29,7 +29,7 @@ function getHeaders() {
 async function request(url, headers = {}, method, body = {}, useToken = false) {
   const options = {
     method,
-
+    crossDomain: true,
     headers: {
       ...getHeaders(),
       ...headers,

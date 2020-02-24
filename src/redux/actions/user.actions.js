@@ -10,7 +10,7 @@ const registerUser = user => dispatch => {
     .then(data => {
       dispatch({ type: userConstants.REGISTER_SUCCESS });
       dispatch({ type: userConstants.LOGIN_SUCCESS });
-      dispatch({ type: userConstants.GET_REQUEST, user: data.user });
+      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
       history.push("/");
     })
     .catch(error => dispatch({ type: userConstants.REGISTER_FAILURE, error }));

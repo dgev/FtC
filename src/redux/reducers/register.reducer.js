@@ -10,7 +10,7 @@ function userRegistration(state = initialState, action) {
         registered: true,
       };
     case userConstants.REGISTER_FAILURE:
-      return {};
+      return { registered: false };
     default:
       return state;
   }

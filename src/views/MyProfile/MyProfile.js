@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteUser } from "redux/actions";
+import { deleteUser, getUserById } from "redux/actions";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Button from "components/CustomButtons/Button.js";
@@ -27,12 +27,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function MyProfile() {
   const classes = useStyles();
-  const user = useSelector(state => state.userData);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.userData);
+  const loaded = useSelector(state => state.userData.loaded);
+  const user =
+    localStorage.getItem("id") && !loaded
+      ? dispatch(getUserById(localStorage.getItem("id")))
+      : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {}, [user]);
-  const dispatch = useDispatch();
 
   const firstName = useName();
   const lastName = useName();
@@ -59,7 +64,9 @@ export default function MyProfile() {
   }
 
   function handleConfirm() {
-    dispatch(deleteUser({ password: password.value, id: user.id }));
+    dispatch(
+      deleteUser({ user: { password: password.value, username: user.username }, id: user.id })
+    );
   }
 
   return (

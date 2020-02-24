@@ -1,6 +1,6 @@
 import { userConstants } from "../constants";
 
-// const initialState = {
+// const currentState = {
 //   id: "",
 //   username: "",
 //   phoneNumber: "",
@@ -10,11 +10,12 @@ import { userConstants } from "../constants";
 //   birthDate: "",
 //   gender: "",
 //   region: "",
-//   isCompany: "",
+//   hasCompany: "",
 //   password: "",
 //   companyName: "",
 // };
 
+// const initialState = localStorage.getItem("id") ? { loggedIn: true } : currentState;
 const initialState = {
   id: "0",
   username: "email@gmail.com",
@@ -28,14 +29,19 @@ const initialState = {
   hasCompany: false,
   password: "",
   companyName: "Something",
+  loaded: false,
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_REQUEST:
       return {
+        loading: true,
+      };
+    case userConstants.GET_SUCCESS:
+      return {
         id: action.user.id,
-        username: action.user.email,
+        username: action.user.username,
         phoneNumber: action.user.phoneNumber,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
@@ -45,6 +51,13 @@ function userData(state = initialState, action) {
         hasCompany: action.user.isCompany,
         password: action.user.password,
         companyName: action.user.companyName,
+        loaded: true,
+      };
+    case userConstants.GET_FAILURE:
+      return {
+        ...state,
+        getError: action.error,
+        loaded: false,
       };
     case userConstants.UPDATE_REQUEST:
       return {
@@ -57,14 +70,18 @@ function userData(state = initialState, action) {
         deleting: true,
       };
     case userConstants.DELETE_SUCCESS:
+      console.log("in delete");
+
       return {
         deleted: true,
       };
     case userConstants.DELETE_FAILURE:
-      // remove 'deleting:true' property and add 'deleteError:[error]' property to user
+      console.log("in failure");
+
       return {
         ...state,
         deleteError: action.error,
+        deleted: false,
       };
     default:
       return {

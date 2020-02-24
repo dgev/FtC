@@ -1,54 +1,56 @@
 function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("id");
   window.location.reload();
 }
 function getAuthToken() {
   return localStorage.getItem("token");
 }
-function setAuthToken(token) {
+function setAuthToken(token, id) {
   localStorage.setItem("token", token);
+  localStorage.setItem("id", id);
 }
 const baseUrl = "http://localhost:8080";
 function getHeaders() {
-  // const auth = JSON.parse(getAuthToken());
   const auth = getAuthToken();
-  // console.log(auth);
   if (auth) {
+    console.log(auth);
     return {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${auth}`,
+      Authorization: "Bearer " + auth,
+      Accept: "application/json",
     };
   }
   return {
     "Content-Type": "application/json",
   };
 }
-// export function authHeader() {
-//   // return authorization header with jwt token
-//   let user = JSON.parse(localStorage.getItem('user'));
-//   if (user && user.token) {
-//       return { 'Authorization': 'Bearer ' + user.token };
-//   } else {
-//       return {};
-//   }
-// }
+
 async function request(url, headers = {}, method, body = {}) {
   const options = {
     method,
+
     headers: {
       ...getHeaders(),
       ...headers,
     },
     body: JSON.stringify(body),
   };
+  console.log(options);
+
   const response = await fetch(baseUrl + url, options);
-  if (response.status === 401) {
-    throw new Error("401");
+
+  if (response.status === 500) {
+    console.log(response);
+
+    throw new Error("500");
   }
   const data = response.json();
   data
     .then(json => {
-      setAuthToken(json.token);
+      console.log(json);
+      setAuthToken(json.token, json.user.id);
+      // console.log(json);
     })
     .catch(e => console.log(e));
   return data;

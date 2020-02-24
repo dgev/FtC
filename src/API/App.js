@@ -16,7 +16,7 @@ function getHeaders() {
   if (auth) {
     console.log(auth);
     return {
-      // "Content-Type": "application/json",
+      "Content-Type": "application/json",
       Authorization: "Bearer " + auth,
       // Accept: "application/json",
     };
@@ -29,7 +29,6 @@ function getHeaders() {
 async function request(url, headers = {}, method, body = {}, useToken = false) {
   const options = {
     method,
-    crossDomain: true,
     headers: {
       ...getHeaders(),
       ...headers,
@@ -50,7 +49,7 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
     data
       .then(json => {
         console.log(json);
-        setAuthToken(json.token, json.user.id);
+        // setAuthToken(json.token, json.user.id);
         // console.log(json);
       })
       .catch(e => console.log(e));

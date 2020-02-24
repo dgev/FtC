@@ -63,7 +63,6 @@ const deleteUser = user => dispatch => {
     .then(data => {
       dispatch({ type: userConstants.DELETE_SUCCESS, data });
       logout();
-      history.push("/");
     })
     .catch(error => dispatch({ type: userConstants.DELETE_FAILURE, error }));
 };

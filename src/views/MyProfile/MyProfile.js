@@ -29,16 +29,13 @@ export default function MyProfile() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.userData);
-  // const user = useSelector(state => state.userData);
   const loaded = useSelector(state => state.userData.loaded);
   const user =
-    localStorage.getItem("id") && !loaded
+    localStorage.getItem("id") && loaded === false
       ? dispatch(getUserById(localStorage.getItem("id")))
       : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {}, [user]);
 
   const firstName = useName();
   const lastName = useName();
@@ -47,15 +44,25 @@ export default function MyProfile() {
   const password = usePassword();
   const region = useRegion();
 
-  const updatedUser = {
-    firstName: firstName.isValid ? firstName.value : user.firstName,
-    lastName: lastName.isValid ? lastName.value : user.lastName,
-    gender: gender.isValid ? gender.value : user.gender,
-    region: region.isValid ? region.value : user.region,
-    birthDate: date.isValid ? date.formatDate : user.birthDate,
-  };
+  // const updatedUser = {
+  //   firstName: firstName.isValid ? firstName.value : user.firstName,
+  //   lastName: lastName.isValid ? lastName.value : user.lastName,
+  //   gender: gender.isValid ? gender.value : user.gender,
+  //   region: region.isValid ? region.value : user.region,
+  //   birthDate: date.isValid ? date.formatDate : user.birthDate,
+  // };
 
   function handleChange() {
+    const updatedUser = {
+      user: {
+        firstName: firstName.isValid ? firstName.value : user.firstName,
+        lastName: lastName.isValid ? lastName.value : user.lastName,
+        gender: gender.isValid ? gender.value : user.gender,
+        region: region.isValid ? region.value : user.region,
+        birthDate: date.isValid ? date.formatDate : user.birthDate,
+      },
+      id: user.id,
+    };
     dispatch(updateUser(updatedUser));
   }
 
@@ -74,121 +81,127 @@ export default function MyProfile() {
   }
 
   return (
-    <div>
-      <GridContainer justify="flex-end">
-        <MuiThemeProvider theme={theme}>
-          <GridItem xs={12} sm={12} md={8}>
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-                <p className={classes.cardCategoryWhite}>Complete your profile</p>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <TextField
-                      id="standard-textarea"
-                      label="First Name "
-                      multiline
-                      fullWidth
-                      onChange={firstName.onChange}
-                      style={{ marginBottom: theme.spacing(3) }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <TextField
-                      id="standard-textarea"
-                      label="Last Name"
-                      onChange={lastName.onChange}
-                      multiline
-                      fullWidth
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <Region
-                      onChange={region.onChange}
-                      isValid={true}
-                      error={null}
-                      canRegister={canUpdate}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <Birthdate
-                      onChange={date.onChange}
-                      isValid={true}
-                      error={null}
-                      canRegister={canUpdate}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={2}>
-                    <Gender {...gender} />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-              <CardFooter>
-                <GridItem xs={12} sm={12} md={2}>
-                  <Button color="primary" onClick={handleChange}>
-                    Update Profile
+    <>
+      {!loaded ? (
+        <div>loading...</div>
+      ) : (
+        <div>
+          <GridContainer justify="flex-end">
+            <MuiThemeProvider theme={theme}>
+              <GridItem xs={12} sm={12} md={8}>
+                <Card>
+                  <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
+                    <p className={classes.cardCategoryWhite}>Complete your profile</p>
+                  </CardHeader>
+                  <CardBody>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <TextField
+                          id="standard-textarea"
+                          label="First Name "
+                          multiline
+                          fullWidth
+                          onChange={firstName.onChange}
+                          style={{ marginBottom: theme.spacing(3) }}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <TextField
+                          id="standard-textarea"
+                          label="Last Name"
+                          onChange={lastName.onChange}
+                          multiline
+                          fullWidth
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Region
+                          onChange={region.onChange}
+                          isValid={true}
+                          error={null}
+                          canRegister={canUpdate}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Birthdate
+                          onChange={date.onChange}
+                          isValid={true}
+                          error={null}
+                          canRegister={canUpdate}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={2}>
+                        <Gender {...gender} />
+                      </GridItem>
+                    </GridContainer>
+                  </CardBody>
+                  <CardFooter>
+                    <GridItem xs={12} sm={12} md={2}>
+                      <Button color="primary" onClick={handleChange}>
+                        Update Profile
+                      </Button>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Button color="primary" onClick={handleClickOpen}>
+                        Delete Profile
+                      </Button>
+                    </GridItem>
+                  </CardFooter>
+                </Card>
+              </GridItem>
+              <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Delete Account</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Please enter your password to permanently delete your account.
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Password"
+                    type="password"
+                    fullWidth
+                    onChange={password.onChange}
+                    error={!password.isValidPassword}
+                    helperText={!password.isValidPassword ? password.error : null}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose} color="primary">
+                    Cancel
                   </Button>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button color="primary" onClick={handleClickOpen}>
-                    Delete Profile
+                  <Button onClick={handleConfirm} color="primary">
+                    Confirm
                   </Button>
-                </GridItem>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Delete Account</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please enter your password to permanently delete your account.
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Password"
-                type="password"
-                fullWidth
-                onChange={password.onChange}
-                error={!password.isValidPassword}
-                helperText={!password.isValidPassword ? password.error : null}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleConfirm} color="primary">
-                Confirm
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card profile>
-              <CardAvatar profile>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  <img src={user.hasCompany ? companyAvatar : farmerAvatar} alt="..." />
-                </a>
-              </CardAvatar>
-              <CardBody profile>
-                <h4>{`Name:  ${user.firstName} ${user.lastName}`}</h4>
-                <h5>{"Born in:  " + user.birthDate}</h5>
-                <h5>{"Region:  " + user.region}</h5>
-                <h5>{"Gender:  " + user.gender}</h5>
-                {user.hasCompany ? <h5>{`Company Name:  ${user.companyName}`}</h5> : null}
-              </CardBody>
-            </Card>
-          </GridItem>
-        </MuiThemeProvider>
-      </GridContainer>
-    </div>
+                </DialogActions>
+              </Dialog>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card profile>
+                  <CardAvatar profile>
+                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                      <img src={user.hasCompany ? companyAvatar : farmerAvatar} alt="..." />
+                    </a>
+                  </CardAvatar>
+                  <CardBody profile>
+                    <h4>{`Name:  ${user.firstName} ${user.lastName}`}</h4>
+                    <h5>{"Born in:  " + user.birthDate}</h5>
+                    <h5>{"Region:  " + user.region}</h5>
+                    <h5>{"Gender:  " + user.gender}</h5>
+                    {user.hasCompany ? <h5>{`Company Name:  ${user.companyName}`}</h5> : null}
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </MuiThemeProvider>
+          </GridContainer>
+        </div>
+      )}
+    </>
   );
 }
 

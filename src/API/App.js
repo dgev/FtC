@@ -45,15 +45,16 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
     throw new Error("500");
   }
   const data = response.json();
-  if (useToken) {
-    data
-      .then(json => {
-        console.log(json);
-        // setAuthToken(json.token, json.user.id);
-        // console.log(json);
-      })
-      .catch(e => console.log(e));
-  }
+  data
+    .then(json => {
+      console.log(json);
+      if (useToken) {
+        setAuthToken(json.token, json.user.id);
+      }
+      // console.log(json);
+    })
+    .catch(e => console.log(e));
+
   return data;
 }
 

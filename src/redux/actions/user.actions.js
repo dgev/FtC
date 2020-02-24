@@ -39,8 +39,14 @@ const getUser = () => dispatch => {
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));
 };
 
-const updateUser = updatedUser => {
-  return { type: userConstants.UPDATE_REQUEST, payload: updatedUser };
+const updateUser = updatedUser => dispatch => {
+  // return { type: userConstants.UPDATE_REQUEST, payload: updatedUser };
+  dispatch({ type: userConstants.UPDATE_REQUEST, payload: updatedUser.user });
+  makePost(`/api/v1/user/edit/${updatedUser.id}`, {}, updatedUser.user, false)
+    .then(data => {
+      dispatch({ type: userConstants.UPDATE_SUCCESS });
+    })
+    .catch(error => dispatch({ type: userConstants.UPDATE_FAILURE, error }));
 };
 
 const logoutUser = () => dispatch => {
@@ -74,11 +80,15 @@ const deleteUser = user => dispatch => {
 // };
 
 const getUserById = id => dispatch => {
+  console.log("here");
+
   dispatch({
     type: userConstants.GET_REQUEST,
   });
-  makePost(`/api/v1/user/${id}`, {}, {}, true)
+  makePost(`/api/v1/user/${id}`, {}, {}, false)
     .then(data => {
+      console.log("success");
+
       dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));

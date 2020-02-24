@@ -64,20 +64,26 @@ function userData(state = initialState, action) {
         ...state,
         ...action.payload,
       };
+    case userConstants.UPDATE_SUCCESS:
+      return {
+        ...state,
+        updated: true,
+      };
+    case userConstants.UPDATE_FAILURE:
+      return {
+        ...state,
+        updated: false,
+      };
     case userConstants.DELETE_REQUEST:
       return {
         ...state,
         deleting: true,
       };
     case userConstants.DELETE_SUCCESS:
-      console.log("in delete");
-
       return {
         deleted: true,
       };
     case userConstants.DELETE_FAILURE:
-      console.log("in failure");
-
       return {
         ...state,
         deleteError: action.error,

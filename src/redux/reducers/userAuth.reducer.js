@@ -14,8 +14,10 @@ function userAuth(state = initialState, action) {
         loggedIn: false,
         loggedInError: action.error,
       };
-    case userConstants.LOGOUT:
-      return {};
+    case userConstants.LOGOUT_REQUEST:
+      return {
+        loggedIn: action.payload,
+      };
     default:
       return state;
   }

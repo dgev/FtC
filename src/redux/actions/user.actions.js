@@ -40,7 +40,6 @@ const getUser = () => dispatch => {
 };
 
 const updateUser = updatedUser => dispatch => {
-  // return { type: userConstants.UPDATE_REQUEST, payload: updatedUser };
   dispatch({ type: userConstants.UPDATE_REQUEST, payload: updatedUser.user });
   makePost(`/api/v1/user/edit/${updatedUser.id}`, {}, updatedUser.user, false)
     .then(data => {
@@ -50,15 +49,15 @@ const updateUser = updatedUser => dispatch => {
 };
 
 const logoutUser = () => dispatch => {
-  logout();
   dispatch({
     type: userConstants.LOGOUT_REQUEST,
+    payload: false,
   });
+  history.push("/signin");
+  logout();
 };
 
 const deleteUser = user => dispatch => {
-  //   console.log(user.user);
-
   dispatch({ type: userConstants.DELETE_REQUEST, user });
   makePost(`/api/v1/user/delete/${user.id}`, {}, user.user)
     .then(data => {
@@ -69,26 +68,12 @@ const deleteUser = user => dispatch => {
     .catch(error => dispatch({ type: userConstants.DELETE_FAILURE, error }));
 };
 
-// const deleteUser = userCredentials => dispatch => {
-//   dispatch({ type: userConstants.DELETE_REQUEST, userCredentials });
-//   makePost("/api/v1/user/delete/" + userCredentials.id, {}, userCredentials.user)
-//     .then(data => {
-//       dispatch({ type: userConstants.DELETE_SUCCESS, data });
-//       history.push("/");
-//     })
-//     .catch(error => dispatch({ type: userConstants.DELETE_FAILURE, error }));
-// };
-
 const getUserById = id => dispatch => {
-  console.log("here");
-
   dispatch({
     type: userConstants.GET_REQUEST,
   });
   makePost(`/api/v1/user/${id}`, {}, {}, false)
     .then(data => {
-      console.log("success");
-
       dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));

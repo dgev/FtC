@@ -44,14 +44,6 @@ export default function MyProfile() {
   const password = usePassword();
   const region = useRegion();
 
-  // const updatedUser = {
-  //   firstName: firstName.isValid ? firstName.value : user.firstName,
-  //   lastName: lastName.isValid ? lastName.value : user.lastName,
-  //   gender: gender.isValid ? gender.value : user.gender,
-  //   region: region.isValid ? region.value : user.region,
-  //   birthDate: date.isValid ? date.formatDate : user.birthDate,
-  // };
-
   function handleChange() {
     const updatedUser = {
       user: {

@@ -18,7 +18,7 @@ const registerUser = user => dispatch => {
 
 const login = userCredentials => dispatch => {
   dispatch({ type: userConstants.LOGIN_REQUEST, userCredentials });
-  makePost("/api/v1/login", {}, userCredentials)
+  makePost("/api/v1/login", {}, userCredentials, true)
     .then(data => {
       dispatch({ type: userConstants.LOGIN_SUCCESS });
       dispatch({ type: userConstants.GET_REQUEST });
@@ -80,7 +80,7 @@ const getUserById = id => dispatch => {
   });
   makeGet(`/api/v1/user/${id}`)
     .then(data => {
-      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
+      dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));
 };

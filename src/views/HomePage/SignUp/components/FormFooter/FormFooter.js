@@ -1,26 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 import { Grid, Typography, FormControlLabel, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-// import { createBrowserHistory } from 'history';
+import {Link as MaterialLink} from '@material-ui/core';
+import TermsConditions from "./TermsConditions";
 import { useStyles, CustomCheckbox } from "views/HomePage/SignUp/style";
 
 export default function FormFooter(props) {
   const classes = useStyles();
-  // const history = createBrowserHistory();
-  // function handleRedirect() {
-  //   history.push('/');
-  // }
+
+  const [open, setOpen] = useState(false);
+  const handleClick = (isOpen) => {
+    setOpen(isOpen);
+  };
+  
   return (
     <React.Fragment>
       <Grid item xs={12}>
         <Typography align="center">
           <FormControlLabel onChange={props.onChange} control={<CustomCheckbox />} />
           Check here to indicate that you have read and agreed to the
-          <Link to={`/`} className={classes.color}>
+          <MaterialLink onClick={()=>handleClick(true)} className={classes.color}>
             {" "}
             FtC Terms and Conditions
-          </Link>
+          </MaterialLink>
         </Typography>
+        <TermsConditions handleClick={handleClick} open={open}/>
       </Grid>
       <Button
         fullWidth

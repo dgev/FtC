@@ -28,12 +28,13 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 export default function MyProfile() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.userData);
-  const loaded = useSelector(state => state.userData.loaded);
-  const user =
-    localStorage.getItem("id") && !loaded
-      ? dispatch(getUserById(localStorage.getItem("id")))
-      : currentUser;
+  // const currentUser = useSelector(state => state.userData);
+  const user = useSelector(state => state.userData);
+  // const loaded = useSelector(state => state.userData.loaded);
+  // const user =
+  //   localStorage.getItem("id") && !loaded
+  //     ? dispatch(getUserById(localStorage.getItem("id")))
+  //     : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
 

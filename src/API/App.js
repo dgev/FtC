@@ -16,9 +16,9 @@ function getHeaders() {
   if (auth) {
     console.log(auth);
     return {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       Authorization: "Bearer " + auth,
-      Accept: "application/json",
+      // Accept: "application/json",
     };
   }
   return {
@@ -26,7 +26,7 @@ function getHeaders() {
   };
 }
 
-async function request(url, headers = {}, method, body = {}) {
+async function request(url, headers = {}, method, body = {}, useToken = false) {
   const options = {
     method,
 
@@ -46,17 +46,21 @@ async function request(url, headers = {}, method, body = {}) {
     throw new Error("500");
   }
   const data = response.json();
-  data
-    .then(json => {
-      console.log(json);
-      setAuthToken(json.token, json.user.id);
-      // console.log(json);
-    })
-    .catch(e => console.log(e));
+  if (useToken) {
+    data
+      .then(json => {
+        console.log(json);
+        setAuthToken(json.token, json.user.id);
+        // console.log(json);
+      })
+      .catch(e => console.log(e));
+  }
   return data;
 }
 
-export const makeGet = async (url, headers, body) => request(url, headers, "GET", body);
-export const makePost = async (url, headers, body) => request(url, headers, "POST", body);
+export const makeGet = async (url, headers, body, useToken) =>
+  request(url, headers, "GET", body, useToken);
+export const makePost = async (url, headers, body, useToken) =>
+  request(url, headers, "POST", body, useToken);
 export const makeDelete = async (url, headers, body) => request(url, headers, "DELETE", body);
 export { logout };

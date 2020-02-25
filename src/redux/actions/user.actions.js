@@ -1,5 +1,5 @@
 import { userConstants } from "../constants";
-import { makeGet, makePost, makeDelete, logout } from "API/App";
+import { makeGet, makePost, makeDelete, logout } from "../../API/App";
 import { history } from "../helpers";
 
 const registerUser = user => dispatch => {

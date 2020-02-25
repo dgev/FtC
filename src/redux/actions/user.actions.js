@@ -40,10 +40,13 @@ const getUser = () => dispatch => {
 };
 
 const updateUser = updatedUser => dispatch => {
-  dispatch({ type: userConstants.UPDATE_REQUEST, payload: updatedUser.user });
+  dispatch({ type: userConstants.UPDATE_REQUEST });
   makePost(`/api/v1/user/edit/${updatedUser.id}`, {}, updatedUser.user, false)
     .then(data => {
-      dispatch({ type: userConstants.UPDATE_SUCCESS });
+      console.log(data);
+
+      dispatch({ type: userConstants.UPDATE_SUCCESS, payload: data });
+      // dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })
     .catch(error => dispatch({ type: userConstants.UPDATE_FAILURE, error }));
 };

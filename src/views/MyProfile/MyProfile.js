@@ -10,6 +10,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Birthdate from "views/HomePage/SignUp/components/Birthdate";
 import Gender from "views/HomePage/SignUp/components/Gender";
+import { WindMillLoading } from "react-loadingg";
 
 import farmerAvatar from "./Images/farmers.jpg";
 import companyAvatar from "./Images/company.png";
@@ -24,6 +25,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Phone from "views/HomePage/SignUp/components/Phone";
 
 export default function MyProfile() {
   const classes = useStyles();
@@ -36,6 +38,8 @@ export default function MyProfile() {
       : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
+  const [variable, setVariable] = useState("");
+  const [anotherVariable, setAnotherVariable] = useState("");
 
   const firstName = useName();
   const lastName = useName();
@@ -43,22 +47,28 @@ export default function MyProfile() {
   const gender = useGender();
   const password = usePassword();
   const region = useRegion();
+  const phone = usePhone();
 
-  function handleChange() {
-    const updatedUser = {
-      user: {
-        firstName: firstName.isValid ? firstName.value : user.firstName,
-        lastName: lastName.isValid ? lastName.value : user.lastName,
-        gender: gender.isValid ? gender.value : user.gender,
-        region: region.isValid ? region.value : user.region,
-        birthDate: date.isValid ? date.formatDate : user.birthDate,
-      },
-      id: user.id,
-    };
-    dispatch(updateUser(updatedUser));
-  }
+  // function handleChange() {
+  //   const updatedUser = {
+  //     user: {
+  //       firstName: firstName.isValid ? firstName.value : user.firstName,
+  //       lastName: lastName.isValid ? lastName.value : user.lastName,
+  //       gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
+  //       region: region.isValid
+  //         ? region.value.replace(" ", "").toUpperCase()
+  //         : user.region.replace(" ", "").toUpperCase(),
+  //       birthDate: date.isValid ? date.formatDate : user.birthDate,
+  //     },
+  //     id: user.id,
+  //   };
+  //   dispatch(updateUser(updatedUser));
+  //   // window.location.reload();
+  // }
 
-  function handleClickOpen() {
+  function handleClickOpen(variable, anotherVariable) {
+    setVariable(variable);
+    setAnotherVariable(anotherVariable);
     setOpen(true);
   }
 
@@ -67,15 +77,36 @@ export default function MyProfile() {
   }
 
   function handleConfirm() {
-    dispatch(
-      deleteUser({ user: { password: password.value, username: user.username }, id: user.id })
-    );
+    if (anotherVariable === "Delete") {
+      dispatch(
+        deleteUser({ user: { password: password.value, username: user.username }, id: user.id })
+      );
+    } else if (anotherVariable === "Update") {
+      setUpdate(false);
+      const updatedUser = {
+        user: {
+          firstName: firstName.isValid ? firstName.value : user.firstName,
+          lastName: lastName.isValid ? lastName.value : user.lastName,
+          gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
+          region: region.isValid
+            ? region.value.replace(" ", "").toUpperCase()
+            : user.region.replace(" ", "").toUpperCase(),
+          phoneNumber: user.phoneNumber,
+          birthDate: date.isValid ? date.formatDate : user.birthDate,
+          password: password.value,
+        },
+        id: user.id,
+      };
+      dispatch(updateUser(updatedUser));
+      setOpen(false);
+      window.location.reload();
+    }
   }
 
   return (
     <>
       {!loaded ? (
-        <div>loading...</div>
+        <WindMillLoading />
       ) : (
         <div>
           <GridContainer justify="flex-end">
@@ -127,19 +158,25 @@ export default function MyProfile() {
                       </GridItem>
                     </GridContainer>
                     <GridContainer>
-                      <GridItem xs={12} sm={12} md={2}>
+                      <GridItem xs={12} sm={12} md={6}>
                         <Gender {...gender} />
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Phone {...phone} canRegister={canUpdate} />
                       </GridItem>
                     </GridContainer>
                   </CardBody>
                   <CardFooter>
                     <GridItem xs={12} sm={12} md={2}>
-                      <Button color="primary" onClick={handleChange}>
+                      <Button color="primary" onClick={() => handleClickOpen("update", "Update")}>
                         Update Profile
                       </Button>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <Button color="primary" onClick={handleClickOpen}>
+                      <Button
+                        color="primary"
+                        onClick={() => handleClickOpen("permanently delete", "Delete")}
+                      >
                         Delete Profile
                       </Button>
                     </GridItem>
@@ -147,10 +184,10 @@ export default function MyProfile() {
                 </Card>
               </GridItem>
               <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Delete Account</DialogTitle>
+                <DialogTitle id="form-dialog-title">{anotherVariable} Account</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Please enter your password to permanently delete your account.
+                    Please enter your password to {variable} your account.
                   </DialogContentText>
                   <TextField
                     autoFocus
@@ -204,8 +241,6 @@ function useName() {
 
   function handleChange(event) {
     if (event.target.value.match(/^[a-zA-Z ]{2,30}$/) && event.target.value.length > 0) {
-      console.log(event.target.value);
-
       setValue(event.target.value);
       setValidName(true);
     } else {
@@ -339,5 +374,29 @@ function useRegion() {
     value,
     onChange: handleChange,
     isValid,
+  };
+}
+
+function usePhone() {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
+  const [isValid, setValidPhone] = useState(false);
+
+  function handleChange(value) {
+    if (value.length === 12) {
+      setValue(value);
+      setValidPhone(true);
+      setError("");
+    } else {
+      setError("Invalid phone number");
+      setValidPhone(false);
+    }
+  }
+
+  return {
+    value,
+    onChange: handleChange,
+    isValid,
+    error,
   };
 }

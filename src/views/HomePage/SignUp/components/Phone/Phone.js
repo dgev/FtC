@@ -10,7 +10,6 @@ export default function Phone(props) {
         <IconButton>
           <PhoneIcon />
         </IconButton>
-        Phone
         <MuiPhoneInput
           helperText={!props.isValid && !props.canRegister ? props.error : null}
           error={!props.isValid && !props.canRegister}

@@ -62,11 +62,12 @@ function userData(state = initialState, action) {
     case userConstants.UPDATE_REQUEST:
       return {
         ...state,
-        ...action.payload,
+        updating: true,
       };
     case userConstants.UPDATE_SUCCESS:
       return {
         ...state,
+        ...action.payload,
         updated: true,
       };
     case userConstants.UPDATE_FAILURE:

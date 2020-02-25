@@ -1,39 +1,44 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 
 const drawerWidth = 100;
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   appBar: {
-    backgroundColor: "#FAFAFA"
+    backgroundColor: "#FAFAFA",
   },
   marginTop: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(6)
+    padding: theme.spacing(6),
   },
   closeMenuButton: {
     marginRight: "auto",
-    marginLeft: 0
-  }
+    marginLeft: 0,
+  },
 }));
-export default useStyles;
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: "#8BC34A" },
+  },
+});
+export { useStyles, theme };

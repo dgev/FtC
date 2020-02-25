@@ -7,12 +7,11 @@ import MainFeaturedPost from "./MainFeaturedPost";
 import Footer from "./Footer/Footer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { theme } from "views/HomePage/SignUp/style";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import FeaturedPost from "views/HomePage/HompageNav/Nav1/FeaturedPost";
 import FeaturedPost2 from "views/HomePage/HompageNav/Nav2/FeaturedPost2";
 import FeaturedPost3 from "views/HomePage/HompageNav/Nav3/FeaturedPost3";
-import useStyles from "./HomeCss";
+import { useStyles, theme } from "./HomeCss";
 
 export default function Home() {
   const sections = [

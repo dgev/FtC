@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "redux/actions";
 import classNames from "classnames";
 // @material-ui/core components
@@ -22,6 +22,9 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
+  const notifications = useSelector(state => state.userData.notifications);
+  const loaded = useSelector(state => state.userData.loaded);
+  // const loaded =
   const dispatch = useDispatch();
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
@@ -62,7 +65,9 @@ export default function AdminNavbarLinks() {
           className={classes.buttonLink}
         >
           <Notifications className={classes.icons} />
-          <span className={classes.notifications}>5</span>
+          <span className={classes.notifications}>
+            {loaded ? (notifications.length === 0 ? null : notifications.length) : 0}
+          </span>
           <Hidden mdUp implementation="css">
             <p onClick={handleCloseNotification} className={classes.linkText}>
               Notification
@@ -89,21 +94,21 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
                   <MenuList role="menu">
-                    <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                      Mike John responded to your email
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                      You have 5 new tasks
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                      You{"'"}re now friend with Andrew
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                      Another Notification
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                      Another One
-                    </MenuItem>
+                    {notifications.length === 0 ? (
+                      <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
+                        No notifications
+                      </MenuItem>
+                    ) : (
+                      notifications.map((elem, i) => (
+                        <MenuItem
+                          key={i}
+                          onClick={handleCloseNotification}
+                          className={classes.dropdownItem}
+                        >
+                          {elem}
+                        </MenuItem>
+                      ))
+                    )}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

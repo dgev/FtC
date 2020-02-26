@@ -21,7 +21,6 @@ import FormFooter from "../FormFooter";
 import { useStyles, theme } from "views/HomePage/SignUp/style";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { validate as validateEmail } from "email-validator";
-// import { makePost } from "../../../../../API/App.js";
 
 let passwordValidator = require("password-validator");
 

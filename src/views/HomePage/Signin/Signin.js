@@ -77,6 +77,12 @@ export default function Signin() {
               className={classes.submit}
               disabled={!(email.isValidEmail && password.isValidPassword)}
               onClick={handleLogin}
+              onKeyPress={e => {
+                if (e.keyCode === 13 || e.which === 13) {
+                  e.preventDefault();
+                  handleLogin();
+                }
+              }}
             >
               Sign In
             </Button>

@@ -8,10 +8,9 @@ import Footer from "./Footer/Footer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import FeaturedPost from "views/HomePage/HompageNav/Nav1/FeaturedPost";
-import FeaturedPost2 from "views/HomePage/HompageNav/Nav2/FeaturedPost2";
-import FeaturedPost3 from "views/HomePage/HompageNav/Nav3/FeaturedPost3";
+import FeaturedPost from "./FeaturedPost";
 import { useStyles, theme } from "./HomeCss";
+import { postsText } from "./PostsText";
 
 export default function Home() {
   const sections = [
@@ -40,9 +39,9 @@ export default function Home() {
             <Grid>
               <MainFeaturedPost />
               <Grid container spacing={3}>
-                <FeaturedPost />
-                <FeaturedPost2 />
-                <FeaturedPost3 />
+                {postsText.map((post, i) => (
+                  <FeaturedPost key={i} post={post} />
+                ))}
               </Grid>
               <Grid className={classes.marginTop}>
                 <Footer title="Join us on" />

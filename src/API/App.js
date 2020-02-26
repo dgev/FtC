@@ -38,12 +38,6 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
   console.log(options);
 
   const response = await fetch(baseUrl + url, options);
-
-  if (response.status === 500) {
-    console.log(response);
-
-    throw new Error("500");
-  }
   const data = response.json();
   data
     .then(json => {
@@ -63,4 +57,6 @@ export const makeGet = async (url, headers, body, useToken) =>
 export const makePost = async (url, headers, body, useToken) =>
   request(url, headers, "POST", body, useToken);
 export const makeDelete = async (url, headers, body) => request(url, headers, "DELETE", body);
+export const makePut = async (url, headers, body, useToken) =>
+  request(url, headers, "PUT", body, useToken);
 export { logout };

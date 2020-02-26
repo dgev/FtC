@@ -30,12 +30,14 @@ const initialState = {
   password: "",
   companyName: "Something",
   loaded: false,
+  notifications: ["heeeeeeeey", "hiiiiiiiiii"],
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_REQUEST:
       return {
+        // ...state,
         loading: true,
       };
     case userConstants.GET_SUCCESS:
@@ -52,6 +54,7 @@ function userData(state = initialState, action) {
         password: action.user.password,
         companyName: action.user.companyName,
         loaded: true,
+        notifications: ["heeeeeeeey", "hiiiiiiiiii"],
       };
     case userConstants.GET_FAILURE:
       return {

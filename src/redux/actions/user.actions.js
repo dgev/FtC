@@ -1,5 +1,5 @@
 import { userConstants } from "../constants";
-import { makeGet, makePost, makeDelete, logout } from "API/App";
+import { makeGet, makePost, makeDelete, makePut, logout } from "API/App";
 import { history } from "../helpers";
 
 const registerUser = user => dispatch => {
@@ -41,7 +41,7 @@ const getUser = () => dispatch => {
 
 const updateUser = updatedUser => dispatch => {
   dispatch({ type: userConstants.UPDATE_REQUEST });
-  makePost(`/api/v1/user/edit/${updatedUser.id}`, {}, updatedUser.user, false)
+  makePut(`/api/v1/user/${updatedUser.id}`, {}, updatedUser.user, false)
     .then(data => {
       console.log(data);
 
@@ -62,7 +62,7 @@ const logoutUser = () => dispatch => {
 
 const deleteUser = user => dispatch => {
   dispatch({ type: userConstants.DELETE_REQUEST, user });
-  makePost(`/api/v1/user/delete/${user.id}`, {}, user.user)
+  makeDelete(`/api/v1/user/${user.id}`, {}, user.user)
     .then(data => {
       dispatch({ type: userConstants.DELETE_SUCCESS, data });
       logout();

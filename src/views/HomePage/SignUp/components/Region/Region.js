@@ -15,7 +15,7 @@ export default function Region(props) {
     "Lori",
     "Kotayq",
     "Shirak",
-    "Syunik",
+    "Syuniq",
     "Vayots Dzor",
     "Tavush",
     "Yerevan",

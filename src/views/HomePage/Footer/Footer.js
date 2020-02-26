@@ -1,16 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { Link as RouterLink } from 'react-router-dom';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import CopyRight from './CopyRight';
-import Divider from '@material-ui/core/Divider';
-import { useStyles, theme } from './FooterCss';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import React from "react";
+import PropTypes from "prop-types";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import { Link as RouterLink } from "react-router-dom";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import CopyRight from "./CopyRight";
+import Divider from "@material-ui/core/Divider";
+import { useStyles, theme } from "./FooterCss";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import { Link } from "@material-ui/core";
 
 export default function Footer(props) {
   const classes = useStyles();
@@ -24,21 +25,30 @@ export default function Footer(props) {
             {title}
           </Typography>
           <Typography align="center" gutterBottom>
-            <RouterLink to="/" className={classes.routerLink}>
+            <Link
+              href="https://github.com/SmartFarm-FTC/SmartFarm"
+              className={classes.routerLink}
+              target="_blank"
+            >
               <GitHubIcon className={classes.black} />
-            </RouterLink>
-            <RouterLink to="/" className={classes.routerLink}>
+            </Link>
+            <Link
+              href="https://twitter.com/SmartfarmF"
+              className={classes.routerLink}
+              target="_blank"
+            >
               <TwitterIcon className={classes.lightBlue} />
-            </RouterLink>
-            <RouterLink to="/" className={classes.routerLink}>
-              <FacebookIcon className={classes.blue} />
-            </RouterLink>
-            <RouterLink to="/" className={classes.routerLink}>
+            </Link>
+            <Link
+              href="https://www.linkedin.com/in/smartfarm-ftc-3554901a3/"
+              className={classes.routerLink}
+              target="_blank"
+            >
               <LinkedInIcon className={classes.linkedin} />
-            </RouterLink>
+            </Link>
           </Typography>
           <CopyRight />
-          <Typography component={'span'} gutterBottom>
+          <Typography component={"span"} gutterBottom>
             <Divider />
           </Typography>
           <Typography>

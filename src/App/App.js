@@ -1,20 +1,16 @@
 import React from "react";
-// creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// core components
-import Navbar from "components/Navbars/Navbar.js";
-import Footer from "components/Footer/Footer.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
-// import FixedPlugin from "components/FixedPlugin/FixedPlugin.js"
+import Navbar from "../components/Navbars/Navbar.js";
+import Footer from "../components/Footer/Footer.js";
+import Sidebar from "../components/Sidebar/Sidebar.js";
 import { dashboardRoutes as routes } from "./components/Routes/User";
 
-import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
+import styles from "../assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
-import bgImage from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png";
+import bgImage from "../assets/img/sidebar-2.jpg";
+import logo from "../assets/img/reactlogo.png";
 import { useSelector } from "react-redux";
 
 let ps;
@@ -24,7 +20,6 @@ export default function App(props) {
   // styles
   const classes = useStyles();
   const user = useSelector(state => state.userData);
-  // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -69,7 +64,7 @@ export default function App(props) {
         color={"green"}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar routes={routes} handleDrawerToggle={handleDrawerToggle} />
+        <Navbar routes={routes} handleDrawerToggle={handleDrawerToggle}/>
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
         {getRoute() ? (
           <div className={classes.content}>
@@ -78,7 +73,7 @@ export default function App(props) {
         ) : (
           <div className={classes.map}>{props.switchRoutes}</div>
         )}
-        {getRoute() ? <Footer /> : null}
+        {getRoute() ? <Footer/> : null}
       </div>
     </div>
   );

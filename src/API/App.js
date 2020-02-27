@@ -52,8 +52,33 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
   return data;
 }
 
+
+async function getRequest(url, headers = {}, method, body = {}, useToken = false) {
+  const getOptions = {
+    method,
+    headers: {
+      ...getHeaders(),
+      ...headers,
+    },
+  };
+  console.log(getOptions);
+
+  const response = await fetch(baseUrl + url, getOptions);
+  const data = response.json();
+  data
+    .then(json => {
+      console.log(json);
+      if (useToken) {
+        setAuthToken(json.token, json.user.id);
+      }
+      // console.log(json);
+    })
+    .catch(e => console.log(e));
+
+  return data;
+}
 export const makeGet = async (url, headers, body, useToken) =>
-  request(url, headers, "GET", body, useToken);
+  getRequest(url, headers, "GET", body, useToken);
 export const makePost = async (url, headers, body, useToken) =>
   request(url, headers, "POST", body, useToken);
 export const makeDelete = async (url, headers, body) => request(url, headers, "DELETE", body);

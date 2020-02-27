@@ -1,5 +1,5 @@
 import { userConstants } from "../constants";
-import { makeGet, makePost, makeDelete, makePut, logout } from "API/App";
+import { makeGet, makePost, makeDelete, makePut, logout } from "../../API/App";
 import { history } from "../helpers";
 
 const registerUser = user => dispatch => {
@@ -74,7 +74,7 @@ const getUserById = id => dispatch => {
   dispatch({
     type: userConstants.GET_REQUEST,
   });
-  makePost(`/api/v1/user/${id}`, {}, {}, false)
+  makeGet(`/api/v1/user/${id}`, {}, {}, false)
     .then(data => {
       dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })

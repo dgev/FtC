@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { deleteUser, getUserById } from "redux/actions";
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Button from "components/CustomButtons/Button.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-import Birthdate from "views/HomePage/SignUp/components/Birthdate";
-import Gender from "views/HomePage/SignUp/components/Gender";
+import GridItem from "../../components/Grid/GridItem.js";
+import GridContainer from "../../components/Grid/GridContainer.js";
+import Button from "../../components/CustomButtons/Button.js";
+import Card from "../../components/Card/Card.js";
+import CardHeader from "../../components/Card/CardHeader.js";
+import CardAvatar from "../../components/Card/CardAvatar.js";
+import CardBody from "../../components/Card/CardBody.js";
+import CardFooter from "../../components/Card/CardFooter.js";
+import Birthdate from "../../views/HomePage/SignUp/components/Birthdate";
+import Gender from "../../views/HomePage/SignUp/components/Gender";
 import { WindMillLoading } from "react-loadingg";
 
 import farmerAvatar from "./Images/farmers.jpg";
 import companyAvatar from "./Images/company.png";
-import Region from "views/HomePage/SignUp/components/Region";
+import Region from "../../views/HomePage/SignUp/components/Region";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "./MyProfileCss";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,7 +25,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Phone from "views/HomePage/SignUp/components/Phone";
+import Phone from "../../views/HomePage/SignUp/components/Phone";
 
 export default function MyProfile() {
   const classes = useStyles();
@@ -49,22 +49,22 @@ export default function MyProfile() {
   const region = useRegion();
   const phone = usePhone();
 
-  // function handleChange() {
-  //   const updatedUser = {
-  //     user: {
-  //       firstName: firstName.isValid ? firstName.value : user.firstName,
-  //       lastName: lastName.isValid ? lastName.value : user.lastName,
-  //       gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
-  //       region: region.isValid
-  //         ? region.value.replace(" ", "").toUpperCase()
-  //         : user.region.replace(" ", "").toUpperCase(),
-  //       birthDate: date.isValid ? date.formatDate : user.birthDate,
-  //     },
-  //     id: user.id,
-  //   };
-  //   dispatch(updateUser(updatedUser));
-  //   // window.location.reload();
-  // }
+  function handleChange() {
+    const updatedUser = {
+      user: {
+        firstName: firstName.isValid ? firstName.value : user.firstName,
+        lastName: lastName.isValid ? lastName.value : user.lastName,
+        gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
+        region: region.isValid
+          ? region.value.replace(" ", "").toUpperCase()
+          : user.region.replace(" ", "").toUpperCase(),
+        birthDate: date.isValid ? date.formatDate : user.birthDate,
+      },
+      id: user.id,
+    };
+    dispatch(updateUser(updatedUser));
+    // window.location.reload();
+  }
 
   function handleClickOpen(variable, anotherVariable) {
     setVariable(variable);

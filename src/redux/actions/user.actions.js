@@ -46,7 +46,6 @@ const updateUser = updatedUser => dispatch => {
       console.log(data);
 
       dispatch({ type: userConstants.UPDATE_SUCCESS, payload: data });
-      // dispatch({ type: userConstants.GET_SUCCESS, user: data });
     })
     .catch(error => dispatch({ type: userConstants.UPDATE_FAILURE, error }));
 };

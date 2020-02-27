@@ -357,7 +357,7 @@ function useDate() {
 function validDays(month, year) {
   switch (month) {
     case 1:
-      return (year % 4 == 0 && year % 100) || year % 400 == 0 ? 29 : 28;
+      return (year % 4 === 0 && year % 100) || year % 400 === 0 ? 29 : 28;
     case 8:
     case 3:
     case 5:

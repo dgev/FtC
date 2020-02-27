@@ -1,7 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts } from "redux/actions";
 import MaterialTable from "material-table";
+// import { BoxLoading } from "react-loadingg";
 
 export default function Table() {
+  const dispatch = useDispatch();
   const [state, setState] = React.useState({
     columns: [
       { title: "Company", field: "name" },
@@ -18,59 +22,64 @@ export default function Table() {
       //   lookup: { 1: 'berries', 2: 'apples' },
       // },
     ],
-    data: [
-      { name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63 },
-      {
-        name: "Zerya Betül",
-        surname: "Baran",
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
+    // data: [
+    //   { name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63 },
+    //   {
+    //     name: "Zerya Betül",
+    //     surname: "Baran",
+    //     birthYear: 2017,
+    //     birthCity: 34,
+    //   },
+    // ],
   });
+  const currentData = useSelector(state => state.getProducts.products);
+  const data = loaded ? dispatch(getAllProducts()) : currentData;
+  const loaded = useSelector(state => state.getProducts.loaded);
 
   return (
-    <MaterialTable
-      title="Add new products here"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
+    <>
+      <MaterialTable
+        title="Add new products here"
+        columns={state.columns}
+        data={data}
+        editable={{
+          onRowAdd: newData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
+                  data.push(newData);
                   return { ...prevState, data };
                 });
-              }
-            }, 600);
-          }),
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-    />
+              }, 600);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                if (oldData) {
+                  setState(prevState => {
+                    const data = [...prevState.data];
+                    data[data.indexOf(oldData)] = newData;
+                    return { ...prevState, data };
+                  });
+                }
+              }, 600);
+            }),
+          onRowDelete: oldData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                setState(prevState => {
+                  const data = [...prevState.data];
+                  data.splice(data.indexOf(oldData), 1);
+                  return { ...prevState, data };
+                });
+              }, 600);
+            }),
+        }}
+      />
+    </>
   );
 }

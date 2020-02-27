@@ -1,21 +1,5 @@
 import { userConstants } from "../constants";
 
-// const currentState = {
-//   id: "",
-//   username: "",
-//   phoneNumber: "",
-//   firstName: "",
-//   lastName: "",
-//   accessToken: "",
-//   birthDate: "",
-//   gender: "",
-//   region: "",
-//   hasCompany: "",
-//   password: "",
-//   companyName: "",
-// };
-
-// const initialState = localStorage.getItem("id") ? { loggedIn: true } : currentState;
 const initialState = {
   id: "0",
   username: "email@gmail.com",
@@ -30,14 +14,13 @@ const initialState = {
   password: "",
   companyName: "Something",
   loaded: false,
-  notifications: ["heeeeeeeey", "hiiiiiiiiii"],
+  notifications: ["heeeeeeeey", "hiiiiiiiiii", "new"],
 };
 
 function userData(state = initialState, action) {
   switch (action.type) {
     case userConstants.GET_REQUEST:
       return {
-        // ...state,
         loading: true,
       };
     case userConstants.GET_SUCCESS:
@@ -54,7 +37,7 @@ function userData(state = initialState, action) {
         password: action.user.password,
         companyName: action.user.companyName,
         loaded: true,
-        notifications: ["heeeeeeeey", "hiiiiiiiiii"],
+        notifications: ["heeeeeeeey", "hiiiiiiiiii", "new"],
       };
     case userConstants.GET_FAILURE:
       return {

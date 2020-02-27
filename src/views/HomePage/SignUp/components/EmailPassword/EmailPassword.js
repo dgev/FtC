@@ -4,10 +4,10 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FilledInput,
   FormControl,
   InputLabel,
   OutlinedInput,
+  FormHelperText,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -33,12 +33,16 @@ export default function EmailPassword(props) {
 
       <Grid item xs={12}>
         <FormControl variant="outlined" fullWidth required>
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <InputLabel
+            htmlFor="outlined-adornment-password"
+            error={!props.isValidPassword && !props.canRegister}
+          >
+            Password
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             error={!props.isValidPassword && !props.canRegister}
             type={showPassword ? "text" : "password"}
-            helperText={!props.isValidPassword && !props.canRegister ? props.passwordError : null}
             onChange={props.handlePasswordChange}
             endAdornment={
               <InputAdornment position="end">
@@ -51,35 +55,24 @@ export default function EmailPassword(props) {
                 </IconButton>
               </InputAdornment>
             }
-            labelWidth={70}
+            labelWidth={75}
           />
+          <FormHelperText error={!props.isValidPassword && !props.canRegister}>
+            {!props.isValidPassword && !props.canRegister ? props.passwordError : null}
+          </FormHelperText>
         </FormControl>
-        {/* <TextField
-          variant="outlined"
-          required
-          fullWidth
-          autoFocus
-          error={!props.isValidPassword && !props.canRegister}
-          name="password"
-          label="Password"
-          type={showPassword ? null : "password"}
-          helperText={!props.isValidPassword && !props.canRegister ? props.passwordError : null}
-          onChange={props.handlePasswordChange}
-        />
-        <IconButton
-          aria-label="toggle password visibility"
-          onClick={() => setVisibility(!showPassword)}
-        >
-          {showPassword ? <Visibility /> : <VisibilityOff />}
-        </IconButton> */}
       </Grid>
       <Grid item xs={12}>
         <FormControl variant="outlined" fullWidth required>
-          <InputLabel htmlFor="outlined-adornment-password">Repeat Password</InputLabel>
+          <InputLabel
+            htmlFor="outlined-adornment-password"
+            error={!props.passwordMatches && !props.canRegister}
+          >
+            Repeat Password
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             error={!props.passwordMatches && !props.canRegister}
-            helperText={!props.passwordMatches && !props.canRegister ? props.error : null}
             type={showRepeatedPassword ? "text" : "password"}
             onChange={props.handleRepeatedPassword}
             endAdornment={
@@ -93,8 +86,11 @@ export default function EmailPassword(props) {
                 </IconButton>
               </InputAdornment>
             }
-            labelWidth={160}
+            labelWidth={140}
           />
+          <FormHelperText error={!props.passwordMatches && !props.canRegister}>
+            {!props.passwordMatches && !props.canRegister ? props.error : null}
+          </FormHelperText>
         </FormControl>
       </Grid>
     </React.Fragment>

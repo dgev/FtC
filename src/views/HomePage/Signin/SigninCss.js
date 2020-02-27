@@ -1,4 +1,4 @@
-import { makeStyles, createMuiTheme, withStyles, Checkbox } from "@material-ui/core";
+import { makeStyles, createMuiTheme } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   container: {

@@ -14,8 +14,8 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/company",
-    name: "Companies",
+    path: "/product",
+    name: "Products",
     icon: LibraryBooks,
     component: Companies,
   },

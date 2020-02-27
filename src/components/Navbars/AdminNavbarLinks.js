@@ -70,9 +70,6 @@ export default function AdminNavbarLinks() {
               <span className={classes.notifications}>{notifications.length}</span>
             )
           ) : null}
-          {/* <span className={classes.notifications}>
-            {loaded ? (notifications.length === 0 ? null : notifications.length) : 0}
-          </span> */}
           <Hidden mdUp implementation="css">
             <p onClick={handleCloseNotification} className={classes.linkText}>
               Notification

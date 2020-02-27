@@ -18,7 +18,6 @@ function getHeaders() {
     return {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth,
-      // Accept: "application/json",
     };
   }
   return {
@@ -36,7 +35,6 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
     body: JSON.stringify(body),
   };
   console.log(options);
-
   const response = await fetch(baseUrl + url, options);
   const data = response.json();
   data
@@ -52,7 +50,6 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
   return data;
 }
 
-
 async function getRequest(url, headers = {}, method, body = {}, useToken = false) {
   const getOptions = {
     method,
@@ -62,7 +59,6 @@ async function getRequest(url, headers = {}, method, body = {}, useToken = false
     },
   };
   console.log(getOptions);
-
   const response = await fetch(baseUrl + url, getOptions);
   const data = response.json();
   data

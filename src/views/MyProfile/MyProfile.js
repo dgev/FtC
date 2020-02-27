@@ -49,23 +49,6 @@ export default function MyProfile() {
   const region = useRegion();
   const phone = usePhone();
 
-  function handleChange() {
-    const updatedUser = {
-      user: {
-        firstName: firstName.isValid ? firstName.value : user.firstName,
-        lastName: lastName.isValid ? lastName.value : user.lastName,
-        gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
-        region: region.isValid
-          ? region.value.replace(" ", "").toUpperCase()
-          : user.region.replace(" ", "").toUpperCase(),
-        birthDate: date.isValid ? date.formatDate : user.birthDate,
-      },
-      id: user.id,
-    };
-    dispatch(updateUser(updatedUser));
-    // window.location.reload();
-  }
-
   function handleClickOpen(variable, anotherVariable) {
     setVariable(variable);
     setAnotherVariable(anotherVariable);
@@ -99,7 +82,7 @@ export default function MyProfile() {
       };
       dispatch(updateUser(updatedUser));
       setOpen(false);
-      // window.location.reload();
+      window.location.reload();
     }
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { BoxLoading } from "react-loadingg";
@@ -7,8 +7,9 @@ import { BoxLoading } from "react-loadingg";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Table from "./Table/Table";
-import { useSelector } from "react-redux";
+import ProductTable from "./ProductTable/ProductTable";
+import { useSelector, useDispatch } from "react-redux";
+import { getProductById } from "redux/actions";
 
 const styles = {
   typo: {
@@ -50,18 +51,22 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Companies() {
-  // const loading = useSelector(state => state.getProducts.loading);
+  const dispatch = useDispatch();
+  // const data = dispatch(getProductById(localStorage.getItem("id")));
+  const data = useSelector(state => state.getProducts.products);
   const loaded = useSelector(state => state.getProducts.loaded);
+  console.log(data);
+
   const classes = useStyles();
   return (
     <>
-      {loaded ? (
+      {true ? (
         <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Product List</h4>
           </CardHeader>
           <CardBody>
-            <Table />
+            <ProductTable data={data} />
           </CardBody>
         </Card>
       ) : (

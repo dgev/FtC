@@ -31,24 +31,21 @@ const editProduct = editedProduct => dispatch => {
     .catch(error => dispatch({ type: productConstants.EDIT_FAILURE, error }));
 };
 
-const deleteProduct = product => dispatch => {
-  dispatch({ type: productConstants.DELETE_REQUEST, product });
-  makeDelete(`/api/v1/delete/${product.id}`, {})
+const deleteProduct = productId => dispatch => {
+  dispatch({ type: productConstants.DELETE_REQUEST });
+  makeDelete(`/api/v1/delete/${productId}`, {})
     .then(data => {
-      dispatch({ type: productConstants.DELETE_SUCCESS, data });
+      dispatch({ type: productConstants.DELETE_SUCCESS });
     })
     .catch(error => dispatch({ type: productConstants.DELETE_FAILURE, error }));
 };
 
-// const getProductByName = id => dispatch => {
-//   dispatch({
-//     type: productConstants.GET_REQUEST,
-//   });
-//   makeGet(`/api/v1/user/${id}`, {}, {}, false)
-//     .then(data => {
-//       dispatch({ type: productConstants.GET_SUCCESS, user: data });
-//     })
-//     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
-// };
+const getProductById = id => dispatch => {
+  makeGet(`/api/v1/product/${id}`, {})
+    .then(data => {
+      dispatch({ type: productConstants.GET_SUCCESS, data });
+    })
+    .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
+};
 
-export { addProduct, getAllProducts, editProduct, deleteProduct };
+export { addProduct, getAllProducts, editProduct, deleteProduct, getProductById };

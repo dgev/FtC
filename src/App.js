@@ -7,7 +7,7 @@ import { history } from "redux/helpers";
 
 export default function App() {
   const loggedin = useSelector(state => state.userAuth.loggedIn);
-  // const loggedin = true;
+  // const loggedin = false;
   return (
     <Router history={history}>
       <Switch>

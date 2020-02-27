@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Grid, TextField, IconButton } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  IconButton,
+  InputAdornment,
+  FilledInput,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+} from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
@@ -21,8 +30,31 @@ export default function EmailPassword(props) {
           onChange={props.handleEmailChange}
         />
       </Grid>
+
       <Grid item xs={12}>
-        <TextField
+        <FormControl variant="outlined" fullWidth required>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            error={!props.isValidPassword && !props.canRegister}
+            type={showPassword ? "text" : "password"}
+            helperText={!props.isValidPassword && !props.canRegister ? props.passwordError : null}
+            onChange={props.handlePasswordChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setVisibility(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={70}
+          />
+        </FormControl>
+        {/* <TextField
           variant="outlined"
           required
           fullWidth
@@ -37,30 +69,33 @@ export default function EmailPassword(props) {
         <IconButton
           aria-label="toggle password visibility"
           onClick={() => setVisibility(!showPassword)}
-          // onMouseDown={handleMouseDownPassword}
         >
           {showPassword ? <Visibility /> : <VisibilityOff />}
-        </IconButton>
+        </IconButton> */}
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          autoFocus
-          error={!props.passwordMatches && !props.canRegister}
-          label="Repeat the Password"
-          helperText={!props.passwordMatches && !props.canRegister ? props.error : null}
-          onChange={props.handleRepeatedPassword}
-          type={showRepeatedPassword ? null : "password"}
-        />
-        <IconButton
-          aria-label="toggle password visibility"
-          onClick={() => setRepeatedVisibility(!showRepeatedPassword)}
-          // onMouseDown={handleMouseDownPassword}
-        >
-          {showRepeatedPassword ? <Visibility /> : <VisibilityOff />}
-        </IconButton>
+        <FormControl variant="outlined" fullWidth required>
+          <InputLabel htmlFor="outlined-adornment-password">Repeat Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            error={!props.passwordMatches && !props.canRegister}
+            helperText={!props.passwordMatches && !props.canRegister ? props.error : null}
+            type={showRepeatedPassword ? "text" : "password"}
+            onChange={props.handleRepeatedPassword}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setRepeatedVisibility(!showRepeatedPassword)}
+                  edge="end"
+                >
+                  {showRepeatedPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={160}
+          />
+        </FormControl>
       </Grid>
     </React.Fragment>
   );

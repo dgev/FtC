@@ -6,7 +6,7 @@ const registerUser = user => dispatch => {
   dispatch({
     type: userConstants.REGISTER_REQUEST,
   });
-  makePost("/api/v1/signup", {}, user)
+  makePost("/api/v1/signup", {}, user, true)
     .then(data => {
       dispatch({ type: userConstants.REGISTER_SUCCESS });
       dispatch({ type: userConstants.LOGIN_SUCCESS });

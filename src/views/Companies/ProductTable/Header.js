@@ -34,7 +34,15 @@ export default function Header() {
               onClick={event => {
                 event.preventDefault();
                 if (value.trim()) {
-                  dispatch(addProduct(value));
+                  dispatch(
+                    addProduct({
+                      userId: localStorage.getItem("id"),
+                      productId: 1,
+                      description: value,
+                      amount: 5,
+                      quantity: 3,
+                    })
+                  );
                   setValue("");
                 }
               }}
@@ -43,7 +51,15 @@ export default function Header() {
                 if (e.keyCode === 13 || e.which === 13) {
                   e.preventDefault();
                   if (value.trim()) {
-                    dispatch(addProduct(value));
+                    dispatch(
+                      addProduct({
+                        userId: localStorage.getItem("id"),
+                        productId: 1,
+                        description: value,
+                        amount: 5,
+                        quantity: 3,
+                      })
+                    );
                     setValue("");
                   }
                 }

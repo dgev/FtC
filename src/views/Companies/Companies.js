@@ -62,12 +62,12 @@ export default function Companies() {
     <>
       {true ? (
         <Card>
-          <CardHeader color="primary">
+          {/* <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Product List</h4>
           </CardHeader>
-          <CardBody>
-            <ProductTable data={data} />
-          </CardBody>
+          <CardBody> */}
+          <ProductTable data={data} style={{ marginTop: "450px" }} />
+          {/* </CardBody> */}
         </Card>
       ) : (
         <BoxLoading />

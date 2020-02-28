@@ -7,7 +7,7 @@ const addProduct = product => dispatch => {
   });
   makePost("/api/v1/product", {}, product)
     .then(data => {
-      dispatch({ type: productConstants.ADD_SUCCESS, products: data });
+      dispatch({ type: productConstants.ADD_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.ADD_FAILURE, error }));
 };
@@ -31,11 +31,11 @@ const editProduct = editedProduct => dispatch => {
     .catch(error => dispatch({ type: productConstants.EDIT_FAILURE, error }));
 };
 
-const deleteProduct = productId => dispatch => {
+const deleteProduct = (productId, id) => dispatch => {
   dispatch({ type: productConstants.DELETE_REQUEST });
-  makeDelete(`/api/v1/delete/${productId}`, {})
+  makeDelete(`/api/v1/product/${productId}`, {})
     .then(data => {
-      dispatch({ type: productConstants.DELETE_SUCCESS });
+      dispatch({ type: productConstants.DELETE_SUCCESS, payload: { id } });
     })
     .catch(error => dispatch({ type: productConstants.DELETE_FAILURE, error }));
 };
@@ -43,7 +43,7 @@ const deleteProduct = productId => dispatch => {
 const getProductById = id => dispatch => {
   makeGet(`/api/v1/product/${id}`, {})
     .then(data => {
-      dispatch({ type: productConstants.GET_SUCCESS, products: data });
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
 };

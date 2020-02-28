@@ -1,5 +1,7 @@
 import { productConstants } from "../constants";
-const initialState = {};
+const initialState = {
+  products: [],
+};
 
 export default function getProducts(state = initialState, action) {
   switch (action.type) {
@@ -10,7 +12,7 @@ export default function getProducts(state = initialState, action) {
     case productConstants.GET_SUCCESS:
       return {
         ...state,
-        products: action.products,
+        products: action.payload.filter(elem => Object.values(elem)),
         loaded: true,
       };
     case productConstants.GET_FAILURE:
@@ -19,6 +21,55 @@ export default function getProducts(state = initialState, action) {
         getError: action.error,
         loaded: false,
       };
+    case productConstants.ADD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case productConstants.ADD_SUCCESS:
+      return {
+        products: state.products.concat([action.payload]),
+        loaded: true,
+      };
+    case productConstants.ADD_FAILURE:
+      return {
+        ...state,
+        getError: action.error,
+        loaded: false,
+      };
+    case productConstants.EDIT_REQUEST:
+      return {
+        ...state,
+        editing: true,
+      };
+    case productConstants.EDIT_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        edited: true,
+      };
+    case productConstants.EDIT_FAILURE:
+      return {
+        ...state,
+        edited: false,
+      };
+    case productConstants.DELETE_REQUEST:
+      return {
+        ...state,
+        deleting: true,
+      };
+    case productConstants.DELETE_SUCCESS:
+      return {
+        products: state.products.filter((elem, index) => index !== action.payload.id),
+        loaded: true,
+      };
+    case productConstants.DELETE_FAILURE:
+      return {
+        ...state,
+        deleteError: action.error,
+        deleted: false,
+      };
+
     case productConstants.FILTER_REQUEST:
       return {
         ...state,

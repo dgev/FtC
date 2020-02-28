@@ -25,7 +25,7 @@ export default function ProductList(props) {
             aria-label="comments"
             onClick={e => {
               e.preventDefault();
-              dispatch(deleteProduct(props.id));
+              dispatch(deleteProduct(props.productId, props.id));
             }}
           >
             <Icon>delete</Icon>

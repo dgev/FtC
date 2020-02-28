@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import ProductList from "./ProductList";
+import { useSelector } from "react-redux";
 
 const styling = {
   position: "absolute",
@@ -12,9 +13,14 @@ const styling = {
 };
 
 export default function ProductTable(props) {
-  const products = props.data.map((elem, i) => (
-    <ProductList description={elem.description} key={i} id={elem.id} />
-  ));
+  const loaded = useSelector(state => state.getProducts.loaded);
+  console.log(props.data);
+
+  const products = loaded
+    ? props.data.map((elem, i) => (
+        <ProductList description={elem.description} key={i} productId={elem.id} id={i} />
+      ))
+    : null;
 
   return (
     <div style={styling}>

@@ -19,8 +19,6 @@ const useStyles = makeStyles({
     overflow: "hidden",
     textOverflow: "ellipsis",
     display: "-webkit-box",
-    "-webkit-line-clamp": 7,
-    "-webkit-box -orient": "vertical",
   },
   cardMedia: {
     width: 160,

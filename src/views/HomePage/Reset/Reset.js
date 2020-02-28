@@ -17,8 +17,6 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 export default function Reset() {
   const classes = useStyles();
-  const [loginIsValid, setLoginIsValid] = useState(true);
-
   const email = useEmail();
   const password = usePassword();
   const newPassword = usePassword();
@@ -40,7 +38,7 @@ export default function Reset() {
               margin="normal"
               required
               fullWidth
-              error={!email.isValidEmail && !loginIsValid}
+              error={!email.isValidEmail}
               id="email"
               label="Email Address"
               name="email"
@@ -54,7 +52,7 @@ export default function Reset() {
               margin="normal"
               required
               fullWidth
-              error={!password.isValidPassword && !loginIsValid}
+              error={!password.isValidPassword}
               name="password"
               label="Password"
               type="password"
@@ -67,7 +65,7 @@ export default function Reset() {
               margin="normal"
               required
               fullWidth
-              error={!newPassword.isValidPassword && !loginIsValid}
+              error={!newPassword.isValidPassword}
               name="New Password"
               label="newPassword"
               type="password"

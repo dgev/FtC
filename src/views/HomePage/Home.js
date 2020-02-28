@@ -11,6 +11,7 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import FeaturedPost from "./FeaturedPost";
 import { useStyles, theme } from "./HomeCss";
 import { postsText } from "./PostsText";
+import AboutUs from "./AboutUs";
 
 export default function Home() {
   const sections = [
@@ -43,6 +44,7 @@ export default function Home() {
                 ))}
               </Grid>
               <Grid className={classes.marginTop}>
+                <AboutUs/>
                 <Footer title="Join us on" />
               </Grid>
             </Grid>

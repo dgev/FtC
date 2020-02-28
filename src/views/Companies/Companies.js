@@ -52,21 +52,23 @@ const useStyles = makeStyles(styles);
 
 export default function Companies() {
   const dispatch = useDispatch();
-  // const data = dispatch(getProductById(localStorage.getItem("id")));
-  const data = useSelector(state => state.getProducts.products);
+  useEffect(() => {
+    dispatch(getProductById(localStorage.getItem("id")));
+  }, []);
+
+  const currentData = useSelector(state => state.getProducts.products);
   const loaded = useSelector(state => state.getProducts.loaded);
-  console.log(data);
 
   const classes = useStyles();
   return (
     <>
-      {true ? (
+      {loaded ? (
         <Card>
           {/* <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Product List</h4>
           </CardHeader>
           <CardBody> */}
-          <ProductTable data={data} style={{ marginTop: "450px" }} />
+          <ProductTable data={currentData} style={{ marginTop: "450px" }} />
           {/* </CardBody> */}
         </Card>
       ) : (

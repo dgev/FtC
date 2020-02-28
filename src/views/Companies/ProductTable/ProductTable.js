@@ -13,7 +13,7 @@ const styling = {
 
 export default function ProductTable(props) {
   const products = props.data.map((elem, i) => (
-    <ProductList description={elem.descriptio} key={i} id={elem.id} />
+    <ProductList description={elem.description} key={i} id={elem.id} />
   ));
 
   return (

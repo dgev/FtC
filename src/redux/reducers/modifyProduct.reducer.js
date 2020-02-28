@@ -13,7 +13,7 @@ export default function products(action, state = initialState) {
     case productConstants.ADD_SUCCESS:
       return {
         ...state,
-        ...action.products,
+        products: action.products,
         loaded: true,
       };
     case productConstants.ADD_FAILURE:

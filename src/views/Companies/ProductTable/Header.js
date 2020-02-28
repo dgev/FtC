@@ -37,7 +37,7 @@ export default function Header() {
                   dispatch(
                     addProduct({
                       userId: localStorage.getItem("id"),
-                      productId: 1,
+                      productId: "1",
                       description: value,
                       amount: 5,
                       quantity: 3,
@@ -54,7 +54,7 @@ export default function Header() {
                     dispatch(
                       addProduct({
                         userId: localStorage.getItem("id"),
-                        productId: 1,
+                        productId: "1",
                         description: value,
                         amount: 5,
                         quantity: 3,

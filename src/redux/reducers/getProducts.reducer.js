@@ -1,21 +1,5 @@
 import { productConstants } from "../constants";
-const initialState = {
-  products: [
-    {
-      productId: 1,
-      descriptio: "edited prodlluct",
-      amount: 888888,
-      qantity: 989898,
-    },
-    {
-      productId: 2,
-      descriptio: "edited prodlluct",
-      amount: 888888,
-      qantity: 989898,
-    },
-  ],
-  count: "",
-};
+const initialState = {};
 
 export default function getProducts(state = initialState, action) {
   switch (action.type) {
@@ -26,7 +10,7 @@ export default function getProducts(state = initialState, action) {
     case productConstants.GET_SUCCESS:
       return {
         ...state,
-        ...action,
+        products: action.products,
         loaded: true,
       };
     case productConstants.GET_FAILURE:

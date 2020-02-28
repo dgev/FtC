@@ -7,7 +7,7 @@ const addProduct = product => dispatch => {
   });
   makePost("/api/v1/product", {}, product)
     .then(data => {
-      dispatch({ type: productConstants.ADD_SUCCESS, data });
+      dispatch({ type: productConstants.ADD_SUCCESS, products: data });
     })
     .catch(error => dispatch({ type: productConstants.ADD_FAILURE, error }));
 };
@@ -43,7 +43,7 @@ const deleteProduct = productId => dispatch => {
 const getProductById = id => dispatch => {
   makeGet(`/api/v1/product/${id}`, {})
     .then(data => {
-      dispatch({ type: productConstants.GET_SUCCESS, data });
+      dispatch({ type: productConstants.GET_SUCCESS, products: data });
     })
     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
 };

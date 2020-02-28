@@ -14,71 +14,46 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { addProduct } from "redux/actions";
 import { editProduct } from "redux/actions";
-
-const products = [
-  "apple",
-  "apricot",
-  "peach",
-  "plum",
-  "fig",
-  "pear",
-  "pomegranate",
-  "quince",
-  "table white grapes",
-  "table black grapes",
-  "wine black grapes",
-  "wine white grapes",
-  "tomato",
-  "cucumber",
-  "potato",
-  "eggplant",
-  "squash",
-  "bell pepper",
-  "garlic",
-  "onion",
-  "wheat",
-  "barley",
-  "mushroom",
-  "strawberry",
-  "raspberry",
-  "cherry",
-  "redcurrant",
-  "blackcurrant",
-  "walnut",
-  "hazelnut",
-];
+import { products } from "./products";
 
 export default function AddProduct(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [product, setProduct] = useState("");
+  const [productId, setProductId] = useState(0);
   const handleChange = event => {
-    setProduct(event.target.value);
+    setProductId(products.indexOf(event.target.value));
   };
+  const description = useParam("");
+  const amount = useParam(null);
+  const price = useParam(null);
 
   function handleSubmit() {
     if (props.type === "add") {
       dispatch(
         addProduct({
           userId: localStorage.getItem("id"),
-          productId: "1",
-          description: product,
-          amount: 5,
-          quantity: 3,
+          productId: productId,
+          description: description.value,
+          amount: amount.value,
+          quantity: price.value,
         })
       );
     } else if (props.type === "edit") {
+      console.log(description.value);
+
       dispatch(
         editProduct({
           id: props.id,
           userId: localStorage.getItem("id"),
-          productId: "1",
-          description: product,
-          amount: 55,
-          quantity: 33,
+          description: description.value,
+          amount: amount.value,
+          quantity: price.value,
         })
       );
     }
+    description.onChange("");
+    amount.onChange(null);
+    price.onChange(null);
     props.handleClick(!props.open);
   }
   return (
@@ -101,7 +76,6 @@ export default function AddProduct(props) {
                         id="outlined-select-currency-native"
                         select
                         label=""
-                        value={product}
                         onChange={handleChange}
                         SelectProps={{
                           native: true,
@@ -120,24 +94,31 @@ export default function AddProduct(props) {
                       label="Description"
                       multiline
                       rows="4"
+                      maxLength="4"
                       defaultValue=""
                       variant="outlined"
                       fullWidth
                       className={classes.submit}
+                      onChange={description.onChange}
+                      inputProps={{ maxLength: 30 }}
                     />
                     <TextField
                       id="outlined-basic"
                       type="number"
                       label="Amount Needed in kg"
                       variant="outlined"
+                      inputProps={{ min: "0" }}
                       className={classes.submit}
+                      onChange={amount.onChange}
                     />
                     <TextField
                       id="outlined-basic"
                       label="Price in AMD"
                       type="number"
                       variant="outlined"
+                      inputProps={{ min: "10", step: "10" }}
                       className={classes.submit}
+                      onChange={price.onChange}
                     />
                   </DialogContent>
                   <DialogActions>
@@ -153,4 +134,20 @@ export default function AddProduct(props) {
       </Container>
     </div>
   );
+}
+
+function useParam(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  function handleChange(e) {
+    if (!e) {
+      setValue(e);
+    } else {
+      setValue(e.target.value);
+    }
+  }
+
+  return {
+    value,
+    onChange: handleChange,
+  };
 }

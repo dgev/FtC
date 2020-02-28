@@ -16,7 +16,7 @@ const getAllProducts = () => dispatch => {
   dispatch({ type: productConstants.GET_REQUEST });
   makeGet("/api/v1/product", {})
     .then(data => {
-      dispatch({ type: productConstants.GET_SUCCESS, data });
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
 };

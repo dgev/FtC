@@ -1,27 +1,17 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
-import MainFeaturedPost from "./MainFeaturedPost";
-import Footer from "./Footer/Footer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import FeaturedPost from "./FeaturedPost";
 import { useStyles, theme } from "./HomeCss";
-import { postsText } from "./PostsText";
-
 import AboutUs from "./AboutUs";
-
-import Caro from "./Slider/src/Caro";
-
+import Main from "./Main";
+import { Switch, Route } from "react-router-dom";
 
 export default function Home() {
-  const sections = [
-    { title: "Home", url: "#" },
-    { title: "About Us", url: "#" },
-  ];
+  const sections = [{ title: "Home", url: "home" }, { title: "About Us", url: "about" }];
   const classes = useStyles();
 
   return (
@@ -40,21 +30,10 @@ export default function Home() {
         <div className={classes.content}>
           <div className={classes.toolbar} />
           <Container maxWidth="lg">
-            <Grid>
-              <MainFeaturedPost />
-              <Grid container spacing={3}>
-                {postsText.map((post, i) => (
-                  <FeaturedPost key={i} post={post} />
-                ))}
-              </Grid>
-              <Grid container spacing={3}>
-                <Caro />
-              </Grid>
-              <Grid className={classes.marginTop}>
-                <AboutUs/>
-                <Footer title="Join us on" />
-              </Grid>
-            </Grid>
+            <Switch>
+              <Route exact path={"/home"} component={Main} />;
+              <Route exact path={"/about"} component={AboutUs} />;
+            </Switch>
           </Container>
         </div>
       </MuiThemeProvider>

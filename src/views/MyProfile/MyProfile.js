@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { deleteUser, getUserById } from "redux/actions";
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -150,19 +150,21 @@ export default function MyProfile() {
                     </GridContainer>
                   </CardBody>
                   <CardFooter>
-                    <GridItem xs={12} sm={12} md={2}>
-                      <Button color="primary" onClick={() => handleClickOpen("update", "Update")}>
-                        Update Profile
-                      </Button>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <Button
-                        color="primary"
-                        onClick={() => handleClickOpen("permanently delete", "Delete")}
-                      >
-                        Delete Profile
-                      </Button>
-                    </GridItem>
+                    <GridContainer xs={12}>
+                      <GridItem xs={12} md={6}>
+                        <Button color="primary" onClick={() => handleClickOpen("update", "Update")}>
+                          Update Profile
+                        </Button>
+                      </GridItem>
+                      <GridItem xs={12} md={6}>
+                        <Button
+                          color="primary"
+                          onClick={() => handleClickOpen("permanently delete", "Delete")}
+                        >
+                          Delete Profile
+                        </Button>
+                      </GridItem>
+                    </GridContainer>
                   </CardFooter>
                 </Card>
               </GridItem>

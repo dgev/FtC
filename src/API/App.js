@@ -1,14 +1,18 @@
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
+  localStorage.removeItem("hasCompnay");
+  localStorage.removeItem("username");
   window.location.reload();
 }
 function getAuthToken() {
   return localStorage.getItem("token");
 }
-function setAuthToken(token, id) {
+function setAuthToken(token, id, hasCompany, username) {
   localStorage.setItem("token", token);
   localStorage.setItem("id", id);
+  localStorage.setItem("username", username);
+  localStorage.setItem("hasCompany", hasCompany);
 }
 const baseUrl = "http://localhost:8080";
 function getHeaders() {
@@ -41,7 +45,7 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
     .then(json => {
       console.log(json);
       if (useToken) {
-        setAuthToken(json.token, json.user.id);
+        setAuthToken(json.token, json.user.id, json.user.isCompany, json.user.username);
       }
       // console.log(json);
     })

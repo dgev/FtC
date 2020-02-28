@@ -27,13 +27,20 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import { green, red, yellow, orange } from "@material-ui/core/colors";
 import FarmerInfo from "./FarmerInfo";
+import { products } from "./products";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const columns = [
-  { id: "productId", label: "Product", minWidth: 100 },
+  {
+    id: "productId",
+    label: "Product",
+    minWidth: 100,
+    align: "center",
+    format: value => products[value],
+  },
   {
     id: "amount",
     label: "Amount(kg)",
@@ -60,7 +67,12 @@ const columns = [
     label: "Status",
     minWidth: 100,
     align: "center",
-    format: value => (value ? "pending" : "submitted"),
+    format: value =>
+      value ? (
+        <div style={{ color: "green" }}>{"pending..."}</div>
+      ) : (
+        <div style={{ color: "orange" }}>{"submitted"}</div>
+      ),
   },
 ];
 const useStyles = makeStyles({
@@ -72,13 +84,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable(props) {
+export default function CompanyTable(props) {
   const classes = useStyles();
   const loaded = useSelector(state => state.getProducts.loaded);
   const dispatch = useDispatch();
-  const products = loaded ? props.data.map(elem => elem) : null;
+  const rows = loaded ? props.data.map(elem => elem) : null;
 
-  const rows = products;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);

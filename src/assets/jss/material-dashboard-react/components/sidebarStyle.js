@@ -184,7 +184,6 @@ const sidebarStyle = theme => ({
     color: whiteColor,
   },
   green: {
-    backgroundColor: primaryColor[0],
     ...primaryBoxShadow,
     "&:hover,&:focus": {
       backgroundColor: primaryColor[0],

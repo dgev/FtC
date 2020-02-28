@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     color: "white",
     justifyContent: "center",
-
   },
   toolbarSecondary: {
     justifyContent: "start",
@@ -84,7 +83,7 @@ export default function Header(props) {
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
         {sections.map((section, id) => (
-          <Link key={id} to={`/${section.title.toLowerCase()}`} className={classes.toolbarLink}>
+          <Link key={id} to={`/${section.url}`} className={classes.toolbarLink}>
             {section.title}
           </Link>
         ))}

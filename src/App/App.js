@@ -19,7 +19,6 @@ const useStyles = makeStyles(styles);
 export default function App(props) {
   // styles
   const classes = useStyles();
-  const user = useSelector(state => state.userData);
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -56,7 +55,7 @@ export default function App(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={user.username}
+        logoText={localStorage.getItem("username")}
         logo={logo}
         image={bgImage}
         handleDrawerToggle={handleDrawerToggle}
@@ -64,7 +63,7 @@ export default function App(props) {
         color={"green"}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar routes={routes} handleDrawerToggle={handleDrawerToggle}/>
+        <Navbar routes={routes} handleDrawerToggle={handleDrawerToggle} />
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
         {getRoute() ? (
           <div className={classes.content}>
@@ -73,7 +72,7 @@ export default function App(props) {
         ) : (
           <div className={classes.map}>{props.switchRoutes}</div>
         )}
-        {getRoute() ? <Footer/> : null}
+        {getRoute() ? <Footer /> : null}
       </div>
     </div>
   );

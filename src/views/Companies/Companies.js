@@ -8,10 +8,11 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 
 import AddIcon from "@material-ui/icons/Add";
-import Table from "./Table/Table";
+import CompanyTable from "./Table/CompanyTable";
+import FarmerTable from "./Table/FarmerTable";
 import AddProduct from "./Table/AddProduct";
 import { useSelector, useDispatch } from "react-redux";
-import { getProductById } from "redux/actions";
+import { getProductById, getAllProducts } from "redux/actions";
 import { Button } from "@material-ui/core";
 import { yellow } from "@material-ui/core/colors";
 
@@ -61,8 +62,9 @@ export default function Companies() {
     setAddProduct(isOpen);
   };
   const dispatch = useDispatch();
+  const hasCompany = localStorage.getItem("hasCompany");
   useEffect(() => {
-    dispatch(getProductById(localStorage.getItem("id")));
+    hasCompany ? dispatch(getProductById(localStorage.getItem("id"))) : dispatch(getAllProducts());
   }, []);
 
   const currentData = useSelector(state => state.getProducts.products);
@@ -73,18 +75,29 @@ export default function Companies() {
     <>
       {loaded ? (
         <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Product List</h4>
-            <Button
-              variant="contained"
-              className={(classes.button, classes.addButton)}
-              startIcon={<AddIcon />}
-              onClick={() => handleClickOpen(!openAdd)}
-            >
-              Add
-            </Button>
-          </CardHeader>
-          <Table data={currentData} />
+          {hasCompany ? (
+            <>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Product List</h4>
+                <Button
+                  variant="contained"
+                  className={(classes.button, classes.addButton)}
+                  startIcon={<AddIcon />}
+                  onClick={() => handleClickOpen(!openAdd)}
+                >
+                  Add
+                </Button>
+              </CardHeader>
+              <CompanyTable data={currentData} />
+            </>
+          ) : (
+            <>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Product List</h4>
+              </CardHeader>
+              <FarmerTable data={currentData} />
+            </>
+          )}
         </Card>
       ) : (
         <BoxLoading />

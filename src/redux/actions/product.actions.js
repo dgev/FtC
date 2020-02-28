@@ -25,7 +25,6 @@ const editProduct = editedProduct => dispatch => {
   dispatch({ type: productConstants.EDIT_REQUEST });
   makePut(`/api/v1/product/${editedProduct.id}`, {}, editedProduct)
     .then(data => {
-      console.log(data);
       dispatch({ type: productConstants.EDIT_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.EDIT_FAILURE, error }));

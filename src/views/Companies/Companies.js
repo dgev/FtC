@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { BoxLoading } from "react-loadingg";
@@ -6,10 +6,9 @@ import { BoxLoading } from "react-loadingg";
 
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import ProductTable from "./ProductTable/ProductTable";
 import AddIcon from "@material-ui/icons/Add";
 import Table from "./Table/Table";
+import AddProduct from "./Table/AddProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductById } from "redux/actions";
 import { Button } from "@material-ui/core";
@@ -56,6 +55,10 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Companies() {
+  const [openAdd, setAddProduct] = useState(false);
+  const handleClickOpen = isOpen => {
+    setAddProduct(isOpen);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProductById(localStorage.getItem("id")));
@@ -75,18 +78,17 @@ export default function Companies() {
               variant="contained"
               className={(classes.button, classes.addButton)}
               startIcon={<AddIcon />}
+              onClick={() => handleClickOpen(!openAdd)}
             >
               Add
             </Button>
           </CardHeader>
-          {/* <CardBody>  */}
           <Table data={currentData} />
-          {/* <ProductTable data={currentData} style={{ marginTop: "450px" }} /> */}
-          {/* </CardBody> */}
         </Card>
       ) : (
         <BoxLoading />
       )}{" "}
+      <AddProduct handleClick={handleClickOpen} open={openAdd} action={"Add New"} type={"add"} />
     </>
   );
 }

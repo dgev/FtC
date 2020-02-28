@@ -5,8 +5,12 @@ import { BoxLoading } from "react-loadingg";
 // core components
 import Card from "components/Card/Card.js";
 import ProductTable from "./ProductTable/ProductTable";
+import AddIcon from "@material-ui/icons/Add";
+import Table from "./Table/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductById } from "redux/actions";
+import { Button } from "@material-ui/core";
+import { yellow } from "@material-ui/core/colors";
 
 const styles = {
   typo: {
@@ -43,6 +47,7 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none",
   },
+  addButton: { backgroundColor: yellow[600], color: "white", float: "right" },
 };
 
 const useStyles = makeStyles(styles);
@@ -61,11 +66,19 @@ export default function Companies() {
     <>
       {loaded ? (
         <Card>
-          {/* <CardHeader color="primary">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Product List</h4>
+            <Button
+              variant="contained"
+              className={(classes.button, classes.addButton)}
+              startIcon={<AddIcon />}
+            >
+              Add
+            </Button>
           </CardHeader>
-          <CardBody> */}
-          <ProductTable data={currentData} style={{ marginTop: "450px" }} />
+          {/* <CardBody>  */}
+          <Table data={currentData} />
+          {/* <ProductTable data={currentData} style={{ marginTop: "450px" }} /> */}
           {/* </CardBody> */}
         </Card>
       ) : (

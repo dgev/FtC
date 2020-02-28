@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { BoxLoading } from "react-loadingg";
 // core components
-
 import Card from "components/Card/Card.js";
+
 import CardHeader from "components/Card/CardHeader.js";
+
 import AddIcon from "@material-ui/icons/Add";
 import Table from "./Table/Table";
 import AddProduct from "./Table/AddProduct";

@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "#8BC34A",
+    backgroundColor: "#4CAF50",
   },
   form: {
     width: "100%",
@@ -59,16 +59,16 @@ const theme = createMuiTheme({
 const checkBoxStyles = theme => ({
   root: {
     "&$checked": {
-      color: "#8BC34A",
+      color: "#4CAF50",
     },
   },
   checked: {},
 });
 const CustomSwitch = withStyles({
   switchBase: {
-    color: "#8BC34A",
+    color: "#4CAF50",
     "&$checked": {
-      color: "#8BC34A",
+      color: "#4CAF50",
     },
     "&$checked + $track": {
       backgroundColor: "#8BC34A",

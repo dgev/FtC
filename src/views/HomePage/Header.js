@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   fixed: {
-    backgroundColor: "#8BC34A",
+    backgroundColor: "#4CAF50",
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme => ({
   },
   toolbarTitle: {
     flex: 1,
+    color: "white",
+    justifyContent: "center",
+
   },
   toolbarSecondary: {
     justifyContent: "start",
@@ -28,11 +31,11 @@ const useStyles = makeStyles(theme => ({
     color: "#FAFAFA",
   },
   buttonColor: {
-    backgroundColor: "#FFEB3B",
-    color: "#388E3C",
+    backgroundColor: "#FFCA28",
+    color: "#4CAF50",
     fontWeight: "500",
     "&:hover": {
-      backgroundColor: "#FFF59D",
+      backgroundColor: "#FFE082",
     },
   },
 }));

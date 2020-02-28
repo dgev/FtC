@@ -11,13 +11,16 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import FeaturedPost from "./FeaturedPost";
 import { useStyles, theme } from "./HomeCss";
 import { postsText } from "./PostsText";
+
+import AboutUs from "./AboutUs";
+
 import Caro from "./Slider/src/Caro";
+
 
 export default function Home() {
   const sections = [
     { title: "Home", url: "#" },
     { title: "About Us", url: "#" },
-    { title: "Projects", url: "#" },
   ];
   const classes = useStyles();
 
@@ -29,7 +32,7 @@ export default function Home() {
           <AppBar position="fixed" className={classes.appBar} elevation={0}>
             <Toolbar>
               <Container maxWidth="lg">
-                <Header title="Support Local Farmers" sections={sections} />
+                <Header title="Support The Local Farmers" sections={sections} />
               </Container>
             </Toolbar>
           </AppBar>
@@ -48,6 +51,7 @@ export default function Home() {
                 <Caro />
               </Grid>
               <Grid className={classes.marginTop}>
+                <AboutUs/>
                 <Footer title="Join us on" />
               </Grid>
             </Grid>

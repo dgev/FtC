@@ -5,20 +5,21 @@ import { CustomSwitch } from "views/HomePage/SignUp/style";
 export default function Company(props) {
   return (
     <React.Fragment>
-      <Grid item xs={12}>
-        <Typography gutterBottom>
-          <FormControlLabel
-            control={
+
+        <Typography gutterBottom component="div">
+        <Grid  container alignItems="center" spacing={1} style={{marginLeft:"10px"}}>
+          <Grid item>Farmer</Grid>
+            <Grid item>
               <CustomSwitch
                 value={props.isCompany}
                 checked={props.isCompany}
                 onChange={props.onChange}
               />
-            }
-            label="Register as a Company"
-          />
+              </Grid>
+           <Grid item> Company </Grid>     
+            </Grid>
         </Typography>
-      </Grid>
+
       <Grid item xs={12}>
         <TextField
           variant="outlined"

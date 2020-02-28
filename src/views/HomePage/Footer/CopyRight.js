@@ -11,8 +11,8 @@ export default function Copyright() {
       gutterBottom
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        SmartFarm FTC
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

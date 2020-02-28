@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   toolbarLink: {
     padding: theme.spacing(1),
     flexShrink: 0,
-    color: '#8BC34A',
+    color: '#4CAF50',
   },
   lightBlue: {
     color: '#55acee',

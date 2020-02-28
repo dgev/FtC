@@ -58,8 +58,6 @@ export default function SignUp() {
   function handleSubmit() {
     if (validate()) {
       dispatch(registerUser(user));
-      // makePost("/api/v1/signup", {}, user).then(r => console.log(r));
-      // registerUser(user);
     } else {
       setRegister(false);
     }

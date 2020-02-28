@@ -3,10 +3,7 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { BoxLoading } from "react-loadingg";
 // core components
-
 import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
 import ProductTable from "./ProductTable/ProductTable";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductById } from "redux/actions";

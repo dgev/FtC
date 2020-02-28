@@ -21,8 +21,8 @@ const styles = theme => ({
     color: theme.palette.grey[500],
   },
   buttonColor: {
-    backgroundColor: "#FFEB3B",
-    color: "#388E3C",
+    backgroundColor: "#4CAF50",
+    color: "#4CAF50",
     fontWeight: "500",
     "&:hover": {
       backgroundColor: "#FFF59D",

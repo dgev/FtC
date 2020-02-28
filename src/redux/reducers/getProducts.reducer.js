@@ -44,8 +44,7 @@ export default function getProducts(state = initialState, action) {
       };
     case productConstants.EDIT_SUCCESS:
       return {
-        ...state,
-        ...action.payload,
+        products: action.payload.filter(elem => Object.values(elem)),
         edited: true,
       };
     case productConstants.EDIT_FAILURE:

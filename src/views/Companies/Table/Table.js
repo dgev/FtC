@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 import { useSelector, useDispatch } from "react-redux";
-import { IconButton } from "@material-ui/core";
 import { deleteProduct } from "redux/actions";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import AddProduct from "./AddProduct";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@material-ui/core";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import Slide from "@material-ui/core/Slide";
 import { green, red, yellow, orange } from "@material-ui/core/colors";
 import FarmerInfo from "./FarmerInfo";
 
@@ -81,6 +84,15 @@ export default function StickyHeadTable(props) {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState("");
   const [index, setIndex] = useState("");
+  const [openAdd, setAddProduct] = useState(false);
+  const handleClickOpen = isOpen => {
+    setAddProduct(isOpen);
+  };
+
+  function handleClickEdit(isOpen, id) {
+    setAddProduct(isOpen);
+    setId(id);
+  }
 
   const handleClick = isOpen => {
     setOpen(isOpen);
@@ -145,9 +157,12 @@ export default function StickyHeadTable(props) {
                       );
                     })}
                     <TableCell key={i + "icon"} align={"center"}>
-                      {!row["isActive"] ? (
+                      {row["isActive"] ? (
                         <>
-                          <IconButton style={{ color: yellow[600] }}>
+                          <IconButton
+                            onClick={() => handleClickEdit(!openAdd, row["id"])}
+                            style={{ color: yellow[600] }}
+                          >
                             <EditIcon />
                           </IconButton>
                           <IconButton
@@ -206,6 +221,13 @@ export default function StickyHeadTable(props) {
         </DialogActions>
       </Dialog>
       <FarmerInfo handleClick={handleFarmerClick} open={openFarmer} />
+      <AddProduct
+        handleClick={handleClickOpen}
+        open={openAdd}
+        action={"Edit"}
+        type={"edit"}
+        id={id}
+      />
     </>
   );
 }

@@ -58,14 +58,21 @@ const useStyles = makeStyles(styles);
 
 export default function Companies() {
   const [openAdd, setAddProduct] = useState(false);
+  const loadedUser = useSelector(state => state.userData.loaded);
+  const user = useSelector(state => state.userData);
   const handleClickOpen = isOpen => {
     setAddProduct(isOpen);
   };
   const dispatch = useDispatch();
   const hasCompany = localStorage.getItem("hasCompany");
+
   useEffect(() => {
-    hasCompany ? dispatch(getProductById(localStorage.getItem("id"))) : dispatch(getAllProducts());
-  }, []);
+    if (loadedUser) {
+      user.hasCompany
+        ? dispatch(getProductById(localStorage.getItem("id")))
+        : dispatch(getAllProducts());
+    }
+  }, [loadedUser]);
 
   const currentData = useSelector(state => state.getProducts.products);
   const loaded = useSelector(state => state.getProducts.loaded);
@@ -75,7 +82,7 @@ export default function Companies() {
     <>
       {loaded ? (
         <Card>
-          {hasCompany ? (
+          {user.hasCompany ? (
             <>
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>Product List</h4>

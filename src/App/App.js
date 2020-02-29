@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,7 +11,9 @@ import styles from "../assets/jss/material-dashboard-react/layouts/adminStyle.js
 
 import bgImage from "../assets/img/sidebar-2.jpg";
 import logo from "../assets/img/reactlogo.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getNotif } from "redux/actions/notification.action.js";
+import { getUserById } from "redux/actions/index.js";
 
 let ps;
 const useStyles = makeStyles(styles);
@@ -21,6 +23,21 @@ export default function App(props) {
   const classes = useStyles();
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const loaded = useSelector(state => state.userData.loaded);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.userData);
+  const id = localStorage.getItem("id");
+  const user =
+    id && loaded === false ? dispatch(getUserById(localStorage.getItem("id"))) : currentUser;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (loaded) {
+        user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -55,7 +72,7 @@ export default function App(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={localStorage.getItem("username")}
+        logoText={"SmartFarm"}
         logo={logo}
         image={bgImage}
         handleDrawerToggle={handleDrawerToggle}

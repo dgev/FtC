@@ -47,7 +47,6 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
       if (useToken) {
         setAuthToken(json.token, json.user.id, json.user.isCompany, json.user.username);
       }
-      // console.log(json);
     })
     .catch(e => console.log(e));
 

@@ -4,6 +4,7 @@ import userData from "./userData.reducer";
 import userAuth from "./userAuth.reducer";
 import userRegistration from "./register.reducer";
 import getProducts from "./getProducts.reducer";
+import controlNotification from "./notification.reducer";
 // import modifyProducts from "./modifyProduct.reducer";
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   userAuth,
   userRegistration,
   getProducts,
+  controlNotification,
   // modifyProducts,
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { deleteUser, getUserById } from "redux/actions";
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -26,6 +26,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Phone from "../../views/HomePage/SignUp/components/Phone";
+import { getNotif } from "redux/actions/notification.action.js";
 
 export default function MyProfile() {
   const classes = useStyles();
@@ -48,6 +49,13 @@ export default function MyProfile() {
   const password = usePassword();
   const region = useRegion();
   const phone = usePhone();
+  const id = localStorage.getItem("id");
+
+  useEffect(() => {
+    if (loaded) {
+      user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+    }
+  }, [loaded]);
 
   function handleClickOpen(variable, anotherVariable) {
     setVariable(variable);
@@ -203,11 +211,14 @@ export default function MyProfile() {
                     </a>
                   </CardAvatar>
                   <CardBody profile>
-                    <h4>{`Name:  ${user.firstName} ${user.lastName}`}</h4>
-                    <h5>{"Born in:  " + user.birthDate}</h5>
-                    <h5>{"Region:  " + user.region}</h5>
-                    <h5>{"Gender:  " + user.gender}</h5>
-                    {user.hasCompany ? <h5>{`Company Name:  ${user.companyName}`}</h5> : null}
+                    <h5>{"Email:  " + user.username}</h5>
+                    <h5>{`Name:  ${user.firstName} ${user.lastName}`}</h5>
+                    <h5>{`Born in: ${user.birthDate}  Region: ${user.region}`}</h5>
+                    {user.hasCompany ? (
+                      <h5>{`Gender: ${user.gender} Company Name:  ${user.companyName}`}</h5>
+                    ) : (
+                      <h5>{`Gender: ${user.gender}`}</h5>
+                    )}
                   </CardBody>
                 </Card>
               </GridItem>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Carousel from "./Carousel";
 import Grid from "@material-ui/core/Grid";
 import "views/HomePage/Slider/one.jpg";
@@ -15,16 +15,9 @@ const HookedCarousel = () => {
 
   return (
     <div>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} align-items-xs-center justify-xs-center>
         <h1>Farmers' Heaven</h1>
-        <Carousel
-          imgList={imgList}
-          currentImgId={currentImgId}
-          img_width={300}
-          img_height={300}
-          visibleImages={3}
-          duration={750}
-        />
+        <Carousel imgList={imgList} currentImgId={currentImgId} visibleImages={3} duration={750} />
       </Grid>
     </div>
   );

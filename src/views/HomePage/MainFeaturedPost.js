@@ -25,11 +25,10 @@ const useStyles = makeStyles(theme => ({
   mainFeaturedPostContent: {
     position: "relative",
     padding: theme.spacing(3),
-    opacity:0.8,
+    opacity: 0.8,
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(6),
       paddingRight: 0,
-     
     },
   },
 }));
@@ -46,22 +45,26 @@ export default function MainFeaturedPost() {
     >
       <div className={classes.overlay} />
       <Grid container>
-        <Grid item md={7}>
+        <Grid item md={8}>
           <div className={classes.mainFeaturedPostContent}>
-            <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-              We believe :
-              </Typography>
-              <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-              "Efficient communication is the best way to increase profitability".
-              </Typography>
-              
-           
-            <Typography variant="h5" color="inherit" paragraph >
-            Farmers are the backbone of Agriculture. Agriculture sector feeds the billions and builds our nation, contributes to nearly 20% of GDP, employs more than 50% of our population and yet it is unorganized at the farmer level.
-We, 'SmartFarm FTC' focus on the bottom of the pyramid and consolidate, organize and optimize farmer data and help farmers communicate with companies easily and friendly.
-We offer solutions that make the system efficient right from the bottom of the agriculture process up to market linkages. 
-Our solutions directly help farmers reduce the amount of time they spend to find suitable partners for further development of their sector. We are trying to aggregate all the farming branches under one roof. 
-
+            <Typography component="h1" variant="h5" color="inherit" gutterBottom>
+              We believe : "Efficient communication is the best way to increase profitability".
+            </Typography>
+            <Typography
+              variant="h6"
+              color="inherit"
+              paragraph
+              style={{ opacity: "0.8", textShadow: "1px 1px #FFCA28" }}
+            >
+              Farmers are the backbone of Agriculture. Agriculture sector feeds the billions and
+              builds our nation, contributes to nearly 20% of GDP, employs more than 50% of our
+              population and yet it is unorganized at the farmer level. We, 'SmartFarm FTC' focus on
+              the bottom of the pyramid and consolidate, organize and optimize farmer data and help
+              farmers communicate with companies easily and friendly. We offer solutions that make
+              the system efficient right from the bottom of the agriculture process up to market
+              linkages. Our solutions directly help farmers reduce the amount of time they spend to
+              find suitable partners for further development of their sector. We are trying to
+              aggregate all the farming branches under one roof.
             </Typography>
           </div>
         </Grid>

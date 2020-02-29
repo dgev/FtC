@@ -1,9 +1,10 @@
 import { ntfConstants } from "../constants";
 const initialState = {
   notifications: [],
+  loaded: false,
 };
 
-export default function getProducts(state = initialState, action) {
+export default function controlNotification(state = initialState, action) {
   switch (action.type) {
     case ntfConstants.GET_REQUEST:
       return {
@@ -12,7 +13,7 @@ export default function getProducts(state = initialState, action) {
     case ntfConstants.GET_SUCCESS:
       return {
         ...state,
-        ...action.notifications,
+        notifications: action.payload,
         loaded: true,
       };
     case ntfConstants.GET_FAILURE:
@@ -34,17 +35,17 @@ export default function getProducts(state = initialState, action) {
       return {
         sent: false,
       };
-    case productConstants.DELETE_REQUEST:
+    case ntfConstants.DELETE_REQUEST:
       return {
         ...state,
         deleting: true,
       };
-    case productConstants.DELETE_SUCCESS:
+    case ntfConstants.DELETE_SUCCESS:
       return {
         ...action.notifications,
         deleted: true,
       };
-    case productConstants.DELETE_FAILURE:
+    case ntfConstants.DELETE_FAILURE:
       return {
         ...state,
         deleteError: action.error,

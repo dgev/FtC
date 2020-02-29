@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Carousel.css";
 
-const IMG_WIDTH = 300;
+const IMG_WIDTH = 500;
 const IMG_HEIGHT = 300;
 const parentPad = 0;
 const VISIBLEIMAGES = 3;

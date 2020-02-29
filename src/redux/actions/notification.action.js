@@ -14,9 +14,9 @@ const sendNotif = notif => dispatch => {
     .catch(error => dispatch({ type: ntfConstants.SEND_FAILURE, error }));
 };
 
-const getNotif = () => dispatch => {
+const getNotif = url => dispatch => {
   dispatch({ type: ntfConstants.GET_REQUEST });
-  makeGet("/api/v1/", {})
+  makeGet(`/api/v1/notification/${url}`, {})
     .then(data => {
       dispatch({ type: ntfConstants.GET_SUCCESS, payload: data });
     })

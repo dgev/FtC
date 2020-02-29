@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "redux/actions";
 import classNames from "classnames";
@@ -7,10 +7,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import PhoneEnabledIcon from "@material-ui/icons/PhoneEnabled";
+import {
+  Paper,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  Icon,
+  Grid,
+} from "@material-ui/core";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
@@ -18,17 +32,39 @@ import Notifications from "@material-ui/icons/Notifications";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import { green, red } from "@material-ui/core/colors";
+import { getNotif } from "redux/actions/notification.action";
+import { getUserById } from "redux/actions";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
-  const notifications = useSelector(state => state.userData.notifications);
-  const loaded = useSelector(state => state.userData.loaded);
-  // const loaded =
-  const dispatch = useDispatch();
   const classes = useStyles();
-  const [openNotification, setOpenNotification] = React.useState(null);
-  const [openProfile, setOpenProfile] = React.useState(null);
+  let notifications = useSelector(state => state.controlNotification);
+  const loaded = useSelector(state => state.userData.loaded);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.userData);
+  const loadedNotif = useSelector(state => state.controlNotification.loaded);
+  const id = localStorage.getItem("id");
+  const [openNotification, setOpenNotification] = useState(null);
+  const [openProfile, setOpenProfile] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [notificationDetail, setNotification] = useState("");
+  const [contactInfo, setInfo] = useState("");
+
+  const user =
+    id && loaded === false ? dispatch(getUserById(localStorage.getItem("id"))) : currentUser;
+
+  useEffect(() => {
+    if (loaded) {
+      user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+    }
+  }, [loaded]);
+
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -52,6 +88,31 @@ export default function AdminNavbarLinks() {
   function handleLogout() {
     dispatch(logoutUser());
   }
+
+  const handleClick = isOpen => {
+    setOpen(isOpen);
+  };
+  const handleApply = e => {
+    // const notif = {
+    //   senderId: localStorage.getItem("id"),
+    //   receiverId: index,
+    //   userProductId: id,
+    //   message: "Want to buy this item",
+    // };
+    e.preventDefault();
+    setOpen(!open);
+    // dispatch(sendNotif(notif));
+  };
+
+  function handleNotification(index) {
+    const sender = notifications.notifications[index].sender;
+    setNotification(
+      `${sender.firstName} ${sender.lastName} applied to your product request with code ${notifications.notifications[index].product.id}`
+    );
+    setInfo(sender.phoneNumber);
+    setOpen(!open);
+  }
+
   return (
     <div>
       <div className={classes.manager}>
@@ -65,9 +126,9 @@ export default function AdminNavbarLinks() {
           className={classes.buttonLink}
         >
           <Notifications className={classes.icons} />
-          {loaded ? (
-            notifications.length === 0 ? null : (
-              <span className={classes.notifications}>{notifications.length}</span>
+          {loaded && loadedNotif ? (
+            notifications.notifications.length === 0 ? null : (
+              <span className={classes.notifications}>{notifications.notifications.length}</span>
             )
           ) : null}
           <Hidden mdUp implementation="css">
@@ -96,21 +157,21 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
                   <MenuList role="menu">
-                    {notifications.length === 0 ? (
-                      <MenuItem onClick={handleCloseNotification} className={classes.dropdownItem}>
-                        No notifications
-                      </MenuItem>
-                    ) : (
-                      notifications.map((elem, i) => (
-                        <MenuItem
-                          key={i}
-                          onClick={handleCloseNotification}
-                          className={classes.dropdownItem}
-                        >
-                          {elem}
-                        </MenuItem>
-                      ))
-                    )}
+                    {loadedNotif ? (
+                      notifications.notifications.length === 0 ? (
+                        <MenuItem className={classes.dropdownItem}>No notifications</MenuItem>
+                      ) : (
+                        notifications.notifications.map((elem, i) => (
+                          <MenuItem
+                            key={i}
+                            onClick={() => handleNotification(i)}
+                            className={classes.dropdownItem}
+                          >
+                            {elem.sender.firstName + " apllied to your product"}
+                          </MenuItem>
+                        ))
+                      )
+                    ) : null}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -161,6 +222,38 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => handleClick(!open)}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Request Details"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            {notificationDetail}
+          </DialogContentText>
+          {
+            <Grid container>
+              Contact Details:
+              {contactInfo}
+              <Icon>
+                <PhoneEnabledIcon />
+              </Icon>
+            </Grid>
+          }
+        </DialogContent>
+        <DialogActions>
+          <IconButton onClick={handleApply} style={{ color: green[500] }}>
+            <CheckCircleOutlineIcon />
+          </IconButton>
+          <IconButton onClick={() => handleClick(!open)} style={{ color: red[500] }}>
+            <HighlightOffIcon />
+          </IconButton>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

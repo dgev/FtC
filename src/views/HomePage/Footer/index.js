@@ -1,1 +1,4 @@
-export { default } from './Footer';
+import CopyRight from "./CopyRight";
+import Footer from "./Footer";
+
+export default { CopyRight, Footer };

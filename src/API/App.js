@@ -1,14 +1,12 @@
 function logout() {
   localStorage.removeItem("token");
-  localStorage.removeItem("id");
   window.location.reload();
 }
 function getAuthToken() {
   return localStorage.getItem("token");
 }
-function setAuthToken(token, id, hasCompany, username) {
+function setAuthToken(token) {
   localStorage.setItem("token", token);
-  localStorage.setItem("id", id);
 }
 const baseUrl = "http://localhost:8080";
 function getHeaders() {

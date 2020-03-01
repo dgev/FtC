@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "redux/actions";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,9 +33,12 @@ import Notification from "./Notification";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { green, red } from "@material-ui/core/colors";
-import { getNotif, notificationStatus } from "redux/actions/notification.action";
-import { getUserById } from "redux/actions";
-import { deleteNotif } from "redux/actions/notification.action";
+import {
+  getNotif,
+  notificationStatus,
+  deleteNotif,
+} from "redux/actions/notification/notification.action";
+import { getRegisteredUser, logoutUser } from "redux/actions/user/user.actions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -62,8 +64,7 @@ export default function AdminNavbarLinks() {
   const [contactInfo, setInfo] = useState("");
   const [length, setLength] = useState(0);
 
-  const user =
-    id && loaded === false ? dispatch(getUserById(localStorage.getItem("id"))) : currentUser;
+  const user = loaded === false ? dispatch(getRegisteredUser()) : currentUser;
 
   useEffect(() => {
     if (loaded) {

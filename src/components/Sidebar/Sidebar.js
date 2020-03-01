@@ -116,7 +116,6 @@ export default function Sidebar(props) {
 
 Sidebar.propTypes = {
   handleDrawerToggle: PropTypes.func,
-  logo: PropTypes.string,
   image: PropTypes.string,
   logoText: PropTypes.string,
   routes: PropTypes.arrayOf(PropTypes.object),

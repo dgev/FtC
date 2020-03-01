@@ -1,11 +1,10 @@
 import { combineReducers } from "redux";
 
-import userData from "./userData.reducer";
-import userAuth from "./userAuth.reducer";
-import userRegistration from "./register.reducer";
-import getProducts from "./getProducts.reducer";
-import controlNotification from "./notification.reducer";
-// import modifyProducts from "./modifyProduct.reducer";
+import userData from "./user/userData.reducer";
+import userAuth from "./user/userAuth.reducer";
+import userRegistration from "./user/register.reducer";
+import getProducts from "./product/getProducts.reducer";
+import controlNotification from "./notification/notification.reducer";
 
 const rootReducer = combineReducers({
   userData,
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   userRegistration,
   getProducts,
   controlNotification,
-  // modifyProducts,
 });
 
 export default rootReducer;

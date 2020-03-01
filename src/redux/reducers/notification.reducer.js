@@ -26,30 +26,55 @@ export default function controlNotification(state = initialState, action) {
       return {
         ...state,
         sending: true,
+        loaded: false,
       };
     case ntfConstants.SEND_SUCCESS:
       return {
         sent: true,
+        loaded: false,
       };
     case ntfConstants.SEND_FAILURE:
       return {
         sent: false,
+        loaded: false,
+      };
+    case ntfConstants.STATUS_REQUEST:
+      return {
+        ...state,
+        changing: true,
+        loaded: false,
+      };
+    case ntfConstants.STATUS_SUCCESS:
+      return {
+        ...state,
+        changed: true,
+        loaded: false,
+      };
+    case ntfConstants.STATUS_FAILURE:
+      return {
+        ...state,
+        StatusError: action.error,
+        changed: false,
+        loaded: false,
       };
     case ntfConstants.DELETE_REQUEST:
       return {
         ...state,
         deleting: true,
+        loaded: false,
       };
     case ntfConstants.DELETE_SUCCESS:
       return {
-        ...action.notifications,
+        ...state,
         deleted: true,
+        loaded: false,
       };
     case ntfConstants.DELETE_FAILURE:
       return {
         ...state,
         deleteError: action.error,
         deleted: false,
+        loaded: false,
       };
     default:
       return {

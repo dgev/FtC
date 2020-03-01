@@ -35,7 +35,7 @@ export default function App(props) {
       if (loaded) {
         user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
       }
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   });
 

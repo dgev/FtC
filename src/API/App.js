@@ -1,8 +1,6 @@
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
-  localStorage.removeItem("hasCompnay");
-  localStorage.removeItem("username");
   window.location.reload();
 }
 function getAuthToken() {
@@ -11,8 +9,6 @@ function getAuthToken() {
 function setAuthToken(token, id, hasCompany, username) {
   localStorage.setItem("token", token);
   localStorage.setItem("id", id);
-  localStorage.setItem("username", username);
-  localStorage.setItem("hasCompany", hasCompany);
 }
 const baseUrl = "http://localhost:8080";
 function getHeaders() {

@@ -9,6 +9,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "./HomeCss";
+import Footer from "./Footer";
 
 export default function AboutUs() {
   const classes = useStyles();
@@ -37,6 +38,9 @@ export default function AboutUs() {
             </div>
             <Grid>
               <InfoAboutUs />
+            </Grid>
+            <Grid className={classes.marginTop}>
+              <Footer title="Join us on" />
             </Grid>
           </Container>
         </div>

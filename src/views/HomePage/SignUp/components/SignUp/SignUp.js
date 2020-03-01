@@ -175,7 +175,7 @@ function usePassword() {
       .is()
       .min(8)
       .is()
-      .max(150)
+      .max(40)
       .has()
       .uppercase()
       .has()

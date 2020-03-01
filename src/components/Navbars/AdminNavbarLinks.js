@@ -30,11 +30,13 @@ import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
 // core components
 import Button from "components/CustomButtons/Button.js";
+import Notification from "./Notification";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { green, red } from "@material-ui/core/colors";
-import { getNotif } from "redux/actions/notification.action";
+import { getNotif, notificationStatus } from "redux/actions/notification.action";
 import { getUserById } from "redux/actions";
+import { deleteNotif } from "redux/actions/notification.action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -50,11 +52,13 @@ export default function AdminNavbarLinks() {
   const currentUser = useSelector(state => state.userData);
   const loadedNotif = useSelector(state => state.controlNotification.loaded);
   const id = localStorage.getItem("id");
+  const [index, setIndex] = useState(0);
   const [openNotification, setOpenNotification] = useState(null);
   const [openProfile, setOpenProfile] = useState(null);
   const [open, setOpen] = useState(false);
   const [notificationDetail, setNotification] = useState("");
   const [contactInfo, setInfo] = useState("");
+  const [length, setLength] = useState(0);
 
   const user =
     id && loaded === false ? dispatch(getUserById(localStorage.getItem("id"))) : currentUser;
@@ -64,6 +68,13 @@ export default function AdminNavbarLinks() {
       user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
     }
   }, [loaded]);
+
+  useEffect(() => {
+    if (loadedNotif) {
+      length >= notifications.notifications.length ? setOpenSnackbar(false) : setOpenSnackbar(true);
+      setLength(notifications.notifications.length);
+    }
+  }, [loadedNotif]);
 
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
@@ -92,20 +103,28 @@ export default function AdminNavbarLinks() {
   const handleClick = isOpen => {
     setOpen(isOpen);
   };
-  const handleApply = e => {
-    // const notif = {
-    //   senderId: localStorage.getItem("id"),
-    //   receiverId: index,
-    //   userProductId: id,
-    //   message: "Want to buy this item",
-    // };
-    e.preventDefault();
+  function handleStatus(status) {
     setOpen(!open);
-    // dispatch(sendNotif(notif));
-  };
+    loadedNotif
+      ? (function() {
+          dispatch(notificationStatus({ status: status }, notifications.notifications[index].id));
+          user.hasCompany
+            ? dispatch(getNotif("company/" + id))
+            : dispatch(getNotif("farmer/" + id));
+        })()
+      : setTimeout(function() {
+          dispatch(notificationStatus({ status: status }, notifications.notifications[index].id));
+          user.hasCompany
+            ? dispatch(getNotif("company/" + id))
+            : dispatch(getNotif("farmer/" + id));
+        }, 1000);
+    user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+    setLength(length - 1);
+  }
 
   function handleNotification(index) {
     const sender = notifications.notifications[index].sender;
+    setIndex(index);
     setNotification(
       `${sender.firstName} ${sender.lastName} applied to your product request with code ${notifications.notifications[index].product.id}`
     );
@@ -113,9 +132,37 @@ export default function AdminNavbarLinks() {
     setOpen(!open);
   }
 
+  function handleDelete(index) {
+    loadedNotif
+      ? (function() {
+          dispatch(deleteNotif(notifications.notifications[index].id));
+          user.hasCompany
+            ? dispatch(getNotif("company/" + id))
+            : dispatch(getNotif("farmer/" + id));
+        })()
+      : setTimeout(function() {
+          dispatch(deleteNotif(notifications.notifications[index].id));
+          user.hasCompany
+            ? dispatch(getNotif("company/" + id))
+            : dispatch(getNotif("farmer/" + id));
+        }, 3000);
+    setLength(length - 1);
+  }
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
   return (
     <div>
       <div className={classes.manager}>
+        <Notification open={openSnackbar} handleClose={handleClose} />
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
@@ -156,20 +203,38 @@ export default function AdminNavbarLinks() {
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
-                  <MenuList role="menu">
+                  <MenuList role="menu" style={{ maxHeight: "400px", overflow: "auto" }}>
                     {loadedNotif ? (
                       notifications.notifications.length === 0 ? (
                         <MenuItem className={classes.dropdownItem}>No notifications</MenuItem>
                       ) : (
-                        notifications.notifications.map((elem, i) => (
-                          <MenuItem
-                            key={i}
-                            onClick={() => handleNotification(i)}
-                            className={classes.dropdownItem}
-                          >
-                            {elem.sender.firstName + " apllied to your product"}
-                          </MenuItem>
-                        ))
+                        notifications.notifications.map((elem, i) =>
+                          user.hasCompany ? (
+                            <MenuItem
+                              key={i}
+                              onClick={() => handleNotification(i)}
+                              className={classes.dropdownItem}
+                            >
+                              {`${elem.sender.firstName} applied to your product`}
+                            </MenuItem>
+                          ) : (
+                            <MenuItem
+                              key={i}
+                              onClick={handleCloseNotification}
+                              className={classes.dropdownItem}
+                            >
+                              {`${elem.receiver.firstName} ${elem.status} Your Request`}
+                              <IconButton
+                                onClick={() => handleDelete(i)}
+                                style={{
+                                  color: red[500],
+                                }}
+                              >
+                                <HighlightOffIcon />
+                              </IconButton>
+                            </MenuItem>
+                          )
+                        )
                       )
                     ) : null}
                   </MenuList>
@@ -246,10 +311,10 @@ export default function AdminNavbarLinks() {
           }
         </DialogContent>
         <DialogActions>
-          <IconButton onClick={handleApply} style={{ color: green[500] }}>
+          <IconButton onClick={() => handleStatus("accepted")} style={{ color: green[500] }}>
             <CheckCircleOutlineIcon />
           </IconButton>
-          <IconButton onClick={() => handleClick(!open)} style={{ color: red[500] }}>
+          <IconButton onClick={() => handleStatus("rejected")} style={{ color: red[500] }}>
             <HighlightOffIcon />
           </IconButton>
         </DialogActions>

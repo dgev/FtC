@@ -88,7 +88,7 @@ export default function Signin() {
             <Grid container>
               <Grid item xs>
                 <Link to={`/reset`} className={classes.routerLink}>
-                  {"Forgot password?"}
+                  {"Reset password?"}
                 </Link>
               </Grid>
               <Grid item>

@@ -20,14 +20,23 @@ const useStyles = makeStyles(theme => ({
   },
   color: {
     color: "#4CAF50",
+    "&:hover": {
+      color: "#FFEB3B",
+    },
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
     color: "#388E3C",
+    "&:hover": {
+      color: "#FFEB3B",
+    },
   },
   routerLink: {
     textDecoration: "none",
     color: "#4CAF50",
+    "&:hover": {
+      color: "#FFEB3B",
+    },
   },
 }));
 const theme = createMuiTheme({

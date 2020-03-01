@@ -19,7 +19,7 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "./MyProfileCss";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "redux/actions";
-import { TextField } from "@material-ui/core";
+import { TextField, Grid } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -158,7 +158,7 @@ export default function MyProfile() {
                     </GridContainer>
                   </CardBody>
                   <CardFooter>
-                    <GridContainer xs={12}>
+                    <GridContainer>
                       <GridItem xs={12} md={6}>
                         <Button color="primary" onClick={() => handleClickOpen("update", "Update")}>
                           Update Profile

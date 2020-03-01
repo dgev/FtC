@@ -1,9 +1,7 @@
 import { ntfConstants } from "../constants";
-import { makeGet, makePost } from "../../API/App";
+import { makeGet, makePost, makePut, makeDelete } from "../../API/App";
 
 const sendNotif = notif => dispatch => {
-  console.log(notif);
-
   dispatch({
     type: ntfConstants.SEND_REQUEST,
   });
@@ -23,4 +21,20 @@ const getNotif = url => dispatch => {
     .catch(error => dispatch({ type: ntfConstants.GET_FAILURE, error }));
 };
 
-export { sendNotif, getNotif };
+const notificationStatus = (status, id) => dispatch => {
+  dispatch({ type: ntfConstants.STATUS_REQUEST });
+  makePut(`/api/v1/notification/${id}`, {}, status)
+    .then(data => {
+      dispatch({ type: ntfConstants.STATUS_SUCCESS });
+    })
+    .catch(error => dispatch({ type: ntfConstants.STATUS_FAILURE, error }));
+};
+const deleteNotif = id => dispatch => {
+  dispatch({ type: ntfConstants.DELETE_REQUEST });
+  makeDelete(`/api/v1/notification/${id}`, {})
+    .then(data => {
+      dispatch({ type: ntfConstants.DELETE_SUCCESS });
+    })
+    .catch(error => dispatch({ type: ntfConstants.DELETE_FAILURE, error }));
+};
+export { sendNotif, getNotif, notificationStatus, deleteNotif };

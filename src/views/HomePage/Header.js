@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(3),
     textDecoration: "none",
     color: "#FAFAFA",
+    "&:hover": {
+      color: "#FFEB3B",
+    },
   },
   buttonColor: {
     backgroundColor: "#FFCA28",

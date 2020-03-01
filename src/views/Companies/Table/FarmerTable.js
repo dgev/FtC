@@ -76,7 +76,7 @@ export default function FarmerTable(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState(0);
   const [index, setIndex] = useState("");
 
   const handleClick = isOpen => {

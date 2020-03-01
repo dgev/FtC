@@ -39,7 +39,7 @@ const columns = [
     label: "Product",
     minWidth: 100,
     align: "center",
-    format: value => products[value],
+    format: value => products[value - 1],
   },
   {
     id: "amount",
@@ -93,8 +93,8 @@ export default function CompanyTable(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
-  const [id, setId] = useState("");
-  const [index, setIndex] = useState("");
+  const [id, setId] = useState(0);
+  const [index, setIndex] = useState(0);
   const [openAdd, setAddProduct] = useState(false);
   const handleClickOpen = isOpen => {
     setAddProduct(isOpen);
@@ -116,7 +116,7 @@ export default function CompanyTable(props) {
   const handleDelete = e => {
     e.preventDefault();
     setOpen(!open);
-    dispatch(deleteProduct(id, index));
+    dispatch(deleteProduct(id + 1, index));
   };
 
   const handleChangePage = (event, newPage) => {

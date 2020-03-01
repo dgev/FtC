@@ -47,6 +47,8 @@ const useStyles = makeStyles(styles);
 export default function AdminNavbarLinks() {
   const classes = useStyles();
   let notifications = useSelector(state => state.controlNotification);
+  const deleted = useSelector(state => state.controlNotification.deleted);
+  const changed = useSelector(state => state.controlNotification.changed);
   const loaded = useSelector(state => state.userData.loaded);
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.userData);
@@ -65,9 +67,21 @@ export default function AdminNavbarLinks() {
 
   useEffect(() => {
     if (loaded) {
-      user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+      update();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    if (deleted) {
+      update();
+    }
+  }, [deleted]);
+
+  useEffect(() => {
+    if (changed) {
+      update();
+    }
+  }, [changed]);
 
   useEffect(() => {
     if (loadedNotif) {
@@ -103,22 +117,17 @@ export default function AdminNavbarLinks() {
   const handleClick = isOpen => {
     setOpen(isOpen);
   };
+
+  function update() {
+    user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+  }
   function handleStatus(status) {
     setOpen(!open);
     loadedNotif
-      ? (function() {
-          dispatch(notificationStatus({ status: status }, notifications.notifications[index].id));
-          user.hasCompany
-            ? dispatch(getNotif("company/" + id))
-            : dispatch(getNotif("farmer/" + id));
-        })()
+      ? dispatch(notificationStatus({ status: status }, notifications.notifications[index].id))
       : setTimeout(function() {
           dispatch(notificationStatus({ status: status }, notifications.notifications[index].id));
-          user.hasCompany
-            ? dispatch(getNotif("company/" + id))
-            : dispatch(getNotif("farmer/" + id));
         }, 1000);
-    user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
     setLength(length - 1);
   }
 
@@ -134,17 +143,9 @@ export default function AdminNavbarLinks() {
 
   function handleDelete(index) {
     loadedNotif
-      ? (function() {
-          dispatch(deleteNotif(notifications.notifications[index].id));
-          user.hasCompany
-            ? dispatch(getNotif("company/" + id))
-            : dispatch(getNotif("farmer/" + id));
-        })()
+      ? dispatch(deleteNotif(notifications.notifications[index].id))
       : setTimeout(function() {
           dispatch(deleteNotif(notifications.notifications[index].id));
-          user.hasCompany
-            ? dispatch(getNotif("company/" + id))
-            : dispatch(getNotif("farmer/" + id));
         }, 3000);
     setLength(length - 1);
   }

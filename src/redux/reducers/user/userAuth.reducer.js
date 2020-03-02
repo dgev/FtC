@@ -8,6 +8,7 @@ function userAuth(state = initialState, action) {
     case userConstants.LOGIN_SUCCESS:
       return {
         loggedIn: true,
+        user: action.payload,
       };
     case userConstants.LOGIN_FAILURE:
       return {

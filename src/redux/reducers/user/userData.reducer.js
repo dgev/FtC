@@ -23,18 +23,20 @@ function userData(state = initialState, action) {
         loading: true,
       };
     case userConstants.GET_SUCCESS:
+      console.log(action.payload);
+
       return {
-        id: action.user.id,
-        username: action.user.username,
-        phoneNumber: action.user.phoneNumber,
-        firstName: action.user.firstName,
-        lastName: action.user.lastName,
-        birthDate: action.user.birthDate,
-        gender: action.user.gender,
-        region: action.user.region,
-        hasCompany: action.user.isCompany,
-        password: action.user.password,
-        companyName: action.user.companyName,
+        id: action.payload.id,
+        username: action.payload.username,
+        phoneNumber: action.payload.phoneNumber,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        birthDate: action.payload.birthDate,
+        gender: action.payload.gender,
+        region: action.payload.region,
+        hasCompany: action.payload.isCompany,
+        password: action.payload.password,
+        companyName: action.payload.companyName,
         loaded: true,
       };
     case userConstants.GET_FAILURE:
@@ -58,6 +60,21 @@ function userData(state = initialState, action) {
       return {
         ...state,
         updated: false,
+      };
+    case userConstants.RESET_REQUEST:
+      return {
+        ...state,
+        resetting: true,
+      };
+    case userConstants.RESET_SUCCESS:
+      return {
+        ...state,
+        reseted: true,
+      };
+    case userConstants.RESET_FAILURE:
+      return {
+        ...state,
+        reseted: false,
       };
     case userConstants.DELETE_REQUEST:
       return {

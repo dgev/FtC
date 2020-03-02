@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "redux/actions/user/user.actions";
+import ResetForm from "./ResetForm";
+import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 import Button from "@material-ui/core/Button";
 import {
   TextField,
   IconButton,
+  Icon,
   InputAdornment,
   FormControl,
   InputLabel,
@@ -23,12 +28,33 @@ let passwordValidator = require("password-validator");
 
 export default function Reset() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.userData);
   const email = useEmail();
   const password = usePassword();
   const newPassword = useNewPassword();
 
   const [showPassword, setVisibility] = useState(false);
   const [showRepeatedPassword, setRepeatedVisibility] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  function handleReset() {
+    dispatch(
+      reset(user.id, {
+        username: email.value,
+        password: password.value,
+        newPassword: newPassword.value,
+      })
+    );
+  }
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
 
   return (
     <>
@@ -127,8 +153,9 @@ export default function Reset() {
                         newPassword.isValidPassword
                       )
                     }
+                    onClick={handleReset}
                   >
-                    {"Submit"}
+                    {"Reset"}
                   </Button>
                 </GridItem>
               </CardBody>
@@ -141,11 +168,11 @@ export default function Reset() {
               </CardHeader>
               <CardBody profile>
                 <h5>Once deleted the account cannot be restored!</h5>
+                <Icon>
+                  <SentimentVeryDissatisfiedIcon />
+                </Icon>
                 <GridItem xs={12} md={6}>
-                  <Button
-                    color="danger"
-                    // onClick={() => handleClickOpen("permanently delete", "Delete")}
-                  >
+                  <Button color="secondary" onClick={handleClickOpen}>
                     Delete Account
                   </Button>
                 </GridItem>
@@ -154,6 +181,7 @@ export default function Reset() {
           </GridItem>
         </MuiThemeProvider>
       </GridContainer>
+      <ResetForm id={user.id} username={user.username} open={open} handleClose={handleClose} />
     </>
   );
 }

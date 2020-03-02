@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import React from 'react'
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from "@emotion/core";
 
 const Slide = ({ content, width }) => (
   <div
@@ -11,8 +10,10 @@ const Slide = ({ content, width }) => (
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      animation:fade2 8s infinite;
+      -webkit-animation:fade2 8s infinite;
     `}
   />
-)
+);
 
-export default Slide
+export default Slide;

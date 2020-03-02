@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import React, { memo } from 'react'
-import { css, jsx } from '@emotion/core'
+import { memo } from "react";
+import { css, jsx } from "@emotion/core";
 
 const Dot = ({ active }) => (
   <span
@@ -9,12 +9,12 @@ const Dot = ({ active }) => (
       margin-right: 5px;
       cursor: pointer;
       border-radius: 50%;
-      background: ${active ? 'black' : 'white'};
+      background: ${active ? "black" : "white"};
     `}
   />
-)
+);
 
-const MemoDot = memo(Dot)
+const MemoDot = memo(Dot);
 
 const Dots = ({ slides, activeIndex }) => (
   <div
@@ -31,6 +31,6 @@ const Dots = ({ slides, activeIndex }) => (
       <MemoDot key={slide} active={activeIndex === i} />
     ))}
   </div>
-)
+);
 
-export default Dots
+export default Dots;

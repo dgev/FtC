@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteUser, getRegisteredUser, updateUser } from "redux/actions/user/user.actions";
+import { getRegisteredUser, updateUser } from "redux/actions/user/user.actions";
 import GridItem from "components/Grid/GridItem";
 import GridContainer from "components/Grid/GridContainer.js";
 import Button from "components/CustomButtons/Button.js";
@@ -37,8 +37,6 @@ export default function MyProfile() {
     localStorage.getItem("token") && loaded === false ? dispatch(getRegisteredUser()) : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
-  const [variable, setVariable] = useState("");
-  const [anotherVariable, setAnotherVariable] = useState("");
 
   const firstName = useName();
   const lastName = useName();
@@ -56,9 +54,7 @@ export default function MyProfile() {
     }
   }, [loaded]);
 
-  function handleClickOpen(variable, anotherVariable) {
-    setVariable(variable);
-    setAnotherVariable(anotherVariable);
+  function handleClickOpen() {
     setOpen(true);
   }
 
@@ -67,30 +63,24 @@ export default function MyProfile() {
   }
 
   function handleConfirm() {
-    if (anotherVariable === "Delete") {
-      dispatch(
-        deleteUser({ user: { password: password.value, username: user.username }, id: user.id })
-      );
-    } else if (anotherVariable === "Update") {
-      setUpdate(false);
-      const updatedUser = {
-        user: {
-          firstName: firstName.isValid ? firstName.value : user.firstName,
-          lastName: lastName.isValid ? lastName.value : user.lastName,
-          gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
-          region: region.isValid
-            ? region.value.replace(" ", "").toUpperCase()
-            : user.region.replace(" ", "").toUpperCase(),
-          phoneNumber: user.phoneNumber,
-          birthDate: date.isValid ? date.formatDate : user.birthDate,
-          password: password.value,
-        },
-        id: user.id,
-      };
-      dispatch(updateUser(updatedUser));
-      setOpen(false);
-      window.location.reload();
-    }
+    setUpdate(false);
+    const updatedUser = {
+      user: {
+        firstName: firstName.isValid ? firstName.value : user.firstName,
+        lastName: lastName.isValid ? lastName.value : user.lastName,
+        gender: gender.isValid ? gender.value.toUpperCase() : user.gender.toUpperCase(),
+        region: region.isValid
+          ? region.value.replace(" ", "").toUpperCase()
+          : user.region.replace(" ", "").toUpperCase(),
+        phoneNumber: user.phoneNumber,
+        birthDate: date.isValid ? date.formatDate : user.birthDate,
+        password: password.value,
+      },
+      id: user.id,
+    };
+    dispatch(updateUser(updatedUser));
+    setOpen(false);
+    window.location.reload();
   }
 
   return (
@@ -159,27 +149,19 @@ export default function MyProfile() {
                   <CardFooter>
                     <GridContainer>
                       <GridItem xs={12} md={6}>
-                        <Button color="primary" onClick={() => handleClickOpen("update", "Update")}>
+                        <Button color="primary" onClick={handleClickOpen}>
                           Update Profile
                         </Button>
                       </GridItem>
-                      {/* <GridItem xs={12} md={6}>
-                        <Button
-                          color="primary"
-                          onClick={() => handleClickOpen("permanently delete", "Delete")}
-                        >
-                          Delete Profile
-                        </Button>
-                      </GridItem> */}
                     </GridContainer>
                   </CardFooter>
                 </Card>
               </GridItem>
               <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">{anotherVariable} Account</DialogTitle>
+                <DialogTitle id="form-dialog-title">Update Account</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Please enter your password to {variable} your account.
+                    Please enter your password to update your account.
                   </DialogContentText>
                   <TextField
                     autoFocus

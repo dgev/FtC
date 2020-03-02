@@ -3,9 +3,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar";
-import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import { dashboardRoutes as routes } from "../Routes/User/routes";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
@@ -42,9 +40,7 @@ export default function App(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const getRoute = () => {
-    return window.location.pathname !== "/company/maps";
-  };
+
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
       setMobileOpen(false);
@@ -71,7 +67,7 @@ export default function App(props) {
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
+        routes={props.routes}
         logoText={"SmartFarm"}
         image={bgImage}
         handleDrawerToggle={handleDrawerToggle}
@@ -79,16 +75,10 @@ export default function App(props) {
         color={"green"}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar routes={routes} handleDrawerToggle={handleDrawerToggle} />
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-        {getRoute() ? (
-          <div className={classes.content}>
-            <div className={classes.container}>{props.switchRoutes}</div>
-          </div>
-        ) : (
-          <div className={classes.map}>{props.switchRoutes}</div>
-        )}
-        {getRoute() ? <Footer /> : null}
+        <Navbar routes={props.routes} handleDrawerToggle={handleDrawerToggle} />
+        <div className={classes.content}>
+          <div className={classes.container}>{props.switchRoutes}</div>
+        </div>
       </div>
     </div>
   );

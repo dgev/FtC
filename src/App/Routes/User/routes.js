@@ -7,7 +7,7 @@ import Companies from "views/Products/Company";
 import Reset from "views/Reset";
 import AllProducts from "views/Products/AllProducts";
 
-const dashboardRoutes = [
+const companyRoutes = [
   {
     path: "/",
     name: "My Profile",
@@ -34,4 +34,25 @@ const dashboardRoutes = [
   },
 ];
 
-export { dashboardRoutes };
+const farmerRoutes = [
+  {
+    path: "/",
+    name: "My Profile",
+    icon: Person,
+    component: MyProfile,
+  },
+  {
+    path: "/myproducts",
+    name: "Products",
+    icon: LibraryBooks,
+    component: Companies,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    icon: SettingsIcon,
+    component: Reset,
+  },
+];
+
+export { companyRoutes, farmerRoutes };

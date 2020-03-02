@@ -10,7 +10,7 @@ const registerUser = user => dispatch => {
     .then(data => {
       dispatch({ type: userConstants.REGISTER_SUCCESS });
       dispatch({ type: userConstants.LOGIN_SUCCESS });
-      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
+      dispatch({ type: userConstants.GET_SUCCESS, payload: data.user });
       history.push("/");
     })
     .catch(error => dispatch({ type: userConstants.REGISTER_FAILURE, error }));
@@ -20,9 +20,9 @@ const login = userCredentials => dispatch => {
   dispatch({ type: userConstants.LOGIN_REQUEST, userCredentials });
   makePost("/api/v1/login", {}, userCredentials, true)
     .then(data => {
-      dispatch({ type: userConstants.LOGIN_SUCCESS });
+      dispatch({ type: userConstants.LOGIN_SUCCESS, payload: data.user });
       dispatch({ type: userConstants.GET_REQUEST });
-      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
+      dispatch({ type: userConstants.GET_SUCCESS, payload: data.user });
       history.push("/");
     })
     .catch(error => dispatch({ type: userConstants.LOGIN_FAILURE, error }));
@@ -34,7 +34,7 @@ const getUser = () => dispatch => {
   });
   makeGet("/api/v1/signup")
     .then(data => {
-      dispatch({ type: userConstants.GET_SUCCESS, user: data.user });
+      dispatch({ type: userConstants.GET_SUCCESS, payload: data.user });
     })
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));
 };
@@ -75,9 +75,28 @@ const getRegisteredUser = () => dispatch => {
   });
   makeGet(`/api/v1/user`, {}, {}, false)
     .then(data => {
-      dispatch({ type: userConstants.GET_SUCCESS, user: data });
+      dispatch({ type: userConstants.GET_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: userConstants.GET_FAILURE, error }));
 };
 
-export { login, registerUser, updateUser, getUser, logoutUser, deleteUser, getRegisteredUser };
+const reset = (id, user) => dispatch => {
+  dispatch({ type: userConstants.RESET_REQUEST });
+  makePut(`/api/v1/user/reset/${id}`, {}, user)
+    .then(data => {
+      dispatch({ type: userConstants.RESET_SUCCESS, payload: data });
+      history.push("/");
+    })
+    .catch(error => dispatch({ type: userConstants.RESET_FAILURE, error }));
+};
+
+export {
+  login,
+  registerUser,
+  updateUser,
+  getUser,
+  logoutUser,
+  deleteUser,
+  getRegisteredUser,
+  reset,
+};

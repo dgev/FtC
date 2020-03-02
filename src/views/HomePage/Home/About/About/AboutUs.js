@@ -33,11 +33,6 @@ export default function AboutUs() {
         <div className={classes.content}>
           <div className={classes.toolbar} />
           <Container maxWidth="lg">
-            <div style={{ color: "#4CAF50" }}>
-              <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                {"This is Us"}
-              </Typography>
-            </div>
             <Grid>
               <InfoAboutUs />
             </Grid>

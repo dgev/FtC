@@ -86,17 +86,10 @@ export default function Signin() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to={`/reset`} className={classes.routerLink}>
-                  {"Reset password?"}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to={`/signup`} className={classes.routerLink}>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+            <Grid item>
+              <Link to={`/signup`} className={classes.routerLink}>
+                {"Don't have an account? Sign Up"}
+              </Link>
             </Grid>
           </form>
         </MuiThemeProvider>

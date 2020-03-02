@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { css, jsx } from "@emotion/core";
 import SliderContent from "./SliderContent";
 import Slide from "./Slide";
-import Arrow from "./Arrow";
 import Dots from "./Dots";
 
 const getWidth = () => window.innerWidth;
@@ -28,17 +27,24 @@ const Slider = props => {
   const resizeRef = useRef();
 
   useEffect(() => {
+    let timeout = setTimeout(() => {
+      nextSlide();
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [activeIndex]);
+
+  useEffect(() => {
     contentRef.current = smoothTransition;
     resizeRef.current = handleResize;
   });
 
   useEffect(() => {
     const smooth = () => {
-      contentRef.current();
+      smoothTransition();
     };
 
     const resize = () => {
-      resizeRef.current();
+      handleResize();
     };
 
     const transitionEnd = window.addEventListener("transitionend", smooth);
@@ -106,10 +112,6 @@ const Slider = props => {
           <Slide width={getWidth()} key={_slide + i} content={_slide} images />
         ))}
       </SliderContent>
-
-      <Arrow direction="left" handleClick={prevSlide} />
-      <Arrow direction="right" handleClick={nextSlide} />
-
       <Dots slides={slides} activeIndex={activeIndex} />
     </div>
   );

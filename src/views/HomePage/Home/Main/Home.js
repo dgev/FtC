@@ -13,10 +13,18 @@ export default function HomePage() {
   const sections = [{ title: "Home", url: "home" }, { title: "About Us", url: "about" }];
   const classes = useStyles();
   const images = [
-    "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
-    "https://images.unsplash.com/photo-1470341223622-1019832be824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2288&q=80",
-    "https://images.unsplash.com/photo-1448630360428-65456885c650?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2094&q=80",
-    "https://images.unsplash.com/photo-1534161308652-fdfcf10f62c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2174&q=80",
+    require("views/HomePage/Slider/products/1.png"),
+    require("views/HomePage/Slider/products/2.jpg"),
+    require("views/HomePage/Slider/products/3.jpg"),
+    require("views/HomePage/Slider/products/4.jpg"),
+    require("views/HomePage/Slider/products/5.jpg"),
+    require("views/HomePage/Slider/products/6.jpg"),
+    require("views/HomePage/Slider/products/7.jpg"),
+    require("views/HomePage/Slider/products/8.jpg"),
+    require("views/HomePage/Slider/products/9.jpg"),
+    require("views/HomePage/Slider/products/10.jpg"),
+    require("views/HomePage/Slider/products/11.jpg"),
+    require("views/HomePage/Slider/products/12.jpg"),
   ];
 
   return (
@@ -42,8 +50,8 @@ export default function HomePage() {
                   <FeaturedPost key={i} post={post} />
                 ))}
               </Grid>
-              <Grid container spacing={3}>
-                {/* <Slider slides={images} /> */}
+              <Grid container>
+                <Slider slides={images} />
               </Grid>
               <Grid className={classes.marginTop}>
                 <Footer title="Join us on" />

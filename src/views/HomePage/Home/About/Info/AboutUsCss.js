@@ -26,16 +26,6 @@ const useStyles = makeStyles(theme => ({
   appBar: {
     backgroundColor: "#FAFAFA",
   },
-  mainFeaturedPost: {
-    position: "relative",
-    backgroundColor: theme.palette.grey[800],
-    color: theme.palette.common.white,
-    marginBottom: theme.spacing(4),
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-  },
-
   picCon: {
     backgroundImage:
       'url("https://www.dramalearningcenter.com/wp-content/uploads/2018/01/Alex.png")',

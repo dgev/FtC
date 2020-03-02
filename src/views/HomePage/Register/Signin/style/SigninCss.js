@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       color: "#FFEB3B",
     },
+    float: "right",
   },
 }));
 const theme = createMuiTheme({

@@ -7,8 +7,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import Header from "views/HomePage/Home/Header";
-import Footer from "views/HomePage/Footer";
-import InfoAboutUs from "views/HomePage/Home/About/About";
+import Footer from "views/HomePage/Footer/Footer";
+import InfoAboutUs from "views/HomePage/Home/About/Info";
 
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { useStyles, theme } from "views/HomePage/Home/style/HomeCss";

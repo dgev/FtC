@@ -64,13 +64,10 @@ export default function Companies() {
     setAddProduct(isOpen);
   };
   const dispatch = useDispatch();
-  const hasCompany = localStorage.getItem("hasCompany");
 
   useEffect(() => {
     if (loadedUser) {
-      user.hasCompany
-        ? dispatch(getProductById(localStorage.getItem("id")))
-        : dispatch(getAllProducts());
+      user.hasCompany ? dispatch(getProductById(user.id)) : dispatch(getAllProducts());
     }
   }, [loadedUser]);
 

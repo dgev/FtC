@@ -34,7 +34,7 @@ export default function MyProfile() {
   const currentUser = useSelector(state => state.userData);
   const loaded = useSelector(state => state.userData.loaded);
   const user =
-    localStorage.getItem("id") && loaded === false ? dispatch(getRegisteredUser()) : currentUser;
+    localStorage.getItem("token") && loaded === false ? dispatch(getRegisteredUser()) : currentUser;
   const [canUpdate, setUpdate] = useState(true);
   const [open, setOpen] = useState(false);
   const [variable, setVariable] = useState("");
@@ -47,11 +47,12 @@ export default function MyProfile() {
   const password = usePassword();
   const region = useRegion();
   const phone = usePhone();
-  const id = localStorage.getItem("id");
 
   useEffect(() => {
     if (loaded) {
-      user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+      user.hasCompany
+        ? dispatch(getNotif("company/" + user.id))
+        : dispatch(getNotif("farmer/" + user.id));
     }
   }, [loaded]);
 

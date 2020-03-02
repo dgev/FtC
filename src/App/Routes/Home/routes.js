@@ -1,8 +1,8 @@
 import HomePage from "views/HomePage/Home/Main";
-import SignUp from "views/HomePage/Register/SignUp";
+import SignUp from "views/HomePage/Register/SignUp/components/SignUp";
 import SignIn from "views/HomePage/Register/Signin";
 import Reset from "views/HomePage/Register/Reset";
-import AboutUs from "views/HomePage/Home/About";
+import AboutUs from "views/HomePage/Home/About/About";
 
 const homeRoutes = [
   {

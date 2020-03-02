@@ -63,6 +63,13 @@ const columns = [
     format: value => value.toFixed(2),
   },
   {
+    id: "id",
+    label: "Code",
+    minWidth: 100,
+    align: "center",
+    format: value => value.toLocaleString(),
+  },
+  {
     id: "isActive",
     label: "Status",
     minWidth: 100,
@@ -116,7 +123,7 @@ export default function CompanyTable(props) {
   const handleDelete = e => {
     e.preventDefault();
     setOpen(!open);
-    dispatch(deleteProduct(id + 1, index));
+    dispatch(deleteProduct(id, index));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -127,9 +134,11 @@ export default function CompanyTable(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const handleFarmerClick = isOpen => {
+  const handleFarmerClick = (isOpen, id) => {
+    setId(id);
     setOpenFarmer(isOpen);
   };
+
   const [openFarmer, setOpenFarmer] = useState(false);
   return (
     <>
@@ -186,7 +195,7 @@ export default function CompanyTable(props) {
                       ) : (
                         <IconButton
                           style={{ color: orange[600] }}
-                          onClick={() => handleFarmerClick(true)}
+                          onClick={() => handleFarmerClick(true, row["id"])}
                         >
                           <PersonOutlineIcon />
                         </IconButton>
@@ -231,7 +240,7 @@ export default function CompanyTable(props) {
           </IconButton>
         </DialogActions>
       </Dialog>
-      <FarmerInfo handleClick={handleFarmerClick} open={openFarmer} />
+      <FarmerInfo handleClick={handleFarmerClick} open={openFarmer} id={id} />
       <AddProduct
         handleClick={handleClickOpen}
         open={openAdd}

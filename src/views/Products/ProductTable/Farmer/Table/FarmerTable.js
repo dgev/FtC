@@ -57,6 +57,13 @@ const columns = [
     align: "center",
     format: value => value.toFixed(2),
   },
+  {
+    id: "id",
+    label: "Code",
+    minWidth: 100,
+    align: "center",
+    format: value => value.toLocaleString(),
+  },
 ];
 const useStyles = makeStyles({
   root: {
@@ -70,6 +77,7 @@ const useStyles = makeStyles({
 export default function FarmerTable(props) {
   const classes = useStyles();
   const loaded = useSelector(state => state.getProducts.loaded);
+  const user = useSelector(state => state.userData);
   const dispatch = useDispatch();
   const rows = loaded ? props.data.map(elem => elem) : null;
 
@@ -89,7 +97,7 @@ export default function FarmerTable(props) {
   }
   const handleApply = e => {
     const notif = {
-      senderId: localStorage.getItem("id"),
+      senderId: user.id,
       receiverId: index,
       userProductId: id,
       message: "Want to buy this item",

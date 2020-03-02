@@ -25,13 +25,15 @@ export default function App(props) {
   const loaded = useSelector(state => state.userData.loaded);
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.userData);
-  const id = localStorage.getItem("id");
-  const user = id && loaded === false ? dispatch(getRegisteredUser()) : currentUser;
+  const user =
+    localStorage.getItem("token") && loaded === false ? dispatch(getRegisteredUser()) : currentUser;
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (loaded) {
-        user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+        user.hasCompany
+          ? dispatch(getNotif("company/" + user.id))
+          : dispatch(getNotif("farmer/" + user.id));
       }
     }, 10000);
     return () => clearInterval(interval);

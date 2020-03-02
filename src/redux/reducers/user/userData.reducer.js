@@ -14,7 +14,6 @@ const initialState = {
   password: "",
   companyName: "Something",
   loaded: false,
-  notifications: ["heeeeeeeey", "hiiiiiiiiii", "new"],
 };
 
 function userData(state = initialState, action) {
@@ -37,7 +36,6 @@ function userData(state = initialState, action) {
         password: action.user.password,
         companyName: action.user.companyName,
         loaded: true,
-        notifications: ["heeeeeeeey", "hiiiiiiiiii", "new"],
       };
     case userConstants.GET_FAILURE:
       return {

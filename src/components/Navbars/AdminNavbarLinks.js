@@ -130,6 +130,7 @@ export default function AdminNavbarLinks() {
           dispatch(notificationStatus({ status: status }, notifications.notifications[index].id));
         }, 1000);
     setLength(length - 1);
+    window.location.reload();
   }
 
   function handleNotification(index) {

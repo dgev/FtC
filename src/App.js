@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import Home from "./App/Routes/Home";
 import User from "./App/Routes/User";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ export default function App() {
     <Router history={history}>
       <Switch>
         {loggedin ? <Route path="/" component={User} /> : <Route path="/" component={Home} />}
-        {/* <Redirect from="/" to="/" /> */}
+        <Redirect from="/" to="/" />
       </Switch>
     </Router>
   );

@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { yellow } from "@material-ui/core/colors";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct, editProduct } from "redux/actions/product/product.actions";
 import { products } from "../Company/products/products";
 
@@ -22,6 +22,7 @@ export default function AddProduct(props) {
   const handleChange = event => {
     setProductId(products.indexOf(event.target.value));
   };
+  const user = useSelector(state => state.userData);
   const description = useParam("");
   const amount = useParam(null);
   const price = useParam(null);
@@ -30,24 +31,24 @@ export default function AddProduct(props) {
     if (props.type === "add") {
       dispatch(
         addProduct({
-          userId: localStorage.getItem("id"),
-          productId: productId,
+          userId: user.id,
+          productId: productId + 1,
           description: description.value,
           amount: amount.value,
           quantity: price.value,
         })
       );
     } else if (props.type === "edit") {
-      console.log(description.value);
-
       dispatch(
-        editProduct({
-          id: props.id,
-          userId: localStorage.getItem("id"),
-          description: description.value,
-          amount: amount.value,
-          quantity: price.value,
-        })
+        editProduct(
+          {
+            userId: user.id,
+            description: description.value,
+            amount: amount.value,
+            quantity: price.value,
+          },
+          props.id
+        )
       );
     }
     description.onChange("");

@@ -30,6 +30,7 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.9.0",
     "react-google-maps": "9.4.5",
+    "react-loading": "^2.0.3",
     "react-loadingg": "^1.7.1",
     "react-newline-to-break": "^1.0.6",
     "react-perfect-scrollbar": "^1.5.8",

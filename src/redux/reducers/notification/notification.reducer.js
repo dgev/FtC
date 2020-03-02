@@ -57,6 +57,28 @@ export default function controlNotification(state = initialState, action) {
         changed: false,
         loaded: false,
       };
+    case ntfConstants.USER_REQUEST:
+      return {
+        ...state,
+        submitting: true,
+        loaded: false,
+      };
+    case ntfConstants.USER_SUCCESS:
+      console.log(action.payload);
+
+      return {
+        ...state,
+        submittedUser: action.payload,
+        submitted: true,
+        loaded: false,
+      };
+    case ntfConstants.USER_FAILURE:
+      return {
+        ...state,
+        StatusError: action.error,
+        submitted: false,
+        loaded: false,
+      };
     case ntfConstants.DELETE_REQUEST:
       return {
         ...state,

@@ -29,6 +29,16 @@ const notificationStatus = (status, id) => dispatch => {
     })
     .catch(error => dispatch({ type: ntfConstants.STATUS_FAILURE, error }));
 };
+
+const submittedRequest = id => dispatch => {
+  dispatch({ type: ntfConstants.USER_REQUEST });
+  makeGet(`/api/v1/notification/${id}`, {})
+    .then(data => {
+      dispatch({ type: ntfConstants.USER_SUCCESS, payload: data });
+    })
+    .catch(error => dispatch({ type: ntfConstants.USER_FAILURE, error }));
+};
+
 const deleteNotif = id => dispatch => {
   dispatch({ type: ntfConstants.DELETE_REQUEST });
   makeDelete(`/api/v1/notification/${id}`, {})
@@ -37,4 +47,4 @@ const deleteNotif = id => dispatch => {
     })
     .catch(error => dispatch({ type: ntfConstants.DELETE_FAILURE, error }));
 };
-export { sendNotif, getNotif, notificationStatus, deleteNotif };
+export { sendNotif, getNotif, notificationStatus, deleteNotif, submittedRequest };

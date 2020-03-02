@@ -14,16 +14,16 @@ const addProduct = product => dispatch => {
 
 const getAllProducts = () => dispatch => {
   dispatch({ type: productConstants.GET_REQUEST });
-  makeGet("/api/v1/product/54/?page=&size=&productId=&isActive=", {})
+  makeGet("/api/v1/product/?page=&size=&productId=", {})
     .then(data => {
       dispatch({ type: productConstants.GET_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
 };
 
-const editProduct = editedProduct => dispatch => {
+const editProduct = (editedProduct, id) => dispatch => {
   dispatch({ type: productConstants.EDIT_REQUEST });
-  makePut(`/api/v1/product/${editedProduct.id}`, {}, editedProduct)
+  makePut(`/api/v1/product/${id}/?page=&size=&productId=&isActive=`, {}, editedProduct)
     .then(data => {
       dispatch({ type: productConstants.EDIT_SUCCESS, payload: data });
     })
@@ -40,7 +40,7 @@ const deleteProduct = (productId, id) => dispatch => {
 };
 
 const getProductById = id => dispatch => {
-  makeGet(`/api/v1/product/${id}`, {})
+  makeGet(`/api/v1/product/${id}/?page=&size=&productId=&isActive=`, {})
     .then(data => {
       dispatch({ type: productConstants.GET_SUCCESS, payload: data });
     })

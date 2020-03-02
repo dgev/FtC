@@ -10,8 +10,8 @@ export default function Home() {
   });
   return (
     <Switch>
-      {homeRoutes.map((prop, key) => {
-        return <Route exact path={prop.path} component={prop.component} key={key} />;
+      {homeRoutes.map((elem, key) => {
+        return <Route exact path={elem.path} component={elem.component} key={key} />;
       })}
       <Redirect from="/" to="/" />
     </Switch>

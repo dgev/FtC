@@ -91,7 +91,7 @@ export default function SignUp() {
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Name name={name} surname={surname} canRegister={register} />
-              <Gender {...gender} />
+              <Gender {...gender} canRegister={register} />
               <Birthdate {...date} canRegister={register} />
               <Region {...region} canRegister={register} />
               <Phone {...phone} canRegister={register} />
@@ -250,6 +250,7 @@ function useRepeatedPassword(password) {
 function useGender() {
   const [value, setValue] = useState("");
   const [isValid, setValidGender] = useState(false);
+  const [error, setError] = useState("Field is required");
 
   function handleChange(event) {
     if (event.target.value.length !== 0) {
@@ -257,6 +258,7 @@ function useGender() {
       setValidGender(true);
     } else {
       setValidGender(false);
+      setError("Field is required");
     }
   }
 
@@ -264,6 +266,7 @@ function useGender() {
     value,
     handleChange,
     isValid,
+    error,
   };
 }
 

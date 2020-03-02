@@ -44,7 +44,7 @@ export default function getProducts(state = initialState, action) {
       };
     case productConstants.EDIT_SUCCESS:
       return {
-        products: action.payload.filter(elem => Object.values(elem)),
+        products: action.payload.productResponseDtoList.filter(elem => Object.values(elem)),
         edited: true,
         loaded: true,
       };

@@ -55,7 +55,6 @@ export default function AdminNavbarLinks() {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.userData);
   const loadedNotif = useSelector(state => state.controlNotification.loaded);
-  const id = localStorage.getItem("id");
   const [index, setIndex] = useState(0);
   const [openNotification, setOpenNotification] = useState(null);
   const [openProfile, setOpenProfile] = useState(null);
@@ -120,7 +119,9 @@ export default function AdminNavbarLinks() {
   };
 
   function update() {
-    user.hasCompany ? dispatch(getNotif("company/" + id)) : dispatch(getNotif("farmer/" + id));
+    user.hasCompany
+      ? dispatch(getNotif("company/" + user.id))
+      : dispatch(getNotif("farmer/" + user.id));
   }
   function handleStatus(status) {
     setOpen(!open);

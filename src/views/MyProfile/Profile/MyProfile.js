@@ -163,14 +163,14 @@ export default function MyProfile() {
                           Update Profile
                         </Button>
                       </GridItem>
-                      <GridItem xs={12} md={6}>
+                      {/* <GridItem xs={12} md={6}>
                         <Button
                           color="primary"
                           onClick={() => handleClickOpen("permanently delete", "Delete")}
                         >
                           Delete Profile
                         </Button>
-                      </GridItem>
+                      </GridItem> */}
                     </GridContainer>
                   </CardFooter>
                 </Card>

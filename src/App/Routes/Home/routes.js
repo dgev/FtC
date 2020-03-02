@@ -1,7 +1,6 @@
 import HomePage from "views/HomePage/Home/Main";
 import SignUp from "views/HomePage/Register/SignUp/components/SignUp";
 import SignIn from "views/HomePage/Register/Signin";
-import Reset from "views/HomePage/Register/Reset";
 import AboutUs from "views/HomePage/Home/About/About";
 
 const homeRoutes = [
@@ -29,11 +28,6 @@ const homeRoutes = [
     path: "/signin",
     name: "HomePage",
     component: SignIn,
-  },
-  {
-    path: "/reset",
-    name: "Reset",
-    component: Reset,
   },
 ];
 

@@ -1,13 +1,12 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { useStyles } from "./AboutUsCss";
-
 export default function InfoAboutUs() {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={3} className={classes.root}>
-      <Grid item xs={12}>
+    <Grid container className={classes.root}>
+      <Grid item md={8}>
         <h3 className={classes.hFour}> This is Us</h3>
         <p>
           {" "}

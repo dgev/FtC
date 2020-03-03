@@ -11,21 +11,31 @@ import { useStyles, theme } from "views/MyProfile/style/MyProfileCss";
 import { TextField, Button } from "@material-ui/core";
 
 export default function ResetForm(props) {
-  const password = usePassword();
   const dispatch = useDispatch();
+  const [password, setPassword] = useState("");
+  const [isValidPassword, setValidPassword] = useState(true);
+
+  function handleChange(event) {
+    if (event.target.value !== null && event.target.value.length) {
+      setPassword(event.target.value);
+    }
+  }
 
   function handleConfirm() {
-    dispatch(
+    const error = dispatch(
       deleteUser({ user: { password: password.value, username: props.username }, id: props.id })
     );
+    if (error.error === "UNAUTHORIZED") {
+      setValidPassword(false);
+    }
   }
 
   return (
     <MuiThemeProvider theme={theme}>
       <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Update Account</DialogTitle>
+        <DialogTitle id="form-dialog-title">Delete Account</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter your password to update your account.</DialogContentText>
+          <DialogContentText>Please enter your password to delete your account.</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -34,9 +44,9 @@ export default function ResetForm(props) {
             type="password"
             color="primary"
             fullWidth
-            onChange={password.onChange}
-            error={!password.isValidPassword}
-            helperText={!password.isValidPassword ? password.error : null}
+            onChange={handleChange}
+            error={!isValidPassword}
+            helperText={!isValidPassword ? "Password is incorrect" : null}
           />
         </DialogContent>
         <DialogActions>
@@ -50,24 +60,4 @@ export default function ResetForm(props) {
       </Dialog>
     </MuiThemeProvider>
   );
-}
-
-function usePassword() {
-  const [password, setPassword] = useState("");
-  const [isValidPassword, setValidPassword] = useState(true);
-  const [error, setError] = useState("Input should not be empty");
-  function handlePasswordChange(event) {
-    if (event.target.value !== null && event.target.value.length) {
-      setPassword(event.target.value);
-      setValidPassword(true);
-    } else {
-      setValidPassword(false);
-    }
-  }
-  return {
-    value: password,
-    onChange: handlePasswordChange,
-    isValidPassword,
-    error,
-  };
 }

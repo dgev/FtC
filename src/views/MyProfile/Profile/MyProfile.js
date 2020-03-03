@@ -42,7 +42,9 @@ export default function MyProfile() {
   const lastName = useName();
   const date = useDate();
   const gender = useGender();
-  const password = usePassword();
+  const [password, setPassword] = useState("");
+  const [isValid, setValid] = useState(true);
+  const [passwordError, setError] = useState("");
   const region = useRegion();
   const phone = usePhone();
 
@@ -53,6 +55,10 @@ export default function MyProfile() {
         : dispatch(getNotif("farmer/" + user.id));
     }
   }, [loaded]);
+
+  function handlePassword(e) {
+    setPassword(e.target.value);
+  }
 
   function handleClickOpen() {
     setOpen(true);
@@ -74,13 +80,21 @@ export default function MyProfile() {
           : user.region.replace(" ", "").toUpperCase(),
         phoneNumber: user.phoneNumber,
         birthDate: date.isValid ? date.formatDate : user.birthDate,
-        password: password.value,
+        password: password,
       },
       id: user.id,
     };
-    dispatch(updateUser(updatedUser));
-    setOpen(false);
-    window.location.reload();
+    const error = dispatch(updateUser(updatedUser));
+    if (error.error === "UNAUTHORIZED") {
+      setError("Password is incorrect");
+      setValid(false);
+    } else if (user.updated === false) {
+      setValid(false);
+      setError("Something went wrong. Please try again");
+    } else {
+      setOpen(false);
+      window.location.reload();
+    }
   }
 
   return (
@@ -170,9 +184,9 @@ export default function MyProfile() {
                     label="Password"
                     type="password"
                     fullWidth
-                    onChange={password.onChange}
-                    error={!password.isValidPassword}
-                    helperText={!password.isValidPassword ? password.error : null}
+                    onChange={handlePassword}
+                    error={!isValid}
+                    helperText={!isValid ? passwordError : null}
                   />
                 </DialogContent>
                 <DialogActions>
@@ -312,26 +326,6 @@ function useGender() {
     value,
     handleChange,
     isValid,
-  };
-}
-
-function usePassword() {
-  const [password, setPassword] = useState("");
-  const [isValidPassword, setValidPassword] = useState(true);
-  const [error, setError] = useState("Input should not be empty");
-  function handlePasswordChange(event) {
-    if (event.target.value !== null && event.target.value.length) {
-      setPassword(event.target.value);
-      setValidPassword(true);
-    } else {
-      setValidPassword(false);
-    }
-  }
-  return {
-    value: password,
-    onChange: handlePasswordChange,
-    isValidPassword,
-    error,
   };
 }
 

@@ -40,11 +40,60 @@ const deleteProduct = (productId, id) => dispatch => {
 };
 
 const getProductById = id => dispatch => {
-  makeGet(`/api/v1/product/${id}/?page=&size=&productId=&isActive=`, {})
+  makeGet(`/api/v1/product/?page=&size=&productId=${id}&isActive=`, {})
     .then(data => {
       dispatch({ type: productConstants.GET_SUCCESS, payload: data });
     })
     .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
 };
 
-export { addProduct, getAllProducts, editProduct, deleteProduct, getProductById };
+const getMyProductById = (id, userId) => dispatch => {
+  makeGet(`/api/v1/product/${userId}/?page=&size=&productId=${id}&isActive=`, {})
+    .then(data => {
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
+    })
+    .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
+};
+
+const getMyProducts = userId => dispatch => {
+  makeGet(`/api/v1/product/${userId}/?page=&size=&productId=&isActive=`, {})
+    .then(data => {
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
+    })
+    .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
+};
+
+const getProductsByPage = (page, size) => dispatch => {
+  makeGet(`/api/v1/product/?page=${page}&size=${size}&productId=&isActive=`, {})
+    .then(data => {
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
+    })
+    .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
+};
+
+const getMyProductsByPage = (userId, page, size) => dispatch => {
+  makeGet(`/api/v1/product/${userId}/?page=${page}&size=${size}&productId=&isActive=`, {})
+    .then(data => {
+      dispatch({ type: productConstants.GET_SUCCESS, payload: data });
+    })
+    .catch(error => dispatch({ type: productConstants.GET_FAILURE, error }));
+};
+
+const paging = page => dispatch => {
+  console.log(page);
+
+  dispatch({ type: productConstants.GET_PAGE, payload: page });
+};
+
+export {
+  addProduct,
+  getAllProducts,
+  editProduct,
+  deleteProduct,
+  getProductById,
+  getMyProductById,
+  getMyProducts,
+  getProductsByPage,
+  getMyProductsByPage,
+  paging,
+};

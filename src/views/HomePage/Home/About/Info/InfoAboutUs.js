@@ -1,12 +1,13 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { useStyles } from "./AboutUsCss";
+
 export default function InfoAboutUs() {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root}>
-      <Grid item>
+      <Grid item xs={12}>
         <h3 className={classes.hFour}> This is Us</h3>
         <p>
           {" "}
@@ -20,8 +21,8 @@ export default function InfoAboutUs() {
           website and share this amazing journey with us.
         </p>
       </Grid>
-
-      <Grid item sm={8}>
+     
+      <Grid item xs={6} md={8}>
         <h4 className={classes.hFour}>Mane Grigoryan</h4>
         <p>
           Mane and her buddy truly belong to the Upper East Side. Very much like Alex, Mane’s future
@@ -49,14 +50,14 @@ export default function InfoAboutUs() {
           bare seconds.
         </p>
       </Grid>
-      <Grid item sm={4}>
-        <div className={classes.picCon}></div>
+      <Grid item xs={6} md={4}>
+        <div className={classes.picCon}  justify="center"></div>
       </Grid>
 
-      <Grid item sm={4}>
+      <Grid item xs={6} md={4}>
         <div className={classes.picConTwo}></div>
       </Grid>
-      <Grid item sm={8}>
+      <Grid item xs={6} md={8}>
         <h4 className={classes.hFour}>Nona Baytalyan</h4>
         <p>
           Melman and Nona share many characteristic traits and interests.One of the most obvious
@@ -77,7 +78,7 @@ export default function InfoAboutUs() {
         </p>
       </Grid>
 
-      <Grid item sm={8}>
+      <Grid item xs={6} md={8}>
         <h4 className={classes.hFour}>Diana Gevorgyan</h4>
         <p>
           The biggest similarity that Diana and Marty share is that everybody loves to be around
@@ -101,15 +102,16 @@ export default function InfoAboutUs() {
           open and honest environment, because that is the environment they grow and prosper.
         </p>
       </Grid>
-      <Grid item sm={4}>
+      <Grid item xs={6} md={4}  justify="center">
         <div className={classes.picConThree}></div>
+      
       </Grid>
 
-      <Grid item sm={4}>
+      <Grid item xs={6} md={4}>
         <div className={classes.picConFour}></div>
       </Grid>
 
-      <Grid item sm={8}>
+      <Grid item xs={6} md={8}>
         <h4 className={classes.hFour}>Mane Baluyan</h4>
         <p>
           If you think of a hip, empowered, independent, and cosmopolitan woman who knows what,

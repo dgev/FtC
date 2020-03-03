@@ -1,18 +1,21 @@
 import { productConstants } from "redux/constants";
 const initialState = {
   products: [],
+  page: 0,
 };
 
 export default function getProducts(state = initialState, action) {
   switch (action.type) {
     case productConstants.GET_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case productConstants.GET_SUCCESS:
       return {
         ...state,
         products: action.payload.productResponseDtoList.filter(elem => Object.values(elem)),
+        count: action.payload.totalElements,
         loaded: true,
       };
     case productConstants.GET_FAILURE:
@@ -21,6 +24,11 @@ export default function getProducts(state = initialState, action) {
         getError: action.error,
         loaded: false,
       };
+    case productConstants.GET_PAGE:
+      return {
+        ...state,
+        page: action.payload,
+      };
     case productConstants.ADD_REQUEST:
       return {
         ...state,
@@ -28,7 +36,9 @@ export default function getProducts(state = initialState, action) {
       };
     case productConstants.ADD_SUCCESS:
       return {
-        products: state.products.concat([action.payload]),
+        ...state,
+        products: action.payload.productResponseDtoList.filter(elem => Object.values(elem)),
+        count: action.payload.totalElements,
         loaded: true,
       };
     case productConstants.ADD_FAILURE:
@@ -44,7 +54,9 @@ export default function getProducts(state = initialState, action) {
       };
     case productConstants.EDIT_SUCCESS:
       return {
+        ...state,
         products: action.payload.productResponseDtoList.filter(elem => Object.values(elem)),
+        count: action.payload.totalElements,
         edited: true,
         loaded: true,
       };
@@ -60,6 +72,7 @@ export default function getProducts(state = initialState, action) {
       };
     case productConstants.DELETE_SUCCESS:
       return {
+        ...state,
         products: state.products.filter((elem, index) => index !== action.payload.id),
         loaded: true,
       };

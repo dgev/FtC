@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { getProductsByPage, paging } from "redux/actions/product/product.actions";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Paper,
@@ -54,23 +55,23 @@ const useStyles = makeStyles({
 export default function FarmerTable(props) {
   const classes = useStyles();
   const loaded = useSelector(state => state.getProducts.loaded);
-  const user = useSelector(state => state.userData);
   const dispatch = useDispatch();
   const rows = loaded ? props.data.map(elem => elem) : null;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [open, setOpen] = useState(false);
-  const [id, setId] = useState(0);
-  const [index, setIndex] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(getProductsByPage(newPage, rowsPerPage));
+    dispatch(paging(+newPage));
   };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+    dispatch(getProductsByPage(0, +event.target.value));
+    dispatch(paging(0));
   };
 
   return (
@@ -92,7 +93,7 @@ export default function FarmerTable(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+              {rows.map((row, i) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                     {columns.map(column => {
@@ -115,9 +116,9 @@ export default function FarmerTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 15, 20]}
           component="div"
-          count={rows.length}
+          count={props.count}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={props.page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />

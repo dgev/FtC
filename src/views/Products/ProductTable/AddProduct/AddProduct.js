@@ -19,42 +19,50 @@ export default function AddProduct(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [productId, setProductId] = useState(0);
+
   const handleChange = event => {
-    setProductId(products.indexOf(event.target.value));
+    setProductId(products.indexOf(event.target.value) + 1);
   };
+
   const user = useSelector(state => state.userData);
-  const description = useParam("");
+  const description = useText("");
   const amount = useParam(null);
   const price = useParam(null);
+  const [canSubmit, setSubmit] = useState(true);
 
   function handleSubmit() {
-    if (props.type === "add") {
-      dispatch(
-        addProduct({
-          userId: user.id,
-          productId: productId + 1,
-          description: description.value,
-          amount: amount.value,
-          quantity: price.value,
-        })
-      );
-    } else if (props.type === "edit") {
-      dispatch(
-        editProduct(
-          {
+    if (description.isValid && amount.isValid && price.isValid) {
+      if (props.type === "add") {
+        dispatch(
+          addProduct({
             userId: user.id,
+            productId: productId,
             description: description.value,
             amount: amount.value,
             quantity: price.value,
-          },
-          props.id
-        )
-      );
+          })
+        );
+      } else if (props.type === "edit") {
+        dispatch(
+          editProduct(
+            {
+              userId: user.id,
+              description: description.value,
+              amount: amount.value,
+              quantity: price.value,
+            },
+            props.id
+          )
+        );
+      }
+      setSubmit(true);
+      description.onChange("");
+      amount.onChange(null);
+      price.onChange(null);
+      props.handleClick(!props.open);
+    } else {
+      setSubmit(false);
     }
-    description.onChange("");
-    amount.onChange(null);
-    price.onChange(null);
-    props.handleClick(!props.open);
   }
   return (
     <div>
@@ -73,7 +81,6 @@ export default function AddProduct(props) {
                   <DialogContent>
                     {props.type === "add" ? (
                       <TextField
-                        id="outlined-select-currency-native"
                         select
                         label=""
                         onChange={handleChange}
@@ -97,6 +104,8 @@ export default function AddProduct(props) {
                       maxLength="4"
                       defaultValue=""
                       variant="outlined"
+                      error={!description.isValid && !canSubmit}
+                      helperText={!description.isValid && !canSubmit ? "Invalid Input" : null}
                       fullWidth
                       className={classes.submit}
                       onChange={description.onChange}
@@ -109,6 +118,8 @@ export default function AddProduct(props) {
                       variant="outlined"
                       inputProps={{ min: "0" }}
                       className={classes.submit}
+                      error={!amount.isValid && !canSubmit}
+                      helperText={!amount.isValid && !canSubmit ? "Invalid Input" : null}
                       onChange={amount.onChange}
                     />
                     <TextField
@@ -117,6 +128,8 @@ export default function AddProduct(props) {
                       type="number"
                       variant="outlined"
                       inputProps={{ min: "10", step: "10" }}
+                      error={!price.isValid && !canSubmit}
+                      helperText={!price.isValid && !canSubmit ? "Invalid Input" : null}
                       className={classes.submit}
                       onChange={price.onChange}
                     />
@@ -136,18 +149,42 @@ export default function AddProduct(props) {
   );
 }
 
-function useParam(initialValue) {
+function useText(initialValue) {
   const [value, setValue] = useState(initialValue);
+  const [isValid, setValid] = useState(false);
   function handleChange(e) {
-    if (!e) {
-      setValue(e);
+    if (!e || !/[a-zA-Z]/.test(e.target.value)) {
+      setValue("");
+      setValid(false);
     } else {
       setValue(e.target.value);
+      setValid(true);
     }
   }
 
   return {
     value,
     onChange: handleChange,
+    isValid,
+  };
+}
+
+function useParam(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  const [isValid, setValid] = useState(false);
+  function handleChange(e) {
+    if (!e || e.target.value <= 0) {
+      setValue(e);
+      setValid(false);
+    } else {
+      setValue(e.target.value);
+      setValid(true);
+    }
+  }
+
+  return {
+    value,
+    onChange: handleChange,
+    isValid,
   };
 }

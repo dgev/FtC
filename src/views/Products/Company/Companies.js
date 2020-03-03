@@ -10,9 +10,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import AddIcon from "@material-ui/icons/Add";
 import CompanyTable from "views/Products/ProductTable/Company/Table/CompanyTable";
 import FarmerTable from "views/Products/ProductTable/Farmer/Table/FarmerTable";
+import Filter from "../ProductTable/FilterProduct";
 import AddProduct from "views/Products/ProductTable/AddProduct";
 import { useSelector, useDispatch } from "react-redux";
-import { getProductById, getAllProducts } from "redux/actions/product/product.actions";
+import { getMyProducts, getAllProducts } from "redux/actions/product/product.actions";
 import { Button } from "@material-ui/core";
 import { yellow } from "@material-ui/core/colors";
 
@@ -58,55 +59,67 @@ const useStyles = makeStyles(styles);
 
 export default function Companies() {
   const [openAdd, setAddProduct] = useState(false);
+  const [open, setOpen] = useState(false);
   const loadedUser = useSelector(state => state.userData.loaded);
   const user = useSelector(state => state.userData);
   const handleClickOpen = isOpen => {
     setAddProduct(isOpen);
   };
+  function handleClick() {
+    setOpen(!open);
+  }
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (loadedUser) {
-      user.hasCompany ? dispatch(getProductById(user.id)) : dispatch(getAllProducts());
+      user.hasCompany ? dispatch(getMyProducts(user.id)) : dispatch(getAllProducts());
     }
   }, [loadedUser]);
 
   const currentData = useSelector(state => state.getProducts.products);
+  const pageCount = useSelector(state => state.getProducts.page);
+  const count = useSelector(state => state.getProducts.count);
   const loaded = useSelector(state => state.getProducts.loaded);
 
   const classes = useStyles();
   return (
     <>
       {loaded ? (
-        <Card>
-          {user.hasCompany ? (
-            <>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Product List</h4>
-                <Button
-                  variant="contained"
-                  className={(classes.button, classes.addButton)}
-                  startIcon={<AddIcon />}
-                  onClick={() => handleClickOpen(!openAdd)}
-                >
-                  Add
-                </Button>
-              </CardHeader>
-              <CompanyTable data={currentData} />
-            </>
-          ) : (
-            <>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>Product List</h4>
-              </CardHeader>
-              <FarmerTable data={currentData} />
-            </>
-          )}
-        </Card>
+        <div>
+          <Button onClick={handleClick} style={{ zIndex: "1000" }}>
+            Filter by product
+          </Button>
+          <Card>
+            {user.hasCompany ? (
+              <>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>Product List</h4>
+                  <Button
+                    variant="contained"
+                    className={(classes.button, classes.addButton)}
+                    startIcon={<AddIcon />}
+                    onClick={() => handleClickOpen(!openAdd)}
+                  >
+                    Add
+                  </Button>
+                </CardHeader>
+                <CompanyTable data={currentData} id={user.id} count={count} page={pageCount} />
+              </>
+            ) : (
+              <>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>Product List</h4>
+                </CardHeader>
+                <FarmerTable data={currentData} count={count} page={pageCount} />
+              </>
+            )}
+          </Card>
+        </div>
       ) : (
         <BoxLoading />
       )}{" "}
       <AddProduct handleClick={handleClickOpen} open={openAdd} action={"Add New"} type={"add"} />
+      <Filter handleClick={handleClick} open={open} hasCompany={user.hasCompany} id={user.id} />
     </>
   );
 }

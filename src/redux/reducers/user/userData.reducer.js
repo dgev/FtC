@@ -23,8 +23,6 @@ function userData(state = initialState, action) {
         loading: true,
       };
     case userConstants.GET_SUCCESS:
-      console.log(action.payload);
-
       return {
         id: action.payload.id,
         username: action.payload.username,
@@ -53,13 +51,13 @@ function userData(state = initialState, action) {
     case userConstants.UPDATE_SUCCESS:
       return {
         ...state,
-        ...action.payload,
         updated: true,
       };
     case userConstants.UPDATE_FAILURE:
       return {
         ...state,
         updated: false,
+        error: action.payload,
       };
     case userConstants.RESET_REQUEST:
       return {
@@ -88,7 +86,7 @@ function userData(state = initialState, action) {
     case userConstants.DELETE_FAILURE:
       return {
         ...state,
-        deleteError: action.error,
+        deleteError: action.payload,
         deleted: false,
       };
     default:

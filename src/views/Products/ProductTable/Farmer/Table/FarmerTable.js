@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
+import { getProductsByPage, paging } from "redux/actions/product/product.actions";
 import {
   Paper,
   Table,
@@ -109,11 +110,15 @@ export default function FarmerTable(props) {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(getProductsByPage(newPage, rowsPerPage));
+    dispatch(paging(+newPage));
   };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+    dispatch(getProductsByPage(0, +event.target.value));
+    dispatch(paging(0));
   };
 
   return (
@@ -138,7 +143,7 @@ export default function FarmerTable(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+              {rows.map((row, i) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                     {columns.map(column => {
@@ -171,9 +176,9 @@ export default function FarmerTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 15, 20]}
           component="div"
-          count={rows.length}
+          count={props.count}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={props.page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />

@@ -12,7 +12,6 @@ const baseUrl = "http://localhost:8080";
 function getHeaders() {
   const auth = getAuthToken();
   if (auth) {
-    console.log(auth);
     return {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth,
@@ -32,12 +31,18 @@ async function request(url, headers = {}, method, body = {}, useToken = false) {
     },
     body: JSON.stringify(body),
   };
-  console.log(options);
   const response = await fetch(baseUrl + url, options);
+
   const data = response.json();
+
+  if (response.status / 100 !== 2) {
+    // data.then(json => {
+    throw new Error(data);
+    // });
+  }
+
   data
     .then(json => {
-      console.log(json);
       if (useToken) {
         setAuthToken(json.token, json.user.id, json.user.isCompany, json.user.username);
       }
@@ -55,18 +60,14 @@ async function getRequest(url, headers = {}, method, body = {}, useToken = false
       ...headers,
     },
   };
-  console.log(getOptions);
   const response = await fetch(baseUrl + url, getOptions);
   const data = response.json();
-  data
-    .then(json => {
-      console.log(json);
-      if (useToken) {
-        setAuthToken(json.token, json.user.id);
-      }
-      // console.log(json);
-    })
-    .catch(e => console.log(e));
+  data.then(json => {
+    if (useToken) {
+      setAuthToken(json.token, json.user.id);
+    }
+  });
+  // .catch(e => console.log(e));
 
   return data;
 }

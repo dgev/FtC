@@ -43,11 +43,12 @@ const updateUser = updatedUser => dispatch => {
   dispatch({ type: userConstants.UPDATE_REQUEST });
   makePut(`/api/v1/user/${updatedUser.id}`, {}, updatedUser.user, false)
     .then(data => {
-      console.log(data);
-
       dispatch({ type: userConstants.UPDATE_SUCCESS, payload: data });
     })
-    .catch(error => dispatch({ type: userConstants.UPDATE_FAILURE, error }));
+    .catch(error => {
+      dispatch({ type: userConstants.UPDATE_FAILURE, payload: "UNAUTHORIZED" });
+    });
+  return { error: "UNAUTHORIZED" };
 };
 
 const logoutUser = () => dispatch => {
@@ -66,7 +67,8 @@ const deleteUser = user => dispatch => {
       dispatch({ type: userConstants.DELETE_SUCCESS, data });
       logout();
     })
-    .catch(error => dispatch({ type: userConstants.DELETE_FAILURE, error }));
+    .catch(error => dispatch({ type: userConstants.DELETE_FAILURE, payload: "UNAUTHORIZED" }));
+  return { error: "UNAUTHORIZED" };
 };
 
 const getRegisteredUser = () => dispatch => {

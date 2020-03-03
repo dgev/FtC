@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteProduct } from "redux/actions/product/product.actions";
+import { deleteProduct, getMyProductsByPage, paging } from "redux/actions/product/product.actions";
 import AddProduct from "views/Products/ProductTable/AddProduct";
 import {
   Paper,
@@ -128,11 +128,15 @@ export default function CompanyTable(props) {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(getMyProductsByPage(props.id, newPage, rowsPerPage));
+    dispatch(paging(+newPage));
   };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+    dispatch(getMyProductsByPage(props.id, 0, +event.target.value));
+    dispatch(paging(0));
   };
   const handleFarmerClick = (isOpen, id) => {
     setId(id);
@@ -162,7 +166,8 @@ export default function CompanyTable(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+              {/* {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => { */}
+              {rows.map((row, i) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                     {columns.map(column => {
@@ -210,9 +215,9 @@ export default function CompanyTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 15, 20]}
           component="div"
-          count={rows.length}
+          count={props.count}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={props.page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />

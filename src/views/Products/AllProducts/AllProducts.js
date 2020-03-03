@@ -7,10 +7,11 @@ import { BoxLoading } from "react-loadingg";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import CompanyTable from "views/Products/ProductTable/Company/Table/CompanyTable";
 import AllProducts from "views/Products/ProductTable/AllProducts";
+import Filter from "views/Products/ProductTable/FilterProduct";
+import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { getProductById, getAllProducts } from "redux/actions/product/product.actions";
+import { getAllProducts } from "redux/actions/product/product.actions";
 import { yellow } from "@material-ui/core/colors";
 
 const styles = {
@@ -54,38 +55,42 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Companies() {
-  const [openAdd, setAddProduct] = useState(false);
-  const loadedUser = useSelector(state => state.userData.loaded);
-  const user = useSelector(state => state.userData);
-  const handleClickOpen = isOpen => {
-    setAddProduct(isOpen);
-  };
+  const [open, setOpen] = useState(false);
+
   const dispatch = useDispatch();
-
   useEffect(() => {
-    if (loadedUser) {
-      user.hasCompany ? dispatch(getProductById(user.id)) : dispatch(getAllProducts());
-    }
-  }, [loadedUser]);
-
+    dispatch(getAllProducts());
+  }, []);
   const currentData = useSelector(state => state.getProducts.products);
+  const page = useSelector(state => state.getProducts.page);
+  const count = useSelector(state => state.getProducts.count);
   const loaded = useSelector(state => state.getProducts.loaded);
+
+  function handleClick() {
+    setOpen(!open);
+  }
 
   const classes = useStyles();
   return (
     <>
       {loaded ? (
-        <Card>
-          <>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Product List</h4>
-            </CardHeader>
-            <AllProducts data={currentData} />
-          </>
-        </Card>
+        <div>
+          <Button onClick={handleClick} style={{ zIndex: "1000" }}>
+            Filter by product
+          </Button>
+          <Card>
+            <>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Product List</h4>
+              </CardHeader>
+              <AllProducts data={currentData} count={count} page={page} />
+            </>
+          </Card>
+        </div>
       ) : (
         <BoxLoading />
       )}{" "}
+      <Filter handleClick={handleClick} open={open} />
     </>
   );
 }

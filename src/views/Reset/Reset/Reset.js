@@ -113,7 +113,12 @@ export default function Reset() {
                   </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                  <FormControl variant="outlined" fullWidth required>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    required
+                    style={{ marginTop: theme.spacing(1) }}
+                  >
                     <InputLabel
                       htmlFor="outlined-adornment-password"
                       error={!newPassword.isValidPassword}

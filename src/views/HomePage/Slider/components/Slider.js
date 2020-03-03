@@ -12,14 +12,12 @@ const getWidth = () => window.innerWidth;
  */
 const Slider = props => {
   const { slides } = props;
-  const firstSlide = slides[0];
-  const lastSlide = slides[slides.length - 1];
 
   const [state, setState] = useState({
     activeIndex: 0,
     translate: getWidth(),
     transition: 0.45,
-    _slides: [lastSlide, ...slides, firstSlide],
+    _slides: [...slides],
   });
 
   const { activeIndex, translate, _slides, transition } = state;
@@ -34,24 +32,17 @@ const Slider = props => {
   }, [activeIndex]);
 
   useEffect(() => {
-    contentRef.current = smoothTransition;
     resizeRef.current = handleResize;
   });
 
   useEffect(() => {
-    const smooth = () => {
-      smoothTransition();
-    };
-
     const resize = () => {
       handleResize();
     };
 
-    const transitionEnd = window.addEventListener("transitionend", smooth);
     const onResize = window.addEventListener("resize", resize);
 
     return () => {
-      window.removeEventListener("transitionend", transitionEnd);
       window.removeEventListener("resize", onResize);
     };
   }, []);
@@ -65,21 +56,8 @@ const Slider = props => {
     setState({ ...state, translate, transition: 0 });
   };
 
-  const smoothTransition = () => {
-    if (activeIndex === 0 && translate > getWidth())
-      return setState({ ...state, transition: 0, translate: getWidth() });
-
-    if (activeIndex === slides.length - 1 && translate === 0) {
-      return setState({
-        ...state,
-        transition: 0,
-        translate: getWidth() * slides.length,
-      });
-    }
-  };
-
-  const nextSlide = useCallback(() => {
-    const next = translate + getWidth();
+  const nextSlide = () => {
+    const next = activeIndex === slides.length - 1 ? getWidth() : translate + getWidth();
     const isLastSlide = activeIndex === slides.length - 1;
 
     setState({
@@ -87,18 +65,7 @@ const Slider = props => {
       activeIndex: isLastSlide ? 0 : activeIndex + 1,
       translate: next,
     });
-  }, [activeIndex]);
-
-  const prevSlide = useCallback(() => {
-    const prev = translate - getWidth();
-    const isFirstSlide = activeIndex === 0;
-
-    setState({
-      ...state,
-      activeIndex: isFirstSlide ? slides.length - 1 : activeIndex - 1,
-      translate: prev,
-    });
-  }, [activeIndex]);
+  };
 
   return (
     <div css={SliderCSS}>
@@ -106,9 +73,9 @@ const Slider = props => {
         ref={contentRef}
         translate={translate}
         transition={transition}
-        width={getWidth() * _slides.length}
+        width={getWidth() * slides.length}
       >
-        {_slides.map((_slide, i) => (
+        {slides.map((_slide, i) => (
           <Slide width={getWidth()} key={_slide + i} content={_slide} images />
         ))}
       </SliderContent>
@@ -119,7 +86,7 @@ const Slider = props => {
 
 const SliderCSS = css`
   position: relative;
-  height: 100vh;
+  height: 80vh;
   width: 100vw;
   margin: 0 auto;
   overflow: hidden;

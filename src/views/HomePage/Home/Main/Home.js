@@ -13,7 +13,6 @@ export default function HomePage() {
   const sections = [{ title: "Home", url: "home" }, { title: "About Us", url: "about" }];
   const classes = useStyles();
   const images = [
-    require("views/HomePage/Slider/products/1.png"),
     require("views/HomePage/Slider/products/2.jpg"),
     require("views/HomePage/Slider/products/3.jpg"),
     require("views/HomePage/Slider/products/4.jpg"),
@@ -22,7 +21,6 @@ export default function HomePage() {
     require("views/HomePage/Slider/products/7.jpg"),
     require("views/HomePage/Slider/products/8.jpg"),
     require("views/HomePage/Slider/products/9.jpg"),
-    require("views/HomePage/Slider/products/10.jpg"),
     require("views/HomePage/Slider/products/11.jpg"),
     require("views/HomePage/Slider/products/12.jpg"),
   ];

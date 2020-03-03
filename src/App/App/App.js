@@ -33,7 +33,7 @@ export default function App(props) {
           ? dispatch(getNotif("company/" + user.id))
           : dispatch(getNotif("farmer/" + user.id));
       }
-    }, 10000);
+    }, 5000);
     return () => clearInterval(interval);
   });
 
